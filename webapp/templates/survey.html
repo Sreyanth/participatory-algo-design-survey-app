@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+<div class="row pt-5">
+  <div class="col-md-12">
+    <h3>
+      Data points
+    </h3>
+  </div>
+</div>
+
+<div class="row g-5 pb-5">
+
+  <div class="col-md-7">
+
+
+    <p class="lead">
+      All the data shown in this study represent data from real high school students. You will base your estimation on the following information about the student.
+    </p>
+
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Data point</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">male</th>
+      <td>{{ sample.male }}</td>
+    </tr>
+<tr>
+      <th scope="row">race eth</th>
+      <td>{{ sample.race_eth }}</td>
+    </tr>
+<tr>
+      <th scope="row">preschool</th>
+      <td>{{ sample.pre_school }}</td>
+    </tr>
+<tr>
+      <th scope="row">expectBachelors</th>
+      <td>{{ sample.expect_bachelors }}</td>
+    </tr>
+<tr>
+      <th scope="row">motherHS</th>
+      <td>{{ sample.mother_hs }}</td>
+    </tr>
+<tr>
+      <th scope="row">motherBachelors</th>
+      <td>{{ sample.mother_bachelors }}</td>
+    </tr>
+<tr>
+      <th scope="row">motherWork</th>
+      <td>{{ sample.mother_work }}</td>
+    </tr>
+<tr>
+      <th scope="row">fatherHS</th>
+      <td>{{ sample.father_hs }}</td>
+    </tr>
+<tr>
+      <th scope="row">fatherBachelors</th>
+      <td>{{ sample.father_bachelors }}</td>
+    </tr>
+<tr>
+      <th scope="row">fatherWork</th>
+      <td>{{ sample.father_work }}</td>
+    </tr>
+<tr>
+      <th scope="row">selfBornUS</th>
+      <td>{{ sample.self_born_us }}</td>
+    </tr>
+<tr>
+      <th scope="row">motherBornUS</th>
+      <td>{{ sample.mother_born_us }}</td>
+    </tr>
+<tr>
+      <th scope="row">fatherBornUS</th>
+      <td>{{ sample.father_born_us }}</td>
+    </tr>
+<tr>
+      <th scope="row">englishAtHome</th>
+      <td>{{ sample.english_at_home }}</td>
+    </tr>
+<tr>
+      <th scope="row">computerForSchoolwork</th>
+      <td>{{ sample.computer_for_schoolwork }}</td>
+    </tr>
+<tr>
+      <th scope="row">read30MinsADay</th>
+      <td>{{ sample.read_30_mins_a_day }}</td>
+    </tr>
+<tr>
+      <th scope="row">minutesPerWeekEnglish</th>
+      <td>{{ sample.minutes_per_week_english }}</td>
+    </tr>
+<tr>
+      <th scope="row">studentsInEnglish</th>
+      <td>{{ sample.students_in_english }}</td>
+    </tr>
+<tr>
+      <th scope="row">schoolHasLibrary</th>
+      <td>{{ sample.school_has_library }}</td>
+    </tr>
+<tr>
+      <th scope="row">publicSchool</th>
+      <td>{{ sample.public_school }}</td>
+    </tr>
+<tr>
+      <th scope="row">urban</th>
+      <td>{{ sample.urban }}</td>
+    </tr>
+<tr>
+      <th scope="row">schoolSize</th>
+      <td>{{ sample.school_size }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  </div>
+
+  <div class="col-md-5">
+    <div class="card">
+  <div class="card-body">
+    <p class="text-center fw-bold">Model's estimate</p>
+    <p class="text-center fs-1">{{ question.model_estimate }}</p>
+    <p class="text-center">Because you have chosen to use the model’s prediction as yours, your estimate for the student’s percentile on the standardized reading test is {{ question.model_estimate }}.</p>
+  </div>
+</div>
+<div class="card mt-5">
+<div class="card-body">
+<p class="text-center fw-bold">Your estimate</p>
+<form class="" action="" method="post">
+  {% csrf_token %}
+  <input type="text" name="question_id" value="{{question.id}}" hidden>
+  <div class="form-floating">
+    <input type="text" class="form-control" id="user_estimate" placeholder="0-100" name="user_estimate">
+    <label for="user_estimate">Enter your estimate (0-100)</label>
+  </div>
+  <button type="submit" name="button" class="btn btn-primary mt-3 mb-3 py-2 w-100">Submit estimate and continue</button>
+</form>
+</div>
+
+
+</div>
+
+  </div>
+
+</div>
+
+{% endblock %}

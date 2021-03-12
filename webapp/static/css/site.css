@@ -1,0 +1,16 @@
+.bg-primary {
+  background-color: #b00 !important;
+}
+
+.navbar-brand {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.consent-wrap {
+  max-height: 300px;
+  overflow: scroll;
+  padding: 25px;
+  background: rgba(240,240,240,0.9);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
