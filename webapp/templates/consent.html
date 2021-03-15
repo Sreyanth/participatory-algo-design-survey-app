@@ -1,143 +1,256 @@
-{% extends "base.html" %}
-
-{% block body_content %}
+{% extends "base.html" %} {% block body_content %}
 
 <div class="row w-50 py-5">
-<div class="col-md-12">
+  <div class="col-md-12">
+    <h3>Online Consent</h3>
 
-  <h3>Online Consent</h3>
-
-  <p class="lead">This task is part of a research study conducted by Lingwei Cheng and Alex Chouldechova at Carnegie Mellon University and is funded by Amazon Web Services.</p>
-</div>
-
-<div class="col-md-12">
-
-  <div class="consent-wrap">
-    <h4>Summary</h4>
-    <p>You will be asked to complete predictive tasks for hypothetical settings in education using either your own judgement or that of a statistical model. The tasks are built using publicly available data and contain no sensitive information. Your work
-    product and responses will not impact the relevant policies. You might want to participate in the research if you want to learn more about algorithmic decision support systems. You might not want to participate in the research if you feel
-    uncomfortable with the settings of the experiment.</p>
-
-    <h4>Purpose</h4>
-    <p>The main purpose of the research is to study participants’ preference for using statistical models. We will perform statistical analysis to identify and extract patterns in the answers to this survey.</p>
-
-    <h4>Procedures</h4>
-    <p>The study will take approximately 30 minutes and no more than an hour to complete.
-    Depending on the treatment group, the procedures are described as one of the following:
-    In each scenario, your task is to predict the percentile of reading score for a student. You will be presented with information about the student. You will repeat this task for 20 students.</p>
-
-    <p>For the estimations, you can choose to have either your estimated percentiles or the statistical model’s estimated percentile as your official estimations. If you choose to use the statistical model’s estimates, you will not be able to change the
-    model’s estimates. You will make estimates no matter which option you choose.</p>
-
-    <h4>Participant Requirements</h4>
-    <p>Participation in this study is limited to individuals age 18 and older, and US residents. Repeated participation is not allowed.</p>
-
-    <h4>Risks</h4>
-    <p>There are no risks for participating in this study beyond those associated with normal computer use and a minor risk of breach of confidentiality.</p>
-
-    <h4>Benefits</h4>
-    <p>By completing this task, you will be more familiar with statistical models used in education setting. More broadly, this study may benefit society by improving the understanding of human-computer interaction.</p>
-
-    <h4>Compensation & Costs</h4>
-    <p>You will be paid a flat rate of $2 per participation. Additionally, you will be awarded a bonus based on the accuracy of your predictions for 20 students. The accuracy is calculated as the average of the differences between your predictions and the
-    students’ actual percentiles. The bonus rule is as below:</p>
-
-    <ul>
-      <li>$5 —within 5 percentiles of students’ actual percentiles on average</li>
-      <li>$4 —within 10 percentiles of students’ actual percentiles on average</li>
-      <li>$3 —within 15 percentiles of students’ actual percentiles on average</li>
-      <li>$2 —within 20 percentiles of students’ actual percentiles on average</li>
-      <li>$1 —within 25 percentiles of students’ actual percentiles on average</li>
-    </ul>
-
-    <p>There will be no cost to you if you participate in this study.</p>
-
-    <h4>Future Use of Information</h4>
-    <p>In the future, once we have removed all identifiable information from your data, we may use the data for our future research studies, or we may distribute the data to other researchers for their research studies. We would do this without getting
-    additional informed consent from you (or your legally authorized representative). Sharing of data with other researchers will only be done in such a manner that you will not be identified.</p>
-
-    <h4>Confidentiality</h4>
-    <p>Other than your Amazon Mechanical Turk serial number, we will collect the following demographic information: age, gender, race, level of education, and state of residence. We note that the Amazon Mechanical Turk serial number could be linked to
-    your public profile page, so you might consider what information you choose to share on your public profile. These serial numbers will not be shared with anyone outside the research team and will only be used to handle financial transactions on the
-    platform. Note, however, that de-identified data may be shared outside the research team.</p>
-
-    <p>By participating in this research, you understand and agree that Carnegie Mellon may be required to disclose your consent form, data and other personally identifiable information as required by law, regulation, subpoena or court order. Otherwise,
-    your confidentiality will be maintained in the following manner: Your data and consent form will be kept separate. Your consent form will be stored in a secure location on Carnegie Mellon property and will not be disclosed to third parties. By
-    participating, you understand and agree that the data and information gathered during this study may be used by Carnegie Mellon and published and/or disclosed by Carnegie Mellon to others outside of Carnegie Mellon. However, your name, address,
-    contact information and other direct personal identifiers will not be mentioned in any such publication or dissemination of the research data and/or results by Carnegie Mellon. Note that per regulation all research data must be kept for a minimum
-    of 3 years.</p>
-
-
-    <h4>Right to Ask Questions & Contact Information</h4>
-    <p>If you have any questions about this study, you should feel free to ask them by contacting the Principal Investigator now at Lingwei Cheng, Heinz College at Carnegie Mellon University, lingweic@andrew.cmu.edu. If you have questions later, desire
-    additional information, or wish to withdraw your participation please contact the Principal Investigator by mail, phone or e-mail in accordance with the contact information listed above.</p>
-
-    <p>If you have questions pertaining to your rights as a research participant; or to report concerns to this study, you should contact the Office of Research integrity and Compliance at Carnegie Mellon University. Email: irb-review@andrew.cmu.edu .
-    Phone: 412-268-1901 or 412-268-5460.</p>
-
-
-    <h4>Voluntary Participation</h4>
-    <p>Your participation in this research is voluntary. You may discontinue participation at any time during the research activity. You may print a copy of this consent form for your records.</p>
-
-    <p>Clicking accept: By clicking the “Accept” button, you indicate that you are 18 years of age or older, that you voluntarily agree to participate in this study, and that you understand the information in this consent form. You have not waived any
-    legal rights you otherwise would have as a participant in a research study.</p>
+    <p class="lead">
+      This task is part of a research study conducted by Lingwei Cheng and Alex
+      Chouldechova at Carnegie Mellon University and is funded by Amazon Web
+      Services.
+    </p>
   </div>
 
-  <div class="col-md-12 py-4">
+  <div class="col-md-12">
+    <div class="consent-wrap">
+      <h4>Summary</h4>
+      <p>
+        You will be asked to complete predictive tasks for hypothetical settings
+        in education using either your own judgement or that of a statistical
+        model. The tasks are built using publicly available data and contain no
+        sensitive information. Your work product and responses will not impact
+        the relevant policies. You might want to participate in the research if
+        you want to learn more about algorithmic decision support systems. You
+        might not want to participate in the research if you feel uncomfortable
+        with the settings of the experiment.
+      </p>
 
-    {% if error_message %}
-    <div class="alert alert-danger" role="alert">
-        {{ error_message }}
+      <h4>Purpose</h4>
+      <p>
+        The main purpose of the research is to study participants’ preference
+        for using statistical models. We will perform statistical analysis to
+        identify and extract patterns in the answers to this survey.
+      </p>
+
+      <h4>Procedures</h4>
+      <p>
+        The study will take approximately 30 minutes and no more than an hour to
+        complete. Depending on the treatment group, the procedures are described
+        as one of the following: In each scenario, your task is to predict the
+        percentile of reading score for a student. You will be presented with
+        information about the student. You will repeat this task for 20
+        students.
+      </p>
+
+      <p>
+        For the estimations, you can choose to have either your estimated
+        percentiles or the statistical model’s estimated percentile as your
+        official estimations. If you choose to use the statistical model’s
+        estimates, you will not be able to change the model’s estimates. You
+        will make estimates no matter which option you choose.
+      </p>
+
+      <h4>Participant Requirements</h4>
+      <p>
+        Participation in this study is limited to individuals age 18 and older,
+        and US residents. Repeated participation is not allowed.
+      </p>
+
+      <h4>Risks</h4>
+      <p>
+        There are no risks for participating in this study beyond those
+        associated with normal computer use and a minor risk of breach of
+        confidentiality.
+      </p>
+
+      <h4>Benefits</h4>
+      <p>
+        By completing this task, you will be more familiar with statistical
+        models used in education setting. More broadly, this study may benefit
+        society by improving the understanding of human-computer interaction.
+      </p>
+
+      <h4>Compensation & Costs</h4>
+      <p>
+        You will be paid a flat rate of $2 per participation. Additionally, you
+        will be awarded a bonus based on the accuracy of your predictions for 20
+        students. The accuracy is calculated as the average of the differences
+        between your predictions and the students’ actual percentiles. The bonus
+        rule is as below:
+      </p>
+
+      <ul>
+        <li>
+          $5 —within 5 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $4 —within 10 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $3 —within 15 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $2 —within 20 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $1 —within 25 percentiles of students’ actual percentiles on average
+        </li>
+      </ul>
+
+      <p>There will be no cost to you if you participate in this study.</p>
+
+      <h4>Future Use of Information</h4>
+      <p>
+        In the future, once we have removed all identifiable information from
+        your data, we may use the data for our future research studies, or we
+        may distribute the data to other researchers for their research studies.
+        We would do this without getting additional informed consent from you
+        (or your legally authorized representative). Sharing of data with other
+        researchers will only be done in such a manner that you will not be
+        identified.
+      </p>
+
+      <h4>Confidentiality</h4>
+      <p>
+        Other than your Amazon Mechanical Turk serial number, we will collect
+        the following demographic information: age, gender, race, level of
+        education, and state of residence. We note that the Amazon Mechanical
+        Turk serial number could be linked to your public profile page, so you
+        might consider what information you choose to share on your public
+        profile. These serial numbers will not be shared with anyone outside the
+        research team and will only be used to handle financial transactions on
+        the platform. Note, however, that de-identified data may be shared
+        outside the research team.
+      </p>
+
+      <p>
+        By participating in this research, you understand and agree that
+        Carnegie Mellon may be required to disclose your consent form, data and
+        other personally identifiable information as required by law,
+        regulation, subpoena or court order. Otherwise, your confidentiality
+        will be maintained in the following manner: Your data and consent form
+        will be kept separate. Your consent form will be stored in a secure
+        location on Carnegie Mellon property and will not be disclosed to third
+        parties. By participating, you understand and agree that the data and
+        information gathered during this study may be used by Carnegie Mellon
+        and published and/or disclosed by Carnegie Mellon to others outside of
+        Carnegie Mellon. However, your name, address, contact information and
+        other direct personal identifiers will not be mentioned in any such
+        publication or dissemination of the research data and/or results by
+        Carnegie Mellon. Note that per regulation all research data must be kept
+        for a minimum of 3 years.
+      </p>
+
+      <h4>Right to Ask Questions & Contact Information</h4>
+      <p>
+        If you have any questions about this study, you should feel free to ask
+        them by contacting the Principal Investigator now at Lingwei Cheng,
+        Heinz College at Carnegie Mellon University, lingweic@andrew.cmu.edu. If
+        you have questions later, desire additional information, or wish to
+        withdraw your participation please contact the Principal Investigator by
+        mail, phone or e-mail in accordance with the contact information listed
+        above.
+      </p>
+
+      <p>
+        If you have questions pertaining to your rights as a research
+        participant; or to report concerns to this study, you should contact the
+        Office of Research integrity and Compliance at Carnegie Mellon
+        University. Email: irb-review@andrew.cmu.edu . Phone: 412-268-1901 or
+        412-268-5460.
+      </p>
+
+      <h4>Voluntary Participation</h4>
+      <p>
+        Your participation in this research is voluntary. You may discontinue
+        participation at any time during the research activity. You may print a
+        copy of this consent form for your records.
+      </p>
+
+      <p>
+        Clicking accept: By clicking the “Accept” button, you indicate that you
+        are 18 years of age or older, that you voluntarily agree to participate
+        in this study, and that you understand the information in this consent
+        form. You have not waived any legal rights you otherwise would have as a
+        participant in a research study.
+      </p>
     </div>
-    {% endif %}
 
-    <form class="" action="" method="post">
-      {% csrf_token %}
+    <div class="col-md-12 py-4">
+      {% if error_message %}
+      <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+      {% endif %}
 
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="age_check" name="age_check" value="true" {% if age_check == 'true' %}checked{% endif %} required>
-        <label class="form-check-label" for="age_check">
-          I am age 18 or older.
-        </label>
-      </div>
+      <form class="" action="" method="post">
+        {% csrf_token %}
 
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="read_information_check" name="read_information_check" value="true" {% if read_information_check == 'true' %}checked{% endif %} required>
-        <label class="form-check-label" for="read_information_check">
-          I have read and understand the information above.
-        </label>
-      </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="age_check"
+          name="age_check" value="true" {% if age_check == 'true' %}checked{%
+          endif %} required>
+          <label class="form-check-label" for="age_check">
+            I am age 18 or older.
+          </label>
+        </div>
 
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="consent_check" name="consent_check" value="true" {% if consent_check == 'true' %}checked{% endif %} required>
-        <label class="form-check-label" for="consent_check">
-          I want to participate in this research and continue with the activity.
-        </label>
-      </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox"
+          id="read_information_check" name="read_information_check" value="true"
+          {% if read_information_check == 'true' %}checked{% endif %} required>
+          <label class="form-check-label" for="read_information_check">
+            I have read and understand the information above.
+          </label>
+        </div>
 
-      <div class="row py-3">
-        <div class="col-md">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="mturk_id_1" placeholder="Enter your MTurk ID" name="mturk_id_1" value="{%if mturk_id_1 %}{{ mturk_id_1 }}{% endif %}" required>
-            <label for="mturk_id_1">Your Amazon MTurk ID</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="consent_check"
+          name="consent_check" value="true" {% if consent_check == 'true'
+          %}checked{% endif %} required>
+          <label class="form-check-label" for="consent_check">
+            I want to participate in this research and continue with the
+            activity.
+          </label>
+        </div>
+
+        <div class="row py-3">
+          <div class="col-md">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                id="mturk_id_1"
+                placeholder="Enter your MTurk ID"
+                name="mturk_id_1"
+                value="{%if mturk_id_1 %}{{ mturk_id_1 }}{% endif %}"
+                required
+              />
+              <label for="mturk_id_1">Your Amazon MTurk ID</label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                id="mturk_id_2"
+                placeholder="Confirm your MTurk ID"
+                name="mturk_id_2"
+                value="{%if mturk_id_2 %}{{ mturk_id_2 }}{% endif %}"
+                required
+              />
+              <label for="mturk_id_2">Confirm your MTurk ID</label>
+            </div>
           </div>
         </div>
-        <div class="col-md">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="mturk_id_2" placeholder="Confirm your MTurk ID" name="mturk_id_2" value="{%if mturk_id_2 %}{{ mturk_id_2 }}{% endif %}" required>
-            <label for="mturk_id_2">Confirm your MTurk ID</label>
-          </div>
+
+        <div class="pt-1">
+          <button type="submit" name="button" class="btn btn-primary">
+            Accept
+          </button>
         </div>
-      </div>
-
-      <div class="pt-1">
-        <button type="submit" name="button" class="btn btn-primary">Accept</button>
-      </div>
-    </form>
-
-
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 {% endblock %}

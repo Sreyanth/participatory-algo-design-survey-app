@@ -22,6 +22,9 @@ class MechTaskUserGroup(TimestampedModel):
     can_change_algorithm = models.BooleanField(default=False)
     can_change_attributes = models.BooleanField(default=False)
 
+    attention_check_statement = models.CharField(
+        max_length=500)
+
     def __str__(self):
         return self.name
 
@@ -53,8 +56,10 @@ class MechTaskSurveyResponse(TimestampedModel):
     user_consented_to_survey = models.BooleanField(blank=True, null=True)
 
     # MTurk details
-    mturk_id_attempt_1 = models.CharField(max_length=255, blank=True, null=True)
-    mturk_id_attempt_2 = models.CharField(max_length=255, blank=True, null=True)
+    mturk_id_attempt_1 = models.CharField(
+        max_length=255, blank=True, null=True)
+    mturk_id_attempt_2 = models.CharField(
+        max_length=255, blank=True, null=True)
     final_mturk_id = models.CharField(max_length=255, blank=True, null=True)
 
     # Fields to track the user journey
@@ -91,7 +96,8 @@ class MechTaskSurveyResponse(TimestampedModel):
     why_chose_model_estimate = models.TextField(blank=True, null=True)
     why_chose_self_estimate = models.TextField(blank=True, null=True)
 
-    representativeness = models.CharField(max_length=255, blank=True, null=True)
+    representativeness = models.CharField(
+        max_length=255, blank=True, null=True)
     transparency = models.CharField(max_length=255, blank=True, null=True)
 
     fairness_tutoring_resources = models.CharField(
@@ -203,7 +209,28 @@ class MechTaskStudentSample(TimestampedModel):
     school_size = models.IntegerField()
 
     # User's real score
-    real_score = models.FloatField(blank=True, null=True)
+    real_score = models.FloatField()
+
+    # Linear regression score
+    linear_regression_prediction = models.FloatField()
+
+    # Ridge regression score
+    ridge_prediction = models.FloatField()
+
+    # Lasso regression score
+    lasso_prediction = models.FloatField()
+
+    # Decision tree regression score
+    decision_tree_prediction = models.FloatField()
+
+    # Random forest regression score
+    random_forest_prediction = models.FloatField()
+
+    # KNeighbors regression score
+    kneighbors_prediction = models.FloatField()
+
+    # SVM regression score
+    svm_reg_prediction = models.FloatField()
 
 
 class MechTaskSurveyEstimate(TimestampedModel):

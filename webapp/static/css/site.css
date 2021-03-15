@@ -10,7 +10,16 @@
   max-height: 300px;
   overflow: scroll;
   padding: 25px;
-  background: rgba(240,240,240,0.9);
+  background: rgba(240, 240, 240, 0.9);
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+
+.important-check {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: underline;
 }

@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row w-50 py-5">
+  <div class="col-md-12">
+    <h3>Before you start the survey ...</h3>
+
+    <p class="lead">
+      For the 20 official estimates, you can choose to use a statistical model
+      that will give you estimates based on other students’ performance or use
+      your own estimates.
+    </p>
+
+    <p class="important-check">{{ attention_text }}</p>
+
+    <p>
+      The model is designed to forecast each student’s percentile. The model is
+      based on data from thousands of high school sophomores. The model does not
+      have any additional information that you will not receive. This will be a
+      sophisticated model, put together and optimized through a program written
+      by the research team.
+    </p>
+
+    <p>
+      Please type the underlined sentences in the paragraph above the question
+      in the text box.
+    </p>
+
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
+
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      <div class="w100">
+        <textarea name="important-check" id="" class="w100" required>
+{{ submitted_attention_statement }}</textarea
+        >
+      </div>
+
+      <button type="submit" name="button" class="btn btn-primary my-2">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
