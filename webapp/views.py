@@ -8,7 +8,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import HttpResponseRedirect, render, reverse
 from django.views import View
 
-from .models import (MechTaskAlgorithm, MechTaskSurveyResponse,
+from .models import (MechTaskAlgorithm, MechTaskStudentSample,
+                     MechTaskSurveyEstimate, MechTaskSurveyResponse,
                      MechTaskUserGroup)
 
 
@@ -42,7 +43,7 @@ class StartSurveyView(View):
 
     def create_survey_response(self, request):
         """
-        Create a new response template for the user. 
+        Create a new response template for the user.
 
         We will use this response to keep track of where the user is in the survey.
         """
@@ -334,7 +335,7 @@ class ChooseBonusView(View):
         submitted_form = request.POST
 
         attention_statement = '''
-        During the official round, you will receive additional bonus money based on the accuracy of the official estimates. You can earn $A to $E depending on how close the official estimates are to the actual ranks.
+        During the official round, you will receive additional bonus money based on the accuracy of the official estimates. You can earn $1 to $5 depending on how close the official estimates are to the actual ranks.
         '''.strip().replace('\n', '').replace('\t', '')
 
         submitted_attention_statement = submitted_form.get(
@@ -367,9 +368,61 @@ class ChooseBonusView(View):
 
 
 class SurveyView(View):
-    def assign_questions(self):
-        # random.choice(, 20)
-        pass
+    def assign_questions(self, survey_response):
+        # Should we assign custom model questions or choose from the original
+        # question bank?
+
+        selected_attributes = survey_response.selected_attributes
+        selected_algo = survey_response.algorithm.slug
+
+        if selected_attributes and selected_attributes == 'all':
+            # Pick questions from the question bank
+            # TODO: Optimize this flow. Right now it selects all objects?
+            # One way to do is a randomize on range(723) and select only those
+            # objects
+
+            if selected_algo.startswith('linear'):
+                model_estimate_field = 'linear_regression_prediction'
+            elif selected_algo.startswith('ridge'):
+                model_estimate_field = 'ridge_prediction'
+            elif selected_algo.startswith('lasso'):
+                model_estimate_field = 'lasso_prediction'
+            elif selected_algo.startswith('decision'):
+                model_estimate_field = 'decision_tree_prediction'
+            elif selected_algo.startswith('random'):
+                model_estimate_field = 'random_forest_prediction'
+            elif selected_algo.startswith('svm'):
+                model_estimate_field = 'svm_reg_prediction'
+
+            selected_student_ids = []
+
+            while len(selected_student_ids) < 20:
+                random_id = random.randint(1, 724)
+                # Select only those students whose relevant model score is gt 0
+                kwargs = {
+                    model_estimate_field + '__gt': 0,
+                    # 'id__exact': random_id,
+                    'index_in_dataframe__exact': random_id,
+                }
+
+                student = MechTaskStudentSample.objects.filter(
+                    **kwargs).first()
+
+                if not student:
+                    continue
+
+                selected_student_ids.append(random_id)
+
+                estimate = MechTaskSurveyEstimate()
+                estimate.survey_response = survey_response
+                estimate.sample = student
+                estimate.model_estimate = getattr(
+                    student, model_estimate_field)
+                estimate.real_score = student.real_score
+                estimate.save()
+
+        else:
+            pass
 
     def get(self, request):
         if user_fails_access_check(request):
@@ -378,7 +431,7 @@ class SurveyView(View):
         survey_response = request.user.mech_task_survey_response
 
         if survey_response.survey_estimates.count() == 0:
-            self.assign_questions()
+            self.assign_questions(survey_response)
 
         try:
             # Get one question from the allotted questions
@@ -406,10 +459,10 @@ class SurveyView(View):
             question = survey_response.survey_estimates.filter(
                 completed=False, id=int(question_id))[0]
         except IndexError:
-            return HttpResponseRedirect(reverse('mech_task_survey'))
+            return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
         question.user_estimate = float(user_estimate)
         question.completed = True
         question.save()
 
-        return HttpResponseRedirect(reverse('mech_task_survey'))
+        return HttpResponseRedirect(reverse('mech_task_survey_question'))

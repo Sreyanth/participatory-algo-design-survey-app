@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webapp',
     'mech_task_setup',
+    'api',
 ]
 
 MIDDLEWARE = [

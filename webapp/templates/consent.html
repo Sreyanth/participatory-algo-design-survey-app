@@ -70,7 +70,7 @@
         society by improving the understanding of human-computer interaction.
       </p>
 
-      <h4>Compensation & Costs</h4>
+      <h4>Compensation &amp; Costs</h4>
       <p>
         You will be paid a flat rate of $2 per participation. Additionally, you
         will be awarded a bonus based on the accuracy of your predictions for 20
@@ -141,7 +141,7 @@
         for a minimum of 3 years.
       </p>
 
-      <h4>Right to Ask Questions & Contact Information</h4>
+      <h4>Right to Ask Questions &amp; Contact Information</h4>
       <p>
         If you have any questions about this study, you should feel free to ask
         them by contacting the Principal Investigator now at Lingwei Cheng,
@@ -186,8 +186,8 @@
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="age_check"
-          name="age_check" value="true" {% if age_check == 'true' %}checked{%
-          endif %} required>
+          name="age_check" {% if age_check == 'true' %}checked {% endif %}
+          value="true" required>
           <label class="form-check-label" for="age_check">
             I am age 18 or older.
           </label>
@@ -204,8 +204,8 @@
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="consent_check"
-          name="consent_check" value="true" {% if consent_check == 'true'
-          %}checked{% endif %} required>
+          required {% if consent_check == 'true' %}checked{% endif %}
+          name="consent_check" value="true" >
           <label class="form-check-label" for="consent_check">
             I want to participate in this research and continue with the
             activity.
@@ -221,7 +221,7 @@
                 id="mturk_id_1"
                 placeholder="Enter your MTurk ID"
                 name="mturk_id_1"
-                value="{%if mturk_id_1 %}{{ mturk_id_1 }}{% endif %}"
+                value="{% if mturk_id_1 %}{{ mturk_id_1 }}{% endif %}"
                 required
               />
               <label for="mturk_id_1">Your Amazon MTurk ID</label>
@@ -235,7 +235,7 @@
                 id="mturk_id_2"
                 placeholder="Confirm your MTurk ID"
                 name="mturk_id_2"
-                value="{%if mturk_id_2 %}{{ mturk_id_2 }}{% endif %}"
+                value="{% if mturk_id_2 %}{{ mturk_id_2 }}{% endif %}"
                 required
               />
               <label for="mturk_id_2">Confirm your MTurk ID</label>

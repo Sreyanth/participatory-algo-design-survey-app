@@ -241,7 +241,8 @@ class MechTaskSurveyEstimate(TimestampedModel):
     )
     sample = models.ForeignKey(MechTaskStudentSample, on_delete=models.CASCADE)
 
-    model_estimate = models.FloatField(blank=True, null=True)
+    real_score = models.FloatField()
+    model_estimate = models.FloatField()
     user_estimate = models.FloatField(blank=True, null=True)
 
     completed = models.BooleanField(default=False)
