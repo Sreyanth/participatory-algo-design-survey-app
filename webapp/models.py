@@ -116,7 +116,7 @@ class MechTaskSurveyResponse(TimestampedModel):
     # Demographics
     age_bracket = models.CharField(max_length=255, blank=True, null=True)
     pronoun = models.CharField(max_length=255, blank=True, null=True)
-    race_ethnicity = models.CharField(max_length=255, blank=True, null=True)
+    raceethnicity = models.CharField(max_length=255, blank=True, null=True)
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
 
@@ -134,79 +134,79 @@ class MechTaskStudentSample(TimestampedModel):
     male = models.BooleanField()
 
     # raceeth: The race/ethnicity composite of the student
-    race_eth = models.CharField(max_length=255)
+    raceeth = models.CharField(max_length=255)
 
     # preschool: Whether the student attended preschool (1/0)
-    pre_school = models.BooleanField()
+    preschool = models.BooleanField()
 
     # expectBachelors: Whether the student expects to obtain a bachelor's
     # degree (1/0)
-    expect_bachelors = models.BooleanField()
+    expectBachelors = models.BooleanField()
 
     # motherHS: Whether the student's mother completed high school (1/0)
-    mother_hs = models.BooleanField()
+    motherHS = models.BooleanField()
 
     # motherBachelors: Whether the student's mother obtained a bachelor's
     # degree (1/0)
-    mother_bachelors = models.BooleanField()
+    motherBachelors = models.BooleanField()
 
     # motherWork: Whether the student's mother has part-time or full-time work
     # (1/0)
-    mother_work = models.BooleanField()
+    motherWork = models.BooleanField()
 
     # fatherHS: Whether the student's father completed high school (1/0)
-    father_hs = models.BooleanField()
+    fatherHS = models.BooleanField()
 
     # fatherBachelors: Whether the student's father obtained a bachelor's
     # degree (1/0)
-    father_bachelors = models.BooleanField()
+    fatherBachelors = models.BooleanField()
 
     # fatherWork: Whether the student's father has part-time or full-time work
     # (1/0)
-    father_work = models.BooleanField()
+    fatherWork = models.BooleanField()
 
     # selfBornUS: Whether the student was born in the United States of America
     # (1/0)
-    self_born_us = models.BooleanField()
+    selfBornUS = models.BooleanField()
 
     # motherBornUS: Whether the student's mother was born in the United States
     # of America (1/0)
-    mother_born_us = models.BooleanField()
+    motherBornUS = models.BooleanField()
 
     # fatherBornUS: Whether the student's father was born in the United States
     # of America (1/0)
-    father_born_us = models.BooleanField()
+    fatherBornUS = models.BooleanField()
 
     # englishAtHome: Whether the student speaks English at home (1/0)
-    english_at_home = models.BooleanField()
+    englishAtHome = models.BooleanField()
 
     # computerForSchoolwork: Whether the student has access to a computer for
     # schoolwork (1/0)
-    computer_for_schoolwork = models.BooleanField()
+    computerForSchoolwork = models.BooleanField()
 
     # read30MinsADay: Whether the student reads for pleasure for 30 minutes/day
     # (1/0)
-    read_30_mins_a_day = models.BooleanField()
+    read30MinsADay = models.BooleanField()
 
     # minutesPerWeekEnglish: The number of minutes per week the student spend
     # in English class
-    minutes_per_week_english = models.FloatField()
+    minutesPerWeekEnglish = models.FloatField()
 
     # studentsInEnglish: The number of students in this student's English class
     # at school
-    students_in_english = models.IntegerField()
+    studentsInEnglish = models.IntegerField()
 
     # schoolHasLibrary: Whether this student's school has a library (1/0)
-    school_has_library = models.BooleanField()
+    schoolHasLibrary = models.BooleanField()
 
     # publicSchool: Whether this student attends a public school (1/0)
-    public_school = models.BooleanField()
+    publicSchool = models.BooleanField()
 
     # urban: Whether this student's school is in an urban area (1/0)
     urban = models.BooleanField()
 
     # schoolSize: The number of students in this student's school
-    school_size = models.IntegerField()
+    schoolSize = models.IntegerField()
 
     # User's real score
     real_score = models.FloatField()
