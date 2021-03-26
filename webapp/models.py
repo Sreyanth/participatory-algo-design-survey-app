@@ -116,7 +116,7 @@ class MechTaskSurveyResponse(TimestampedModel):
     # Demographics
     age_bracket = models.CharField(max_length=255, blank=True, null=True)
     pronoun = models.CharField(max_length=255, blank=True, null=True)
-    raceethnicity = models.CharField(max_length=255, blank=True, null=True)
+    race_ethnicity = models.CharField(max_length=255, blank=True, null=True)
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
 
