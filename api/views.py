@@ -7,6 +7,8 @@ from django.views import View
 
 from .regression_code import run_regression
 
+from webapp.views import user_fails_access_check
+
 
 BASE_DIR = str(Path(__file__).resolve().parent)
 DATASET = BASE_DIR + '/data/pisa2009.csv'
@@ -21,17 +23,23 @@ class CreateLinearRegressionView(View):
         X = df_use
         y = df['readingScore'].rank(pct=True)
 
-        result, df_pred = run_regression(X, y)
+        return run_regression(X, y)
 
-        print(result)
-        print(df_pred)
-        return HttpResponse('API home')
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponse(reverse('home_page'))
 
-    def get(self, request):
-        cols = ['male', 'preschool', 'expectBachelors', 'motherHS', 'motherBachelors',
-                'motherWork', 'fatherHS', 'fatherBachelors', 'fatherWork', 'selfBornUS',
-                'motherBornUS', 'fatherBornUS', 'englishAtHome',
-                'computerForSchoolwork', 'read30MinsADay', 'minutesPerWeekEnglish',
-                'studentsInEnglish', 'schoolHasLibrary', 'publicSchool', 'urban',
-                'schoolSize', 'raceeth']
-        return self.build_model(cols)
+        survey_response = request.user.mech_task_survey_response
+
+        if not survey_response.user_group.can_change_attributes:
+            survey_response.selected_attributes = 'all'
+            survey_response.save()
+
+        if survey_response.selected_attributes is None:
+            cols = request.POST.get('selected_attributes')
+            survey_response.selected_attributes = cols
+            result, df_pred = self.build_model(cols.split(','))
+
+            print(result['test_mae'])
+
+        return HttpResponse(reverse('mech_task_understand_model'))

@@ -1,5 +1,6 @@
 import random
 import uuid
+from collections import OrderedDict
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
@@ -11,6 +12,130 @@ from django.views import View
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
                      MechTaskSurveyEstimate, MechTaskSurveyResponse,
                      MechTaskUserGroup)
+
+STUDENT_ATTRIBUTES = OrderedDict()
+STUDENT_ATTRIBUTES['Student Characteristics'] = [
+    {
+        'text_to_show': 'Gender',
+        'attr_id': 'male',
+        'description': 'The gender of the student',
+    },
+    {
+        'text_to_show': 'Race/Ethnicity',
+        'attr_id': 'raceeth',
+        'description': 'The race / ethnicity of the student',
+    },
+    {
+        'text_to_show': 'Attended Pre-school',
+        'attr_id': 'preschool',
+        'description': 'Whether the student attended preschool',
+    },
+    {
+        'text_to_show': 'Expects Bachelor',
+        'attr_id': 'expectBachelors',
+        'description': "Whether the student expects to obtain a bachelor's degree",
+    },
+]
+
+
+STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
+    {
+        'text_to_show': 'Has Computer for School Work',
+        'attr_id': 'computerForSchoolwork',
+        'description': 'Whether the student has access to a computer for schoolwork',
+    },
+    {
+        'text_to_show': 'Read 30min A Day',
+        'attr_id': 'read30MinsADay',
+        'description': 'Whether the student reads for pleasure for 30 minutes/day',
+    },
+    {
+        'text_to_show': 'Minutes Per Week Spent in English',
+        'attr_id': 'minutesPerWeekEnglish',
+        'description': 'The number of minutes per week the student spend in English class',
+    },
+]
+STUDENT_ATTRIBUTES['School Characteristics'] = [
+    {
+        'text_to_show': 'Number of Student in English',
+        'attr_id': 'studentsInEnglish',
+        'description': "The number of students in this student's English class at school",
+    },
+    {
+        'text_to_show': 'School Has Library',
+        'attr_id': 'schoolHasLibrary',
+        'description': "Whether this student's school has a library",
+    },
+    {
+        'text_to_show': 'Public School',
+        'attr_id': 'publicSchool',
+        'description': 'Whether this student attends a public school',
+    },
+    {
+        'text_to_show': 'Urban',
+        'attr_id': 'urban',
+        'description': "Whether this student's school is in an urban area",
+    },
+    {
+        'text_to_show': 'School Size',
+        'attr_id': 'schoolSize',
+        'description': "The number of students in this student's school",
+    },
+]
+STUDENT_ATTRIBUTES['Parental Characteristics'] = [
+    {
+        'text_to_show': 'Mother Completed High School',
+        'attr_id': 'motherHS',
+        'description': "Whether the student's mother completed high school",
+    },
+    {
+        'text_to_show': "Mother Has Bachelor's Degree",
+        'attr_id': 'motherBachelors',
+        'description': "Whether the student's mother obtained a bachelor's degree",
+    },
+    {
+        'text_to_show': 'Mother Works',
+        'attr_id': 'motherWork',
+        'description': "Whether the student's mother has part-time or full-time work",
+    },
+    {
+        'text_to_show': 'Father Completed High School',
+        'attr_id': 'fatherHS',
+        'description': "Whether the student's father completed high school",
+    },
+    {
+        'text_to_show': "Father Has Bachelor's Degree",
+        'attr_id': 'fatherBachelors',
+        'description': "Whether the student's father obtained a bachelor's degree",
+    },
+    {
+        'text_to_show': 'Father Works',
+        'attr_id': 'fatherWork',
+        'description': "Whether the student's father has part-time or full-time work",
+    },
+]
+STUDENT_ATTRIBUTES['Family Characteristics'] = [
+    {
+        'text_to_show': 'Student born in the US',
+        'attr_id': 'selfBornUS',
+        'description': 'Whether the student was born in the United States of America',
+    },
+    {
+        'text_to_show': "Mother born in the US",
+        'attr_id': 'motherBornUS',
+        'description': "Whether the student's mother was born in the United States of America",
+    },
+    {
+        'text_to_show': 'Father born in the US',
+        'attr_id': 'fatherBornUS',
+        'description': "Whether the student's father was born in the United States of America",
+    },
+    {
+        'text_to_show': 'Speak English at Home',
+        'attr_id': 'englishAtHome',
+        'description': 'Whether the student speaks English at home',
+    },
+]
 
 
 def user_fails_access_check(request):
@@ -235,7 +360,6 @@ class ChooseAlgorithmView(View):
 
 
 class ChooseAttributesView(View):
-    # TODO: Implement these methods
     def get(self, request):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
@@ -250,7 +374,7 @@ class ChooseAttributesView(View):
             # User already selected the attributes
             return HttpResponseRedirect(reverse('mech_task_understand_model'))
 
-        return render(request, 'choose-attributes.html')
+        return render(request, 'choose-attributes.html', {'attributes': STUDENT_ATTRIBUTES})
 
     def post(self, request):
         pass

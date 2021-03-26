@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row w-50 py-5">
+  <div class="col-md-12">
+    <h3>Choose the attributes that you want to use to build the model</h3>
+
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      <!-- -->
+
+      {% for attr_class, attrs in attributes.items %}
+
+      <h4 class="pt-3">{{ attr_class }}</h4>
+
+      {% for attr in attrs %}
+
+      <div class="form-check">
+        <input
+          class="form-check-input attribute-select-checkbox"
+          type="checkbox"
+          value="{{ attr.attr_id }}"
+          id="{{ attr.attr_id }}"
+          name="attributes"
+        />
+        <label class="form-check-label" for="{{ attr.attr_id }}">
+          <strong>{{ attr.text_to_show }}</strong>: {{ attr.description }}
+        </label>
+      </div>
+
+      {% endfor %} {% endfor %}
+
+      <button type="submit" name="button" class="btn btn-primary my-2">
+        Build the model
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const submit_button = document.querySelector("button");
+
+  function getSelectedAttributes() {
+    console.log("Getting the selected attributes");
+
+    attribute_checkboxes = document.getElementsByClassName(
+      "attribute-select-checkbox"
+    );
+
+    selected_attributes = [];
+
+    for (i = 0; i < attribute_checkboxes.length; i++) {
+      var attribute = attribute_checkboxes[i];
+      if (attribute.checked === true) {
+        selected_attributes.push(attribute.value);
+      }
+    }
+
+    return selected_attributes;
+  }
+
+  function buildModel(data) {
+    console.log("Sending data");
+
+    const XHR = new XMLHttpRequest();
+
+    let urlEncodedData = "",
+      urlEncodedDataPairs = [],
+      name;
+
+    // Turn the data object into an array of URL-encoded key/value pairs.
+    for (name in data) {
+      urlEncodedDataPairs.push(
+        encodeURIComponent(name) + "=" + encodeURIComponent(data[name])
+      );
+    }
+
+    // Combine the pairs into a single string and replace all %-encoded spaces to
+    // the '+' character; matches the behavior of browser form submissions.
+    urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function (event) {
+      alert("Done building the model");
+      console.log(event);
+      location.href = event.target.response;
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function (event) {
+      alert("Oops! We couldn't build the model. Try again.");
+    });
+
+    // Set up our request
+    XHR.open("POST", "/api/create-linear-reg");
+
+    // Add the required HTTP header for form data POST requests
+    XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Finally, send our data.
+    XHR.send(urlEncodedData);
+  }
+
+  submit_button.addEventListener("click", function (event) {
+    event.preventDefault();
+    buildModel({
+      selected_attributes: getSelectedAttributes(),
+      csrfmiddlewaretoken: document.getElementsByName("csrfmiddlewaretoken")[0]
+        .value,
+    });
+  });
+</script>
+
+{% endblock %}
