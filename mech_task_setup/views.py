@@ -172,21 +172,22 @@ class SetupMechTaskView(View):
                     student_sample.raceeth = 'Unknown'
 
                 # Record the model scores
-                student_sample.real_score = float_row[header.index('y_true')]
+                student_sample.real_score = float_row[header.index(
+                    'y_true')] * 100
                 student_sample.linear_regression_prediction = float_row[header.index(
-                    'LinearRegressioy_pred')]
+                    'LinearRegressioy_pred')] * 100
                 student_sample.ridge_prediction = float_row[header.index(
-                    'Ridge(alpha=0.0y_pred')]
+                    'Ridge(alpha=0.0y_pred')] * 100
                 student_sample.lasso_prediction = float_row[header.index(
-                    'Lasso(alpha=1e-y_pred')]
+                    'Lasso(alpha=1e-y_pred')] * 100
                 student_sample.decision_tree_prediction = float_row[header.index(
-                    'DecisionTreeRegy_pred')]
+                    'DecisionTreeRegy_pred')] * 100
                 student_sample.random_forest_prediction = float_row[header.index(
-                    'RandomForestRegy_pred')]
+                    'RandomForestRegy_pred')] * 100
                 student_sample.kneighbors_prediction = float_row[header.index(
-                    'KNeighborsRegrey_pred')]
+                    'KNeighborsRegrey_pred')] * 100
                 student_sample.svm_reg_prediction = float_row[header.index(
-                    'SVR(C=0.05)y_pred')]
+                    'SVR(C=0.05)y_pred')] * 100
 
                 student_sample.save()
 
@@ -194,11 +195,11 @@ class SetupMechTaskView(View):
         user_groups = OrderedDict({
             'cannot-change-control': {
                 'name': 'Cannot change - control group',
-                'attention_check': 'What you want to type',
+                'attention_check': 'If you choose to use the model, you will not be able to change the model’s estimates.  You will make estimates no matter which option you choose.',
             },
             'use-freely': {
                 'name': 'Use freely',
-                'attention_check': 'What you want to type',
+                'attention_check': ' use the model’s estimated percentiles as much as you would like to. For each estimate, you will see the model’s estimate and you can modify it as much as you like to form your official estimate.',
             },
             'change-outcome': {
                 'name': 'Change outcome',
@@ -262,19 +263,41 @@ class SetupMechTaskView(View):
 
     def create_algorithms(self):
         algorithms = OrderedDict({
-            'linear-regression': 'Linear regression',
-            'ridge-regression': 'Ridge regression',
-            'lasso-regression': 'Lasso regression',
-            'decision-tree-regression': 'Decision tree regression',
-            'random-forest-regression': 'Random forest regression',
-            'kneighbors-regression': 'K neighbors regression',
-            'svm-regression': 'SVM regression',
+            'linear-regression': {
+                'name': 'Linear regression',
+                'avg_error': 10
+            },
+            'ridge-regression': {
+                'name': 'Ridge regression',
+                'avg_error': 20
+            },
+            'lasso-regression': {
+                'name':  'Lasso regression',
+                'avg_error': 30
+            },
+            'decision-tree-regression': {
+                'name': 'Decision tree regression',
+                'avg_error': 40
+            },
+            'random-forest-regression':  {
+                'name': 'Random forest regression',
+                'avg_error': 50
+            },
+            'kneighbors-regression': {
+                'name': 'K neighbors regression',
+                'avg_error': 60
+            },
+            'svm-regression':  {
+                'name': 'SVM regression',
+                'avg_error': 70
+            },
         })
 
         for slug in algorithms:
             algorithm = MechTaskAlgorithm()
             algorithm.slug = slug
-            algorithm.name = algorithms[slug]
+            algorithm.name = algorithms[slug]['name']
+            algorithm.average_error = algorithms[slug]['avg_error']
             algorithm.save()
 
     def get(self, request):

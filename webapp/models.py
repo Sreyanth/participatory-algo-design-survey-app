@@ -32,6 +32,7 @@ class MechTaskUserGroup(TimestampedModel):
 class MechTaskAlgorithm(TimestampedModel):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    average_error = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.name
@@ -77,13 +78,16 @@ class MechTaskSurveyResponse(TimestampedModel):
     # User choices
     algorithm = models.ForeignKey(
         MechTaskAlgorithm, on_delete=models.CASCADE, blank=True, null=True)
-    model_estimates_for_bonus_calc = models.BooleanField(blank=True, null=True)
+    use_model_estimates_for_bonus_calc = models.BooleanField(
+        blank=True, null=True)
     selected_attributes = models.CharField(
         max_length=500, blank=True, null=True)
 
     # Follow-up questions
-    model_estimate_average_error = models.FloatField(blank=True, null=True)
-    self_estimate_average_error = models.FloatField(blank=True, null=True)
+    model_estimate_average_error = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    self_estimate_average_error = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
 
     model_estimate_confidence = models.CharField(
         max_length=255, blank=True, null=True)
@@ -190,7 +194,8 @@ class MechTaskStudentSample(TimestampedModel):
 
     # minutesPerWeekEnglish: The number of minutes per week the student spend
     # in English class
-    minutesPerWeekEnglish = models.FloatField()
+    minutesPerWeekEnglish = models.DecimalField(
+        max_digits=10, decimal_places=2)
 
     # studentsInEnglish: The number of students in this student's English class
     # at school
@@ -209,28 +214,32 @@ class MechTaskStudentSample(TimestampedModel):
     schoolSize = models.IntegerField()
 
     # User's real score
-    real_score = models.FloatField()
+    real_score = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Linear regression score
-    linear_regression_prediction = models.FloatField()
+    linear_regression_prediction = models.DecimalField(
+        max_digits=10, decimal_places=2)
 
     # Ridge regression score
-    ridge_prediction = models.FloatField()
+    ridge_prediction = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Lasso regression score
-    lasso_prediction = models.FloatField()
+    lasso_prediction = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Decision tree regression score
-    decision_tree_prediction = models.FloatField()
+    decision_tree_prediction = models.DecimalField(
+        max_digits=10, decimal_places=2)
 
     # Random forest regression score
-    random_forest_prediction = models.FloatField()
+    random_forest_prediction = models.DecimalField(
+        max_digits=10, decimal_places=2)
 
     # KNeighbors regression score
-    kneighbors_prediction = models.FloatField()
+    kneighbors_prediction = models.DecimalField(
+        max_digits=10, decimal_places=2)
 
     # SVM regression score
-    svm_reg_prediction = models.FloatField()
+    svm_reg_prediction = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class MechTaskSurveyEstimate(TimestampedModel):
@@ -241,8 +250,9 @@ class MechTaskSurveyEstimate(TimestampedModel):
     )
     sample = models.ForeignKey(MechTaskStudentSample, on_delete=models.CASCADE)
 
-    real_score = models.FloatField()
-    model_estimate = models.FloatField()
-    user_estimate = models.FloatField(blank=True, null=True)
+    real_score = models.DecimalField(max_digits=10, decimal_places=2)
+    model_estimate = models.DecimalField(max_digits=10, decimal_places=2)
+    user_estimate = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
 
     completed = models.BooleanField(default=False)

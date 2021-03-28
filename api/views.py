@@ -38,6 +38,7 @@ class CreateLinearRegressionView(View):
         if survey_response.selected_attributes is None:
             cols = request.POST.get('selected_attributes')
             survey_response.selected_attributes = cols
+            survey_response.save()
             result, df_pred = self.build_model(cols.split(','))
 
             print(result['test_mae'])

@@ -386,7 +386,9 @@ class UnderstandModelView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
-        return render(request, 'understand-model.html')
+        survey_response = request.user.mech_task_survey_response
+
+        return render(request, 'understand-model.html', {'avg_err': survey_response.algorithm.average_error})
 
     def post(self, request):
         if user_fails_access_check(request):
@@ -411,7 +413,12 @@ class AttentionCheckView(View):
         if survey_response.passed_first_attention_check:
             return HttpResponseRedirect(reverse('mech_task_choose_bonus'))
 
-        return render(request, 'attention-check.html', {'attention_text': survey_response.user_group.attention_check_statement})
+        page_params = {
+            'attention_text': survey_response.user_group.attention_check_statement,
+            'user_group': survey_response.user_group.slug,
+        }
+
+        return render(request, 'attention-check.html', page_params)
 
     def post(self, request):
         if user_fails_access_check(request):
@@ -484,9 +491,9 @@ class ChooseBonusView(View):
         survey_response.passed_second_attention_check = True
         survey_response.chose_bonus_baseline = True
         if bonus_choice == 'model':
-            survey_response.model_estimates_for_bonus_calc = True
+            survey_response.use_model_estimates_for_bonus_calc = True
         else:
-            survey_response.model_estimates_for_bonus_calc = False
+            survey_response.use_model_estimates_for_bonus_calc = False
 
         survey_response.save()
         return HttpResponseRedirect(reverse('mech_task_survey_question'))
@@ -566,7 +573,13 @@ class SurveyView(View):
             # There are no more questions
             return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
 
-        return render(request, 'survey.html', {'question': question, 'sample': question.sample})
+        page_params = {
+            'question': question,
+            'sample': question.sample,
+            'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
+        }
+
+        return render(request, 'survey.html', page_params)
 
     def post(self, request):
         if not request.user.is_authenticated:
@@ -586,7 +599,8 @@ class SurveyView(View):
         except IndexError:
             return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
-        question.user_estimate = float(user_estimate)
+        if not survey_response.use_model_estimates_for_bonus_calc and user_estimate != '':
+            question.user_estimate = float(user_estimate)
         question.completed = True
         question.save()
 

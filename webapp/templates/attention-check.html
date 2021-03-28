@@ -4,14 +4,23 @@
   <div class="col-md-12">
     <h3>Before you start the survey ...</h3>
 
-    <p class="lead">
-      For the 20 official estimates, you can choose to use a statistical model
-      that will give you estimates based on other students’ performance or use
-      your own estimates.
+    {% if user_group == 'cannot-change-control' %}
+
+    <p>
+      For the 20 official estimates, you can choose to either use your own
+      estimates exclusively or use the estimates by the model exclusively as
+      your official estimates.
+      <span class="important-check">{{ attention_text }}</span>
     </p>
 
-    <p class="important-check">{{ attention_text }}</p>
+    {% elif user_group == 'use-freely' %}
 
+    <p>
+      For the 20 official estimates, you can choose to
+      <span class="important-check">{{ attention_text }}</span>
+    </p>
+
+    {% endif %} {% comment %}
     <p>
       The model is designed to forecast each student’s percentile. The model is
       based on data from thousands of high school sophomores. The model does not
@@ -19,6 +28,7 @@
       sophisticated model, put together and optimized through a program written
       by the research team.
     </p>
+    {% endcomment %}
 
     <p>
       Please type the underlined sentences in the paragraph above the question

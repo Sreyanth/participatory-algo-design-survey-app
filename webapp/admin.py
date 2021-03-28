@@ -7,7 +7,7 @@ from .models import (MechTaskAlgorithm, MechTaskStudentSample,
 
 
 class MechTaskAlgorithmAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug', 'average_error')
 
 
 class MechTaskStudentSampleAdmin(admin.ModelAdmin):
