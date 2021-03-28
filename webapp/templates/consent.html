@@ -30,31 +30,177 @@
         The main purpose of the research is to study participants’ preference
         for using statistical models. We will perform statistical analysis to
         identify and extract patterns in the answers to this survey.
+
+        <!-- -->
+
+        {% if user_group|slice:'-7:' == 'placebo' %}
+        <strong>
+          We cannot tell you the full purpose of the research in advance, but
+          we’ll debrief you at the end of the study. You will have the
+          opportunity to ask questions.
+        </strong>
+        {% endif %}
       </p>
 
       <h4>Procedures</h4>
       <p>
         The study will take approximately 30 minutes and no more than an hour to
-        complete. Depending on the treatment group, the procedures are described
-        as one of the following: In each scenario, your task is to predict the
-        percentile of reading score for a student. You will be presented with
-        information about the student. You will repeat this task for 20
-        students.
+        complete. In each scenario, your task is to predict the percentile of
+        reading score for a student. You will be presented with information
+        about the student. You will repeat this task for 20 students.
       </p>
+
+      {% if user_group == 'cannot-change-control' %}
 
       <p>
         For the estimations, you can choose to have either your estimated
         percentiles or the statistical model’s estimated percentile as your
-        official estimations. If you choose to use the statistical model’s
-        estimates, you will not be able to change the model’s estimates. You
-        will make estimates no matter which option you choose.
+        official estimations.
+
+        <span class="text-decoration-underline">
+          If you choose to use the statistical model’s estimates, you will not
+          be able to change the model’s estimates.
+        </span>
+
+        You will make estimates no matter which option you choose.
       </p>
 
+      {% elif user_group == 'use-freely' %}
+
+      <p>
+        For the estimations, you can choose to
+
+        <span class="text-decoration-underline">
+          use the model’s estimated percentiles as much as you would like to.
+          For each estimate, you will see the model’s estimate and you can
+          modify it as much as you like to form your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-outcome' %}
+
+      <p>
+        For the estimations, you can choose to have either your estimated
+        percentiles or the statistical model’s estimated percentile as your
+        official estimations.
+
+        <span class="text-decoration-underline">
+          If you choose to use the statistical model’s estimates, you will be
+          able to adjust the model’s estimate for each student by up to 20
+          percentiles to form your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-attributes' %}
+
+      <p>
+        For the estimations, you can choose to build a statistical model that
+        will give you estimates based on other students’ performance
+        <strong>or</strong> use your own estimates.
+
+        <span class="text-decoration-underline">
+          If you choose to build the statistical model, you have a say in
+          specifying the input into the model. You will then review the
+          performance of the statistical model and decide if you want to use the
+          model or not. If you use the model, you can use the model’s estimated
+          percentile and modify the estimates as much as you would like to form
+          your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-algorithm' %}
+
+      <p>
+        For the estimations, you can choose to build a statistical model that
+        will give you estimates based on other students’ performance
+        <strong>or</strong> use your own estimates.
+
+        <span class="text-decoration-underline">
+          If you choose to build the statistical model, you have a say in
+          specifying the algorithm the model uses. This allows you to determine
+          the “inner working” of processing the information. You will then
+          review the performance of the statistical model and decide if you want
+          to use the model or not. If you use the model, you can use the model’s
+          estimated percentile and modify the estimates as much as you would
+          like to form your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-outcome-proposed-payment' %}
+
+      <p>
+        For the estimations, you can choose to have either your estimated
+        percentiles or the statistical model’s estimated percentile as your
+        official estimations.
+
+        <span class="text-decoration-underline">
+          If you choose to use the statistical model’s estimates, you will be
+          able to adjust the model’s estimate for each student by up to 20
+          percentiles to form your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-attributes-placebo' %}
+
+      <p>
+        For the estimations, you can choose to build a statistical model that
+        will give you estimates based on other students’ performance
+        <strong>or</strong> use your own estimates.
+
+        <span class="text-decoration-underline">
+          If you choose to build the statistical model, you have a say in
+          specifying the input into the model. You will then review the
+          performance of the statistical model and decide if you want to use the
+          model or not. If you use the model, you can use the model’s estimated
+          percentile and modify the estimates as much as you would like to form
+          your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group == 'change-algorithm-placebo' %}
+
+      <p>
+        For the estimations, you can choose to build a statistical model that
+        will give you estimates based on other students’ performance
+        <strong>or</strong> use your own estimates.
+
+        <span class="text-decoration-underline">
+          If you choose to build the statistical model, you have a say in
+          specifying the algorithm the model uses. This allows you to determine
+          the “inner working” of processing the information. You will then
+          review the performance of the statistical model and decide if you want
+          to use the model or not. If you use the model, you can use the model’s
+          estimated percentile and modify the estimates as much as you would
+          like to form your official estimate.
+        </span>
+      </p>
+
+      {% endif %}
+
       <h4>Participant Requirements</h4>
+
+      {% if user_group == 'change-outcome-proposed-payment' %}
+
+      <p>
+        Participation in this study is limited to individuals age 18 and older,
+        and US residents.
+      </p>
+
+      {% elif user_group|slice:'-7:' == 'placebo' %}
+
+      <p>
+        Participation in this study is limited to individuals age 18 and older,
+        and US residents.
+      </p>
+
+      {% else %}
+
       <p>
         Participation in this study is limited to individuals age 18 and older,
         and US residents. Repeated participation is not allowed.
       </p>
+
+      {% endif %}
 
       <h4>Risks</h4>
       <p>
@@ -71,6 +217,39 @@
       </p>
 
       <h4>Compensation &amp; Costs</h4>
+
+      {% if user_group == 'change-outcome-proposed-payment' %}
+
+      <p>
+        You will be paid a flat rate of $1 per participation. Additionally, you
+        will be awarded a bonus based on the accuracy of your predictions for 20
+        students. The accuracy is calculated as the average of the differences
+        between your predictions and the students’ actual percentiles. The bonus
+        rule is as below:
+      </p>
+
+      <ul>
+        <li>
+          $5 — within 14 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $4 — within 17 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $3 — within 20 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $2 — within 23 percentiles of students’ actual percentiles on average
+        </li>
+        <li>
+          $1 — within 26 percentiles of students’ actual percentiles on average
+        </li>
+      </ul>
+
+      <p>There will be no cost to you if you participate in this study.</p>
+
+      {% else %}
+
       <p>
         You will be paid a flat rate of $2 per participation. Additionally, you
         will be awarded a bonus based on the accuracy of your predictions for 20
@@ -81,23 +260,25 @@
 
       <ul>
         <li>
-          $5 —within 5 percentiles of students’ actual percentiles on average
+          $5 — within 5 percentiles of students’ actual percentiles on average
         </li>
         <li>
-          $4 —within 10 percentiles of students’ actual percentiles on average
+          $4 — within 10 percentiles of students’ actual percentiles on average
         </li>
         <li>
-          $3 —within 15 percentiles of students’ actual percentiles on average
+          $3 — within 15 percentiles of students’ actual percentiles on average
         </li>
         <li>
-          $2 —within 20 percentiles of students’ actual percentiles on average
+          $2 — within 20 percentiles of students’ actual percentiles on average
         </li>
         <li>
-          $1 —within 25 percentiles of students’ actual percentiles on average
+          $1 — within 25 percentiles of students’ actual percentiles on average
         </li>
       </ul>
 
       <p>There will be no cost to you if you participate in this study.</p>
+
+      {% endif %}
 
       <h4>Future Use of Information</h4>
       <p>
@@ -145,8 +326,9 @@
       <p>
         If you have any questions about this study, you should feel free to ask
         them by contacting the Principal Investigator now at Lingwei Cheng,
-        Heinz College at Carnegie Mellon University, lingweic@andrew.cmu.edu. If
-        you have questions later, desire additional information, or wish to
+        Heinz College at Carnegie Mellon University,
+        <span class="text-decoration-underline">lingweic@andrew.cmu.edu</span>.
+        If you have questions later, desire additional information, or wish to
         withdraw your participation please contact the Principal Investigator by
         mail, phone or e-mail in accordance with the contact information listed
         above.
@@ -156,8 +338,9 @@
         If you have questions pertaining to your rights as a research
         participant; or to report concerns to this study, you should contact the
         Office of Research integrity and Compliance at Carnegie Mellon
-        University. Email: irb-review@andrew.cmu.edu . Phone: 412-268-1901 or
-        412-268-5460.
+        University. Email:
+        <span class="text-decoration-underline">irb-review@andrew.cmu.edu</span
+        >. Phone: 412-268-1901 or 412-268-5460.
       </p>
 
       <h4>Voluntary Participation</h4>
@@ -168,11 +351,11 @@
       </p>
 
       <p>
-        Clicking accept: By clicking the “Accept” button, you indicate that you
-        are 18 years of age or older, that you voluntarily agree to participate
-        in this study, and that you understand the information in this consent
-        form. You have not waived any legal rights you otherwise would have as a
-        participant in a research study.
+        <strong>Clicking accept:</strong> By clicking the “Accept” button, you
+        indicate that you are 18 years of age or older, that you voluntarily
+        agree to participate in this study, and that you understand the
+        information in this consent form. You have not waived any legal rights
+        you otherwise would have as a participant in a research study.
       </p>
     </div>
 
@@ -189,7 +372,7 @@
           name="age_check" {% if age_check == 'true' %}checked {% endif %}
           value="true" required>
           <label class="form-check-label" for="age_check">
-            I am age 18 or older.
+            I am 18 or older.
           </label>
         </div>
 

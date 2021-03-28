@@ -222,6 +222,7 @@ class ConsentView(View):
 
         page_params = {
             'user': request.user,
+            'user_group': survey_response.user_group.slug
         }
 
         return render(request, 'consent.html', page_params)

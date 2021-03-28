@@ -192,8 +192,8 @@ class SetupMechTaskView(View):
 
     def create_user_groups(self):
         user_groups = OrderedDict({
-            'control': {
-                'name': 'Control group',
+            'cannot-change-control': {
+                'name': 'Cannot change - control group',
                 'attention_check': 'What you want to type',
             },
             'use-freely': {
@@ -204,7 +204,7 @@ class SetupMechTaskView(View):
                 'name': 'Change outcome',
                 'attention_check': 'What you want to type',
             },
-            'change-outcome-v2': {
+            'change-outcome-proposed-payment': {
                 'name': 'Change outcome - new bonus scheme',
                 'attention_check': 'What you want to type',
             },
@@ -234,7 +234,7 @@ class SetupMechTaskView(View):
         change_attributes_groups = [
             'change-attributes', 'change-attributes-placebo']
 
-        new_bonus_scheme_groups = ['change-outcome-v2']
+        new_bonus_scheme_groups = ['change-outcome-proposed-payment']
 
         for slug in user_groups:
             ug = MechTaskUserGroup()
