@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import HttpResponseRedirect, render, reverse
+from django.shortcuts import HttpResponseRedirect, render, reverse, HttpResponse
 from django.views import View
 
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
@@ -528,7 +528,7 @@ class SurveyView(View):
 
             selected_student_ids = []
 
-            while len(selected_student_ids) < 20:
+            while len(selected_student_ids) < 1:
                 random_id = random.randint(1, 724)
                 # Select only those students whose relevant model score is gt 0
                 kwargs = {
@@ -605,3 +605,195 @@ class SurveyView(View):
         question.save()
 
         return HttpResponseRedirect(reverse('mech_task_survey_question'))
+
+
+class FollowUpQuestionsView(View):
+    def get_next_question(self, survey_response):
+        follow_up_questions = OrderedDict({
+            'model_estimate_average_error': {
+                'question_text': 'On average, how many percentiles do you think the model’s estimates are away from students’ actual percentiles?',
+                'sub_texts': ['An answer of zero would mean that you think the model perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.', 'Your answer can range from 0-100.'],
+                'type': 'number_input',
+                'label': 'Enter your answer (0-100)',
+            },
+            'self_estimate_average_error': {
+                'question_text': 'On average, how many percentiles do you think your estimates are away from students’ actual percentiles?',
+                'sub_texts': ['An answer of zero would mean that you think you perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.', 'Your answer can range from 0-100.'],
+                'type': 'number_input',
+                'label': 'Enter your answer (0-100)',
+            },
+            'model_estimate_confidence': {
+                'question_text': 'How much confidence do you have in the statistical model’s estimates?',
+                'type': 'likert',
+                'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
+            },
+            'self_estimate_confidence': {
+                'question_text': 'How much confidence do you have in your estimates?',
+                'type': 'likert',
+                'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
+            },
+            'why_chose_the_attributes': {
+                'question_text': 'Why did you choose to use [insert factors chosen] to make your estimation?',
+                'type': 'long_text',
+            },
+            'why_chose_the_algorithm': {
+                'question_text': 'Why did you choose to use [insert algorithm chosen] to make your estimation regardless you ended up using it or not?',
+                'type': 'long_text',
+            },
+            'why_chose_model_estimate': {
+                'question_text': 'Why did you choose to have your bonus be determined by the statistical model’s estimates instead of your estimates?',
+                'type': 'long_text',
+            },
+            'why_chose_self_estimate': {
+                'question_text': 'Why did you choose to have your bonus be determined by your estimates instead of the statistical model’s estimates?',
+                'type': 'long_text',
+            },
+            'representativeness': {
+                'question_text': 'How well do you think the statistical model represent your assessment of the students’ performance?',
+                'type': 'likert',
+                'scale': ['Not representative at all', 'Slightly representative', 'Moderately representative', 'Very representative', 'Extremely representative'],
+            },
+            'transparency': {
+                'question_text': 'How transparent would you rate the statistical model decision process? ',
+                'type': 'likert',
+                'scale': ['Not at all transparent', 'Slightly transparent', 'Moderately transparent', 'Very transparent', 'Extremely transparent'],
+            },
+            'fairness_tutoring_resources': {
+                'question_text': 'Based on the scenarios you rated, would it be fair for the school to allocate tutoring resources to the students that the model predicts will have the lowest reading scores?',
+                'type': 'long_text',
+            },
+            'fairness_scholarship': {
+                'question_text': 'Based on the scenarios you rated, would it be fair for the school to recommend students with the highest predicted reading scores for a competitive scholarship in reading? ',
+                'type': 'long_text',
+            },
+            'fairness_absent_students': {
+                'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model’s forecast to decide some part of the students’ final grade if the students were unable to attend exams?',
+                'type': 'long_text',
+            },
+            # 'fairness_explanation': {
+            #     'question_text': '',
+            #     'type': '',
+            #     'scale': [],
+            # },
+            'likeliness_to_use_model': {
+                'question_text': 'How likely would you be to use the model’s estimates to complete this task in the future?',
+                'type': 'likert',
+                'scale': ['Very unlikely', 'unlikely', 'undecided', 'likely', 'very likely'],
+            },
+            'any_other_thoughts': {
+                'question_text': 'Do you have any other thoughts and feelings about the statistical model? ',
+                'type': 'long_text',
+            },
+        })
+
+        for question in follow_up_questions:
+            answer = getattr(survey_response, question)
+
+            if answer:
+                continue
+
+            return question, follow_up_questions[question]
+
+        return None, None
+
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        question, question_details = self.get_next_question(survey_response)
+
+        if not question:
+            # All follow-up questions are done. Take the user to the exit_survey
+            return HttpResponseRedirect(reverse('mech_task_exit_survey'))
+
+        question_text = question_details['question_text']
+        question_type = question_details['type']
+
+        page_params = {
+            'id': question,
+            'text': question_text,
+            'type': question_type,
+        }
+
+        if 'sub_texts' in question_details:
+            page_params['subs'] = question_details['sub_texts']
+
+        if 'scale' in question_details:
+            page_params['scale'] = question_details['scale']
+
+        if 'label' in question_details:
+            page_params['label'] = question_details['label']
+
+        return render(request, 'questions/' + question_type + '.html', page_params)
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        question_id = request.POST.get('question_id')
+
+        answer = getattr(survey_response, question_id)
+
+        if not answer:
+            setattr(survey_response, question_id, request.POST.get('answer'))
+            survey_response.save()
+
+        return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
+
+
+class ExitSurveyView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.completed:
+            return HttpResponseRedirect(reverse('mech_task_thanks'))
+
+        exit_survey_questions = {
+            'age': {
+                'question_text': 'What is your age?',
+                'options': range(18, 100)
+            },
+            'pronoun': {
+                'question_text': 'What is your pronoun?',
+                'options': ['He/his', 'she/her', 'they/their', 'other']
+            },
+            'raceeth': {
+                'question_text': 'How do you identify your race or ethnicity?',
+                'options': ['White', 'Hispanic', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other']
+            },
+            'education': {
+                'question_text': 'What is the highest level of education you have completed?',
+                'options': ['Less than high school', 'high school/GED', 'some college', '2-year college degree', '4-year college degree', 'masters degree', 'professional degree(JD, MD)', 'Doctoral Degree']
+            },
+        }
+
+        return render(request, 'exit-survey.html', {'questions': exit_survey_questions})
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        survey_response.age_bracket = request.POST.get('age')
+        survey_response.pronoun = request.POST.get('pronoun')
+        survey_response.race_ethnicity = request.POST.get('raceeth')
+        survey_response.highest_level_of_education = request.POST.get(
+            'education')
+
+        survey_response.completed = True
+        survey_response.save()
+
+        return HttpResponseRedirect(reverse('mech_task_thanks'))
+
+
+class ThanksView(View):
+    def get(self, request):
+        return render(request, 'thanks.html', {})

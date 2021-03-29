@@ -23,4 +23,10 @@ urlpatterns = [
          name='mech_task_choose_bonus'),
     path('survey', views.SurveyView.as_view(),
          name='mech_task_survey_question'),
+    path('post-survey-questions', views.FollowUpQuestionsView.as_view(),
+         name='mech_task_follow_up_questions'),
+    path('exit-survey', views.ExitSurveyView.as_view(),
+         name='mech_task_exit_survey'),
+    path('thanks', views.ThanksView.as_view(),
+         name='mech_task_thanks'),
 ]

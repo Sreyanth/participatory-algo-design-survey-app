@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row w-50 py-5">
+  <div class="col-md-12">
+    <p class="lead">{{ text }}</p>
+
+    {% if subs %} {% for sub in subs %}
+    <p>{{ sub }}</p>
+    {% endfor %} {% endif %}
+
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="question_id" value="{{ id }}" />
+
+      <div class="w100">
+        <!--  -->
+        {% block form_widget %} {%endblock %}
+      </div>
+
+      <button type="submit" name="button" class="btn btn-primary my-2">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
