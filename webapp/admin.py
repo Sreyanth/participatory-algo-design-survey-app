@@ -3,7 +3,7 @@ from django.contrib.auth.admin import Group
 
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
                      MechTaskSurveyEstimate, MechTaskSurveyResponse,
-                     MechTaskUserGroup)
+                     MechTaskUserGroup, MechTaskCustomModel, MechTaskCustomModelSample)
 
 
 class MechTaskAlgorithmAdmin(admin.ModelAdmin):
@@ -27,6 +27,14 @@ class MechTaskUserGroupAdmin(admin.ModelAdmin):
                     'uses_proposed_payment_scheme')
 
 
+class MechTaskCustomModelAdmin(admin.ModelAdmin):
+    pass
+
+
+class MechTaskCustomModelSampleAdmin(admin.ModelAdmin):
+    pass
+
+
 # Remove the admin groups listing from admin
 admin.site.unregister(Group)
 
@@ -37,3 +45,5 @@ admin.site.register(MechTaskStudentSample, MechTaskStudentSampleAdmin)
 admin.site.register(MechTaskSurveyEstimate, MechTaskSurveyEstimateAdmin)
 admin.site.register(MechTaskSurveyResponse, MechTaskSurveyResponseAdmin)
 admin.site.register(MechTaskUserGroup, MechTaskUserGroupAdmin)
+admin.site.register(MechTaskCustomModel, MechTaskCustomModelAdmin)
+admin.site.register(MechTaskCustomModelSample, MechTaskCustomModelSampleAdmin)

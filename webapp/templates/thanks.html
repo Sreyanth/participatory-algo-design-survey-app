@@ -3,6 +3,37 @@
 <div class="row w-50 py-5">
   <div class="col-md-12">
     <h2>Thanks for participating!</h2>
+    <p>
+      {% if bonus > 0 %}
+
+      <!-- -->
+      You've earned a bonus of <strong>${{ bonus }}</strong>.
+      <!-- -->
+
+      {% endif %}
+
+      <!-- -->
+      You should receive your payment in a few days. You can close the window
+      now.
+    </p>
+
+    {% if show_debrief_form_link %}
+
+    <!-- -->
+    <p>
+      You can now view and download the
+      <a href="/static/debrief-form.pdf" target="_blank"
+        >Debriefing Form for Participation in a Research Study</a
+      >.
+    </p>
+    <!-- -->
+
+    {% endif %}
+
+    <p>
+      You can reach out to us at this email address if you have any questions:
+      (insert email here).
+    </p>
   </div>
 </div>
 

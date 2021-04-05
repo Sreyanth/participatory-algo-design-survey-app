@@ -38,6 +38,11 @@ class MechTaskAlgorithm(TimestampedModel):
         return self.name
 
 
+class MechTaskCustomModel(TimestampedModel):
+    attributes = models.CharField(max_length=500)
+    average_error = models.DecimalField(max_digits=10, decimal_places=2)
+
+
 class MechTaskSurveyResponse(TimestampedModel):
     # User connection for authentication and authorization
     user = models.OneToOneField(
@@ -76,11 +81,19 @@ class MechTaskSurveyResponse(TimestampedModel):
     number_of_estimates_done = models.IntegerField(default=0)
 
     # User choices
-    algorithm = models.ForeignKey(
-        MechTaskAlgorithm, on_delete=models.CASCADE, blank=True, null=True)
     use_model_estimates_for_bonus_calc = models.BooleanField(
         blank=True, null=True)
+    algorithm = models.ForeignKey(
+        MechTaskAlgorithm, on_delete=models.CASCADE, blank=True, null=True)
     selected_attributes = models.CharField(
+        max_length=500, blank=True, null=True)
+    model = models.ForeignKey(
+        MechTaskCustomModel, on_delete=models.CASCADE, blank=True, null=True)
+
+    # Placebo & user choices
+    user_selected_algorithm = models.ForeignKey(
+        MechTaskAlgorithm, on_delete=models.CASCADE, blank=True, null=True, related_name='placebo_response')
+    user_selected_attributes = models.CharField(
         max_length=500, blank=True, null=True)
 
     # Follow-up questions
@@ -123,6 +136,12 @@ class MechTaskSurveyResponse(TimestampedModel):
     race_ethnicity = models.CharField(max_length=255, blank=True, null=True)
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
+
+    # Bonus related fields
+    bonus = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    average_deviation = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
 
     completed = models.BooleanField(default=False)
 
@@ -242,13 +261,24 @@ class MechTaskStudentSample(TimestampedModel):
     svm_reg_prediction = models.DecimalField(max_digits=10, decimal_places=2)
 
 
+class MechTaskCustomModelSample(TimestampedModel):
+    model = models.ForeignKey(MechTaskCustomModel, on_delete=models.CASCADE)
+    sample = models.ForeignKey(MechTaskStudentSample, on_delete=models.CASCADE)
+    real_score = models.DecimalField(max_digits=10, decimal_places=2)
+    linear_regression_prediction = models.DecimalField(
+        max_digits=10, decimal_places=2)
+
+
 class MechTaskSurveyEstimate(TimestampedModel):
     survey_response = models.ForeignKey(
         MechTaskSurveyResponse,
         on_delete=models.CASCADE,
         related_name='survey_estimates'
     )
-    sample = models.ForeignKey(MechTaskStudentSample, on_delete=models.CASCADE)
+    sample = models.ForeignKey(
+        MechTaskStudentSample, on_delete=models.CASCADE, blank=True, null=True)
+    custom_sample = models.ForeignKey(
+        MechTaskCustomModelSample, on_delete=models.CASCADE, blank=True, null=True)
 
     real_score = models.DecimalField(max_digits=10, decimal_places=2)
     model_estimate = models.DecimalField(max_digits=10, decimal_places=2)

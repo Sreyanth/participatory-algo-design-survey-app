@@ -2,11 +2,13 @@ import random
 import uuid
 from collections import OrderedDict
 
+import numpy as np
 from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import HttpResponseRedirect, render, reverse, HttpResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, render,
+                              reverse)
 from django.views import View
 
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
@@ -37,7 +39,6 @@ STUDENT_ATTRIBUTES['Student Characteristics'] = [
     },
 ]
 
-
 STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
     {
         'text_to_show': 'Has Computer for School Work',
@@ -55,6 +56,7 @@ STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
         'description': 'The number of minutes per week the student spend in English class',
     },
 ]
+
 STUDENT_ATTRIBUTES['School Characteristics'] = [
     {
         'text_to_show': 'Number of Student in English',
@@ -82,6 +84,7 @@ STUDENT_ATTRIBUTES['School Characteristics'] = [
         'description': "The number of students in this student's school",
     },
 ]
+
 STUDENT_ATTRIBUTES['Parental Characteristics'] = [
     {
         'text_to_show': 'Mother Completed High School',
@@ -114,6 +117,7 @@ STUDENT_ATTRIBUTES['Parental Characteristics'] = [
         'description': "Whether the student's father has part-time or full-time work",
     },
 ]
+
 STUDENT_ATTRIBUTES['Family Characteristics'] = [
     {
         'text_to_show': 'Student born in the US',
@@ -347,13 +351,35 @@ class ChooseAlgorithmView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
+        user_selected_algo = request.POST.get('algorithm').strip()
+
         try:
             algorithm = MechTaskAlgorithm.objects.get(
-                slug=request.POST.get('algorithm').strip())
+                slug=user_selected_algo)
         except ObjectDoesNotExist:
             return HttpResponseRedirect(reverse('mech_task_choose_attributes'))
 
         survey_response = request.user.mech_task_survey_response
+        survey_response.user_selected_algorithm = algorithm
+
+        if survey_response.user_group.has_deception:
+            # Now, select a random algorithm
+            deception_algo_choices = [
+                'linear-regression',
+                'ridge-regression',
+                'lasso-regression',
+                'decision-tree-regression',
+                'random-forest-regression',
+                'kneighbors-regression',
+                'svm-regression',
+            ]
+
+            deception_algo_choices.remove(user_selected_algo)
+
+            random_algo = random.choice(deception_algo_choices)
+            algorithm = MechTaskAlgorithm.objects.get(
+                slug=random_algo)
+
         survey_response.algorithm = algorithm
         survey_response.save()
 
@@ -388,7 +414,12 @@ class UnderstandModelView(View):
 
         survey_response = request.user.mech_task_survey_response
 
-        return render(request, 'understand-model.html', {'avg_err': survey_response.algorithm.average_error})
+        if survey_response.model:
+            page_params = {'avg_err': survey_response.model.average_error}
+        else:
+            page_params = {'avg_err': survey_response.algorithm.average_error}
+
+        return render(request, 'understand-model.html', page_params)
 
     def post(self, request):
         if user_fails_access_check(request):
@@ -554,7 +585,58 @@ class SurveyView(View):
                 estimate.save()
 
         else:
+            # The questions should've been already assigned to the user when we created the model
             pass
+
+    def calculate_bonus(self, survey_response):
+        bonus_scheme = OrderedDict({
+            5: 5,
+            10: 4,
+            15: 3,
+            20: 2,
+            25: 1,
+        })
+
+        bonus_scheme_v2 = OrderedDict({
+            14: 5,
+            17: 4,
+            20: 3,
+            23: 2,
+            26: 1,
+        })
+
+        estimates = survey_response.survey_estimates.all()
+        use_model_for_bonus = survey_response.use_model_estimates_for_bonus_calc
+
+        user_estimates = []
+        y_trues = []
+
+        for estimate in estimates:
+            y_trues.append(estimate.real_score)
+            if use_model_for_bonus:
+                user_estimates.append(estimate.model_estimate)
+            else:
+                user_estimates.append(estimate.user_estimate)
+
+        devs = [a_i - b_i for a_i, b_i in zip(user_estimates, y_trues)]
+        devs = [np.abs(i) for i in devs]
+        avg_devs = np.mean(devs)
+
+        bonus_calc_to_use = bonus_scheme
+
+        if survey_response.user_group.uses_proposed_payment_scheme:
+            bonus_calc_to_use = bonus_scheme_v2
+
+        bonus = 0
+
+        for limit in bonus_calc_to_use:
+            if avg_devs <= limit:
+                bonus = bonus_calc_to_use[limit]
+                break
+
+        survey_response.bonus = bonus
+        survey_response.average_deviation = avg_devs
+        survey_response.save()
 
     def get(self, request):
         if user_fails_access_check(request):
@@ -571,6 +653,7 @@ class SurveyView(View):
                 0]
         except IndexError:
             # There are no more questions
+            self.calculate_bonus(survey_response)
             return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
 
         page_params = {
@@ -599,10 +682,12 @@ class SurveyView(View):
         except IndexError:
             return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
-        if not survey_response.use_model_estimates_for_bonus_calc and user_estimate != '':
-            question.user_estimate = float(user_estimate)
+        question.user_estimate = float(user_estimate)
         question.completed = True
         question.save()
+
+        survey_response.number_of_estimates_done += 1
+        survey_response.save()
 
         return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
@@ -633,11 +718,12 @@ class FollowUpQuestionsView(View):
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
             },
             'why_chose_the_attributes': {
-                'question_text': 'Why did you choose to use [insert factors chosen] to make your estimation?',
+                'question_text': 'Why did you choose to use following factors to make your estimation?',
+                'sub_texts': [survey_response.user_selected_attributes],
                 'type': 'long_text',
             },
             'why_chose_the_algorithm': {
-                'question_text': 'Why did you choose to use [insert algorithm chosen] to make your estimation regardless you ended up using it or not?',
+                'question_text': 'Why did you choose to use %s to make your estimation regardless you ended up using it or not?' % (survey_response.user_selected_algorithm.name),
                 'type': 'long_text',
             },
             'why_chose_model_estimate': {
@@ -686,7 +772,45 @@ class FollowUpQuestionsView(View):
             },
         })
 
+        self_estimates_only_questions = ['why_chose_self_estimate']
+
+        model_estimates_only_questions = [
+            'model_estimate_average_error',
+            'model_estimate_confidence',
+            'why_chose_model_estimate',
+            'representativeness',
+            'transparency',
+            'fairness_tutoring_resources',
+            'fairness_scholarship',
+            'fairness_absent_students',
+            'likeliness_to_use_model',
+            'any_other_thoughts',
+        ]
+
         for question in follow_up_questions:
+            if survey_response.use_model_estimates_for_bonus_calc:
+                # User selected the model for bonus calculations
+                # So, skip questions that we should show only to people who
+                # chose self estimates for bonus
+                if question in self_estimates_only_questions:
+                    continue
+            else:
+                # User selected to use the self estimates for bonus
+                # So, skip questions that we should show only to people who
+                # chose model estimates for bonus
+                if question in model_estimates_only_questions:
+                    continue
+
+            if not survey_response.user_group.can_change_attributes:
+                # User can't change attributes. So skip the related question
+                if question in ['why_chose_the_attributes']:
+                    continue
+
+            if not survey_response.user_group.can_change_algorithm:
+                # User can't select algorithm. So skip the related question
+                if question in ['why_chose_the_algorithm']:
+                    continue
+
             answer = getattr(survey_response, question)
 
             if answer:
@@ -762,15 +886,15 @@ class ExitSurveyView(View):
             },
             'pronoun': {
                 'question_text': 'What is your pronoun?',
-                'options': ['He/his', 'she/her', 'they/their', 'other']
+                'options': ['He/his', 'she/her', 'they/their', 'other', 'I prefer not to answer']
             },
             'raceeth': {
                 'question_text': 'How do you identify your race or ethnicity?',
-                'options': ['White', 'Hispanic', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other']
+                'options': ['White', 'Hispanic', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other', 'I prefer not to answer']
             },
             'education': {
                 'question_text': 'What is the highest level of education you have completed?',
-                'options': ['Less than high school', 'high school/GED', 'some college', '2-year college degree', '4-year college degree', 'masters degree', 'professional degree(JD, MD)', 'Doctoral Degree']
+                'options': ['Less than high school', 'high school/GED', 'some college', '2-year college degree', '4-year college degree', 'masters degree', 'professional degree(JD, MD)', 'Doctoral Degree', 'I prefer not to answer']
             },
         }
 
@@ -787,6 +911,11 @@ class ExitSurveyView(View):
         survey_response.race_ethnicity = request.POST.get('raceeth')
         survey_response.highest_level_of_education = request.POST.get(
             'education')
+        survey_response.mturk_id_attempt_2 = request.POST.get(
+            'final_mturk_id').strip()
+
+        if survey_response.mturk_id_attempt_1.strip() == survey_response.mturk_id_attempt_2.strip():
+            survey_response.final_mturk_id = survey_response.mturk_id_attempt_1.strip()
 
         survey_response.completed = True
         survey_response.save()
@@ -796,4 +925,14 @@ class ExitSurveyView(View):
 
 class ThanksView(View):
     def get(self, request):
-        return render(request, 'thanks.html', {})
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        page_params = {
+            'bonus': survey_response.bonus,
+            'show_debrief_form_link': survey_response.user_group.has_deception,
+        }
+
+        return render(request, 'thanks.html', page_params)

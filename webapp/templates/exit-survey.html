@@ -18,8 +18,9 @@
             id="{{ question }}"
             name="{{ question }}"
             aria-label="{{ question_details.question_text }}"
+            required
           >
-            <option value="Unselected" selected>Select an option</option>
+            <option selected disabled value="">Select an option</option>
 
             {% for option in question_details.options %}
             <option value="{{ option }}">{{ option }}</option>
@@ -33,6 +34,18 @@
         {% endfor %}
 
         <!--  -->
+
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="final_mturk_id"
+            placeholder="Enter your MTurk ID"
+            name="final_mturk_id"
+            required
+          />
+          <label for="final_mturk_id">Your Amazon MTurk ID</label>
+        </div>
       </div>
 
       <button type="submit" name="button" class="btn btn-primary my-2">
