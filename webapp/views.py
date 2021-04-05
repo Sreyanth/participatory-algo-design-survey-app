@@ -559,7 +559,7 @@ class SurveyView(View):
 
             selected_student_ids = []
 
-            while len(selected_student_ids) < 1:
+            while len(selected_student_ids) < 20:
                 random_id = random.randint(1, 724)
                 # Select only those students whose relevant model score is gt 0
                 kwargs = {
