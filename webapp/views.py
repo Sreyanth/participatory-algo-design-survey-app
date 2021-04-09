@@ -337,7 +337,9 @@ class ChooseAlgorithmView(View):
         survey_response = request.user.mech_task_survey_response
 
         if not survey_response.user_group.can_change_algorithm:
-            survey_response.algorithm = MechTaskAlgorithm.objects.get(id=1)
+            algorithm = MechTaskAlgorithm.objects.get(id=1)
+            survey_response.algorithm = algorithm
+            survey_response.user_selected_algorithm = algorithm
             survey_response.save()
 
         if survey_response.algorithm is not None:
@@ -394,7 +396,9 @@ class ChooseAttributesView(View):
         survey_response = request.user.mech_task_survey_response
 
         if not survey_response.user_group.can_change_attributes:
-            survey_response.selected_attributes = 'all'
+            selected_attributes = 'all'
+            survey_response.selected_attributes = selected_attributes
+            survey_response.user_selected_attributes = selected_attributes
             survey_response.save()
 
         if survey_response.selected_attributes is not None:
