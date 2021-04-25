@@ -66,3 +66,20 @@
 .likert li label {
   width: 100%;
 }
+
+.model-building-status,
+.model-finished-status {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.select-all-link {
+  font-weight: normal;
+  font-size: small;
+  margin-left: 10px;
+}

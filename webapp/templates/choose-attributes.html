@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5">
+<div class="row w-50 py-5 attr-selection">
   <div class="col-md-12">
     <h3>Choose the attributes that you want to use to build the model</h3>
 
@@ -11,24 +11,32 @@
 
       {% for attr_class, attrs in attributes.items %}
 
-      <h4 class="pt-3">{{ attr_class }}</h4>
+      <div name="{{ attr_class }}">
+        <h4 class="pt-3">
+          {{ attr_class }}
+          <a href="#" onclick="return select_all('{{ attr_class }}')"
+            ><span class="select-all-link">Select all</span></a
+          >
+        </h4>
 
-      {% for attr in attrs %}
+        {% for attr in attrs %}
 
-      <div class="form-check">
-        <input
-          class="form-check-input attribute-select-checkbox"
-          type="checkbox"
-          value="{{ attr.attr_id }}"
-          id="{{ attr.attr_id }}"
-          name="attributes"
-        />
-        <label class="form-check-label" for="{{ attr.attr_id }}">
-          <strong>{{ attr.text_to_show }}</strong>: {{ attr.description }}
-        </label>
+        <div class="form-check">
+          <input
+            class="form-check-input attribute-select-checkbox"
+            type="checkbox"
+            value="{{ attr.attr_id }}"
+            id="{{ attr.attr_id }}"
+            name="attributes"
+          />
+          <label class="form-check-label" for="{{ attr.attr_id }}">
+            <strong>{{ attr.text_to_show }}</strong>: {{ attr.description }}
+          </label>
+        </div>
+        {% endfor %}
       </div>
 
-      {% endfor %} {% endfor %}
+      {% endfor %}
 
       <button type="submit" name="button" class="btn btn-primary my-2">
         Build the model
@@ -37,8 +45,77 @@
   </div>
 </div>
 
+<div class="model-building-status">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="w-50 pt-3 m-auto">
+    <h3>Building the model with your attributes.</h3>
+
+    <p class="lead">
+      Don't refresh or go back. You will be redirected to the next screen
+      automatically.
+    </p>
+  </div>
+</div>
+
+<div class="model-finished-status">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="w-50 pt-3 m-auto">
+    <h3 class="text-success">Successfully built the model</h3>
+
+    <p class="lead">
+      Don't refresh or go back. You will be redirected to the next screen
+      automatically.
+    </p>
+  </div>
+</div>
+
 <script>
+  // Select all attrs
+  function select_all(what) {
+    if (what === "all") {
+      return;
+    }
+
+    div = document.getElementsByName(what)[0];
+    checkboxes = div.querySelectorAll('input[type="checkbox"]');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = true;
+    }
+
+    // Have to return false to prevent scrolling to top
+    return false;
+  }
+
+  // Model building stuff
+
   const submit_button = document.querySelector("button");
+
+  function showProgressModal() {
+    var regular_div_area = document.getElementsByClassName("attr-selection")[0];
+    regular_div_area.style["display"] = "none";
+
+    var modal_area = document.getElementsByClassName(
+      "model-building-status"
+    )[0];
+    modal_area.style["display"] = "unset";
+  }
+
+  function showFinishedModal() {
+    var modal_area = document.getElementsByClassName(
+      "model-building-status"
+    )[0];
+    modal_area.style["display"] = "none";
+
+    var modal_area = document.getElementsByClassName(
+      "model-finished-status"
+    )[0];
+    modal_area.style["display"] = "unset";
+  }
 
   function getSelectedAttributes() {
     console.log("Getting the selected attributes");
@@ -59,7 +136,14 @@
     return selected_attributes;
   }
 
-  function buildModel(data) {
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function buildModel(data) {
+    // Sleep first
+    await sleep(4000);
+
     console.log("Sending data");
 
     const XHR = new XMLHttpRequest();
@@ -80,8 +164,10 @@
     urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
 
     // Define what happens on successful data submission
-    XHR.addEventListener("load", function (event) {
-      alert("Done building the model");
+    XHR.addEventListener("load", async function (event) {
+      // alert("Done building the model");
+      showFinishedModal();
+      await sleep(3000);
       console.log(event);
       location.href = event.target.response;
     });
@@ -103,8 +189,17 @@
 
   submit_button.addEventListener("click", function (event) {
     event.preventDefault();
+    var selected_attrs = getSelectedAttributes();
+
+    if (selected_attrs.length == 0) {
+      alert("You must select something");
+      return;
+    }
+
+    showProgressModal();
+
     buildModel({
-      selected_attributes: getSelectedAttributes(),
+      selected_attributes: selected_attrs,
       csrfmiddlewaretoken: document.getElementsByName("csrfmiddlewaretoken")[0]
         .value,
     });
