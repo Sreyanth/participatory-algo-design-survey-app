@@ -1,15 +1,15 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5">
+<div class="row">
   <div class="col-md-12">
-    <h3>Instructions</h3>
+    <h3>Read Carefully</h3>
 
     <p class="lead">
       In the study, you will have the opportunity to earn additional money by
       making accurate judgement. Please read all information very carefully.
     </p>
 
-    <p class="lead">
+    <p class="sub-text">
       In this study, you will estimate the performance of 20 high school
       sophomores on a standardized reading test. The scores range from 1-100. A
       score of 63 indicates that the student was in the 63rd percentile (63%) of
@@ -21,7 +21,7 @@
 
     <form class="" action="" method="post">
       {% csrf_token %}
-      <button type="submit" name="button" class="btn btn-primary">
+      <button type="submit" name="button" class="btn btn-primary btn-lg w-100">
         Continue
       </button>
     </form>
