@@ -17,10 +17,14 @@ class TimestampedModel(models.Model):
 class MechTaskUserGroup(TimestampedModel):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    use_freely = models.BooleanField(default=False)
     has_deception = models.BooleanField(default=False)
     uses_proposed_payment_scheme = models.BooleanField(default=False)
     can_change_algorithm = models.BooleanField(default=False)
     can_change_attributes = models.BooleanField(default=False)
+    only_10_percentile_change = models.BooleanField(default=False)
+    use_model_estimates_only = models.BooleanField(
+        default=False)
 
     attention_check_statement = models.CharField(
         max_length=500)

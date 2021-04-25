@@ -23,8 +23,17 @@ class MechTaskSurveyResponseAdmin(admin.ModelAdmin):
 
 
 class MechTaskUserGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'has_deception', 'can_change_algorithm', 'can_change_attributes',
-                    'uses_proposed_payment_scheme')
+    list_display = (
+        'name',
+        'slug',
+        'use_model_estimates_only',
+        'use_freely',
+        'only_10_percentile_change',
+        'can_change_attributes',
+        'can_change_algorithm',
+        'has_deception',
+        'uses_proposed_payment_scheme',
+    )
 
 
 class MechTaskCustomModelAdmin(admin.ModelAdmin):
