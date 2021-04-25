@@ -6,6 +6,11 @@
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
+.cmu-logo > img {
+  width: 300px;
+  max-width: 100%;
+}
+
 .consent-wrap {
   max-height: 300px;
   overflow: scroll;
