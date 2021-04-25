@@ -136,7 +136,7 @@
           this student’s percentile was on the standardized reading test?
           (Please enter a number 1-100)
         </p>
-        <form class="" action="" method="post">
+        <form class="" action="" method="post" autocomplete="off">
           {% csrf_token %}
           <input
             type="text"
@@ -146,7 +146,9 @@
           />
           <div class="form-floating">
             <input
-              type="text"
+              type="number"
+              min="0"
+              max="100"
               class="form-control"
               id="user_estimate"
               placeholder="0-100"
@@ -174,7 +176,7 @@
           What do you think this student’s percentile was on the standardized
           reading test? (Please enter a number 1-100)
         </p>
-        <form class="" action="" method="post">
+        <form class="" action="" method="post" autocomplete="off">
           {% csrf_token %}
           <input
             type="text"
@@ -184,7 +186,9 @@
           />
           <div class="form-floating">
             <input
-              type="text"
+              type="number"
+              min="0"
+              max="100"
               class="form-control"
               id="user_estimate"
               placeholder="0-100"
