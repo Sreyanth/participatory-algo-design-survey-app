@@ -12,6 +12,20 @@ main {
   max-width: 800px;
 }
 
+/* Text */
+h1 {
+  font-weight: 400;
+}
+
+p {
+  color: #777;
+}
+
+p.lead {
+  font-weight: 400;
+  color: #333;
+}
+
 .bg-primary {
   background-color: #b00 !important;
 }
@@ -101,4 +115,20 @@ main {
   font-weight: normal;
   font-size: small;
   margin-left: 10px;
+}
+
+/* Button styles */
+
+.btn {
+}
+
+.btn-primary {
+  background-color: #002d72;
+  border: 1px solid #002d72;
+  border-radius: 0;
+}
+
+.btn-primary:hover {
+  background-color: #fff;
+  color: #002d72 !important;
 }
