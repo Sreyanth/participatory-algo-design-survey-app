@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row w-50 py-5">
+  <div class="col-md-12">
+    <h2>Exit survey</h2>
+
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      <div class="w100">
+        <!--  -->
+
+        {% for question, question_details in questions.items %}
+
+        <div class="form-floating mb-3">
+          <select
+            class="form-select"
+            id="{{ question }}"
+            name="{{ question }}"
+            aria-label="{{ question_details.question_text }}"
+            required
+          >
+            <option selected disabled value="">Select an option</option>
+
+            {% for option in question_details.options %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+          </select>
+          <label for="{{ question }}"
+            >{{ question_details.question_text }}</label
+          >
+        </div>
+
+        {% endfor %}
+
+        <!--  -->
+
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="final_mturk_id"
+            placeholder="Enter your MTurk ID"
+            name="final_mturk_id"
+            required
+          />
+          <label for="final_mturk_id">Your Amazon MTurk ID</label>
+        </div>
+      </div>
+
+      <button type="submit" name="button" class="btn btn-primary my-2">
+        Complete survey
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row w-50 py-5">
+  <div class="col-md-12">
+    <h3>Before you start the survey ...</h3>
+
+    {% if user_group == 'cannot-change-control' %}
+
+    <p>
+      For the 20 official estimates, you can choose to either use your own
+      estimates exclusively or use the estimates by the model exclusively as
+      your official estimates.
+      <span class="important-check">{{ attention_text }}</span>
+    </p>
+
+    {% elif user_group == 'use-freely' %}
+
+    <p>
+      For the 20 official estimates, you can choose to
+      <span class="important-check">{{ attention_text }}</span>
+    </p>
+
+    {% endif %} {% comment %}
+    <p>
+      The model is designed to forecast each student’s percentile. The model is
+      based on data from thousands of high school sophomores. The model does not
+      have any additional information that you will not receive. This will be a
+      sophisticated model, put together and optimized through a program written
+      by the research team.
+    </p>
+    {% endcomment %}
+
+    <p>
+      Please type the underlined sentences in the paragraph above the question
+      in the text box.
+    </p>
+
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
+
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      <div class="w100">
+        <textarea name="important-check" id="" class="w-100" required rows="4">
+{{ submitted_attention_statement }}</textarea
+        >
+      </div>
+
+      <button type="submit" name="button" class="btn btn-primary my-2">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

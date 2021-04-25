@@ -1,0 +1,215 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row pt-5">
+  <div class="col-md-12">
+    <h3>Data points</h3>
+  </div>
+</div>
+
+<div class="row g-5 pb-5">
+  <div class="col-md-7">
+    <p class="lead">
+      All the data shown in this study represent data from real high school
+      students. You will base your estimation on the following information about
+      the student.
+    </p>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Data point</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Gender</th>
+          <td>{% if sample.male %} Male {% else %} Female {% endif %}</td>
+        </tr>
+        <tr>
+          <th scope="row">race eth</th>
+          <td>{{ sample.raceeth }}</td>
+        </tr>
+        <tr>
+          <th scope="row">preschool</th>
+          <td>{{ sample.preschool }}</td>
+        </tr>
+        <tr>
+          <th scope="row">expectBachelors</th>
+          <td>{{ sample.expectBachelors }}</td>
+        </tr>
+        <tr>
+          <th scope="row">motherHS</th>
+          <td>{{ sample.motherHS }}</td>
+        </tr>
+        <tr>
+          <th scope="row">motherBachelors</th>
+          <td>{{ sample.motherBachelors }}</td>
+        </tr>
+        <tr>
+          <th scope="row">motherWork</th>
+          <td>{{ sample.motherWork }}</td>
+        </tr>
+        <tr>
+          <th scope="row">fatherHS</th>
+          <td>{{ sample.fatherHS }}</td>
+        </tr>
+        <tr>
+          <th scope="row">fatherBachelors</th>
+          <td>{{ sample.fatherBachelors }}</td>
+        </tr>
+        <tr>
+          <th scope="row">fatherWork</th>
+          <td>{{ sample.fatherWork }}</td>
+        </tr>
+        <tr>
+          <th scope="row">selfBornUS</th>
+          <td>{{ sample.selfBornUS }}</td>
+        </tr>
+        <tr>
+          <th scope="row">motherBornUS</th>
+          <td>{{ sample.motherBornUS }}</td>
+        </tr>
+        <tr>
+          <th scope="row">fatherBornUS</th>
+          <td>{{ sample.fatherBornUS }}</td>
+        </tr>
+        <tr>
+          <th scope="row">englishAtHome</th>
+          <td>{{ sample.englishAtHome }}</td>
+        </tr>
+        <tr>
+          <th scope="row">computerForSchoolwork</th>
+          <td>{{ sample.computerForSchoolwork }}</td>
+        </tr>
+        <tr>
+          <th scope="row">read30MinsADay</th>
+          <td>{{ sample.read30MinsADay }}</td>
+        </tr>
+        <tr>
+          <th scope="row">minutesPerWeekEnglish</th>
+          <td>{{ sample.minutesPerWeekEnglish }}</td>
+        </tr>
+        <tr>
+          <th scope="row">studentsInEnglish</th>
+          <td>{{ sample.studentsInEnglish }}</td>
+        </tr>
+        <tr>
+          <th scope="row">schoolHasLibrary</th>
+          <td>{{ sample.schoolHasLibrary }}</td>
+        </tr>
+        <tr>
+          <th scope="row">publicSchool</th>
+          <td>{{ sample.publicSchool }}</td>
+        </tr>
+        <tr>
+          <th scope="row">urban</th>
+          <td>{{ sample.urban }}</td>
+        </tr>
+        <tr>
+          <th scope="row">schoolSize</th>
+          <td>{{ sample.schoolSize }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-5">
+    {% if use_model_estimates_for_bonus_calc %}
+
+    <div class="card">
+      <div class="card-body">
+        <p class="fw-bold">Model's estimate</p>
+        <p class="fs-1">{{ question.model_estimate }}</p>
+        <p>
+          Because you have chosen to use the model’s prediction as yours, your
+          estimate for the student’s percentile on the standardized reading test
+          is {{ question.model_estimate }}. This is the number that is used to
+          determine your bonus.
+        </p>
+      </div>
+    </div>
+    <div class="card mt-5">
+      <div class="card-body">
+        <p class="fw-bold">
+          However, you can still make your own estimation. What do you think
+          this student’s percentile was on the standardized reading test?
+          (Please enter a number 1-100)
+        </p>
+        <form class="" action="" method="post" autocomplete="off">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="question_id"
+            value="{{question.id}}"
+            hidden
+          />
+          <div class="form-floating">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              class="form-control"
+              id="user_estimate"
+              placeholder="0-100"
+              name="user_estimate"
+              required
+            />
+            <label for="user_estimate">Enter your estimate (0-100)</label>
+          </div>
+          <button
+            type="submit"
+            name="button"
+            class="btn btn-primary mt-3 mb-3 py-2 w-100"
+          >
+            Submit estimate and continue
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="card">
+      <div class="card-body">
+        <p class="fw-bold">
+          What do you think this student’s percentile was on the standardized
+          reading test? (Please enter a number 1-100)
+        </p>
+        <form class="" action="" method="post" autocomplete="off">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="question_id"
+            value="{{question.id}}"
+            hidden
+          />
+          <div class="form-floating">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              class="form-control"
+              id="user_estimate"
+              placeholder="0-100"
+              name="user_estimate"
+              required
+            />
+            <label for="user_estimate">Enter your estimate (0-100)</label>
+          </div>
+          <button
+            type="submit"
+            name="button"
+            class="btn btn-primary mt-3 mb-3 py-2 w-100"
+          >
+            Submit estimate and continue
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

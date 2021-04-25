@@ -1,0 +1,147 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row py-5">
+  <div class="col-md-12">
+    <h3>Data points</h3>
+
+    <p class="lead w-50">
+      All the data shown in this study represent data from real high school
+      students. You will base your estimation on the following information about
+      the student.
+    </p>
+
+    <table class="table table-striped w-75">
+      <thead>
+        <tr>
+          <th scope="col">Data point</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">male</th>
+          <td>Whether the student is male (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">raceeth</th>
+          <td>The race/ethnicity composite of the student</td>
+        </tr>
+        <tr>
+          <th scope="row">preschool</th>
+          <td>Whether the student attended preschool (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">expectBachelors</th>
+          <td>
+            Whether the student expects to obtain a bachelor's degree (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">motherHS</th>
+          <td>Whether the student's mother completed high school (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">motherBachelors</th>
+          <td>
+            Whether the student's mother obtained a bachelor's degree (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">motherWork</th>
+          <td>
+            Whether the student's mother has part-time or full-time work (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">fatherHS</th>
+          <td>Whether the student's father completed high school (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">fatherBachelors</th>
+          <td>
+            Whether the student's father obtained a bachelor's degree (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">fatherWork</th>
+          <td>
+            Whether the student's father has part-time or full-time work (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">selfBornUS</th>
+          <td>
+            Whether the student was born in the United States of America (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">motherBornUS</th>
+          <td>
+            Whether the student's mother was born in the United States of
+            America (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">fatherBornUS</th>
+          <td>
+            Whether the student's father was born in the United States of
+            America (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">englishAtHome</th>
+          <td>Whether the student speaks English at home (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">computerForSchoolwork</th>
+          <td>
+            Whether the student has access to a computer for schoolwork (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">read30MinsADay</th>
+          <td>
+            Whether the student reads for pleasure for 30 minutes/day (1/0)
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">minutesPerWeekEnglish</th>
+          <td>
+            The number of minutes per week the student spend in English class
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">studentsInEnglish</th>
+          <td>
+            The number of students in this student's English class at school
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">schoolHasLibrary</th>
+          <td>Whether this student's school has a library (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">publicSchool</th>
+          <td>Whether this student attends a public school (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">urban</th>
+          <td>Whether this student's school is in an urban area (1/0)</td>
+        </tr>
+        <tr>
+          <th scope="row">schoolSize</th>
+          <td>The number of students in this student's school</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form class="" action="" method="post">
+      {% csrf_token %}
+      <button type="submit" name="button" class="btn btn-primary">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

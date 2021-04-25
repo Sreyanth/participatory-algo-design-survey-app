@@ -1,0 +1,12 @@
+{% extends "questions/base_question.html" %} {% block form_widget %}
+
+<ul class="likert">
+  {% for scale_item in scale %}
+  <li>
+    <input type="radio" name="answer" value="{{ scale_item }}" />
+    <label>{{ scale_item }}</label>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "questions/base_question.html" %} {% block form_widget %}
+
+<div class="form-floating">
+  <input
+    type="text"
+    class="form-control"
+    id="answer"
+    name="answer"
+    placeholder="{{ label }}"
+    required
+  />
+  <label for="answer">{{ label }} </label>
+</div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+clf,train_mse,train_mae,train_rmse,test_mse,test_mae,test_rmse,contain_neg_entries
+LinearRegressio,0.058,0.199,0.241,0.059,0.197,0.243,2
+Ridge(alpha=0.0,0.058,0.199,0.241,0.059,0.197,0.243,2
+Lasso(alpha=1e-,0.058,0.199,0.241,0.059,0.197,0.243,2
+DecisionTreeReg,0.061,0.205,0.247,0.063,0.208,0.251,0
+RandomForestReg,0.043,0.174,0.207,0.058,0.202,0.241,0
+KNeighborsRegre,0.057,0.2,0.239,0.062,0.21,0.249,0
+SVR(C=0.05),0.055,0.192,0.235,0.059,0.199,0.243,0

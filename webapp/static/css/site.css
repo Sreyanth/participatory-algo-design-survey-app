@@ -1,0 +1,85 @@
+.bg-primary {
+  background-color: #b00 !important;
+}
+
+.navbar-brand {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.consent-wrap {
+  max-height: 300px;
+  overflow: scroll;
+  padding: 25px;
+  background: rgba(240, 240, 240, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.important-check {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: underline;
+}
+
+.likert {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 35px;
+  display: block;
+  border-bottom: 2px solid #efefef;
+}
+
+.likert:last-of-type {
+  border-bottom: 0;
+}
+
+.likert:before {
+  content: "";
+  position: relative;
+  top: 11px;
+  left: 9.5%;
+  display: block;
+  background-color: #efefef;
+  height: 4px;
+  width: 78%;
+}
+
+.likert li {
+  display: inline-block;
+  width: 19%;
+  text-align: center;
+  vertical-align: top;
+}
+
+.likert li input[type="radio"] {
+  display: block;
+  position: relative;
+  top: 0;
+  left: 50%;
+  margin-left: -6px;
+}
+
+.likert li label {
+  width: 100%;
+}
+
+.model-building-status,
+.model-finished-status {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.select-all-link {
+  font-weight: normal;
+  font-size: small;
+  margin-left: 10px;
+}
