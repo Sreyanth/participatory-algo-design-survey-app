@@ -1,3 +1,17 @@
+body {
+  background-color: #efefef;
+}
+
+main {
+  background-color: #fff;
+  padding: 40px !important;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  /* min-height: calc(100vh - 200px); */
+  max-width: 800px;
+}
+
 .bg-primary {
   background-color: #b00 !important;
 }
