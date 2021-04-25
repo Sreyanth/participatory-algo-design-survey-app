@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5">
+<div class="row">
   <div class="col-md-12">
-    <h3>Online Consent</h3>
+    <h1>Online Consent</h1>
 
     <p class="lead">
       This task is part of a research study conducted by Lingwei Cheng and Alex
@@ -13,7 +13,7 @@
 
   <div class="col-md-12">
     <div class="consent-wrap">
-      <h4>Summary</h4>
+      <h6>Summary</h6>
       <p>
         You will be asked to complete predictive tasks for hypothetical settings
         in education using either your own judgement or that of a statistical
@@ -25,7 +25,7 @@
         with the settings of the experiment.
       </p>
 
-      <h4>Purpose</h4>
+      <h6>Purpose</h6>
       <p>
         The main purpose of the research is to study participants’ preference
         for using statistical models. We will perform statistical analysis to
@@ -33,7 +33,7 @@
 
         <!-- -->
 
-        {% if user_group|slice:'-7:' == 'placebo' %}
+        {% if user_group.has_deception %}
         <strong>
           We cannot tell you the full purpose of the research in advance, but
           we’ll debrief you at the end of the study. You will have the
@@ -42,7 +42,7 @@
         {% endif %}
       </p>
 
-      <h4>Procedures</h4>
+      <h6>Procedures</h6>
       <p>
         The study will take approximately 30 minutes and no more than an hour to
         complete. In each scenario, your task is to predict the percentile of
@@ -50,7 +50,7 @@
         about the student. You will repeat this task for 20 students.
       </p>
 
-      {% if user_group == 'cannot-change-control' %}
+      {% if user_group.use_model_estimates_only %}
 
       <p>
         For the estimations, you can choose to have either your estimated
@@ -65,7 +65,21 @@
         You will make estimates no matter which option you choose.
       </p>
 
-      {% elif user_group == 'use-freely' %}
+      {% elif user_group.only_10_percentile_change %}
+
+      <p>
+        For the estimations, you can choose to have either your estimated
+        percentiles or the statistical model’s estimated percentile as your
+        official estimations.
+
+        <span class="text-decoration-underline">
+          If you choose to use the statistical model’s estimates, you will be
+          able to adjust the model’s estimate for each student by up to 10
+          percentiles to form your official estimate.
+        </span>
+      </p>
+
+      {% elif user_group.use_freely %}
 
       <p>
         For the estimations, you can choose to
@@ -77,25 +91,11 @@
         </span>
       </p>
 
-      {% elif user_group == 'change-outcome' %}
-
-      <p>
-        For the estimations, you can choose to have either your estimated
-        percentiles or the statistical model’s estimated percentile as your
-        official estimations.
-
-        <span class="text-decoration-underline">
-          If you choose to use the statistical model’s estimates, you will be
-          able to adjust the model’s estimate for each student by up to 20
-          percentiles to form your official estimate.
-        </span>
-      </p>
-
-      {% elif user_group == 'change-attributes' %}
+      {% elif user_group.can_change_attributes %}
 
       <p>
         For the estimations, you can choose to build a statistical model that
-        will give you estimates based on other students’ performance
+        will give you estimates based on other students' performance
         <strong>or</strong> use your own estimates.
 
         <span class="text-decoration-underline">
@@ -108,17 +108,17 @@
         </span>
       </p>
 
-      {% elif user_group == 'change-algorithm' %}
+      {% elif user_group.can_change_algorithm %}
 
       <p>
         For the estimations, you can choose to build a statistical model that
-        will give you estimates based on other students’ performance
+        will give you estimates based on other students' performance
         <strong>or</strong> use your own estimates.
 
         <span class="text-decoration-underline">
           If you choose to build the statistical model, you have a say in
           specifying the algorithm the model uses. This allows you to determine
-          the “inner working” of processing the information. You will then
+          the "inner working" of processing the information. You will then
           review the performance of the statistical model and decide if you want
           to use the model or not. If you use the model, you can use the model’s
           estimated percentile and modify the estimates as much as you would
@@ -126,67 +126,22 @@
         </span>
       </p>
 
-      {% elif user_group == 'change-outcome-proposed-payment' %}
+      {% else %}
 
-      <p>
-        For the estimations, you can choose to have either your estimated
-        percentiles or the statistical model’s estimated percentile as your
-        official estimations.
-
-        <span class="text-decoration-underline">
-          If you choose to use the statistical model’s estimates, you will be
-          able to adjust the model’s estimate for each student by up to 20
-          percentiles to form your official estimate.
-        </span>
-      </p>
-
-      {% elif user_group == 'change-attributes-placebo' %}
-
-      <p>
-        For the estimations, you can choose to build a statistical model that
-        will give you estimates based on other students’ performance
-        <strong>or</strong> use your own estimates.
-
-        <span class="text-decoration-underline">
-          If you choose to build the statistical model, you have a say in
-          specifying the input into the model. You will then review the
-          performance of the statistical model and decide if you want to use the
-          model or not. If you use the model, you can use the model’s estimated
-          percentile and modify the estimates as much as you would like to form
-          your official estimate.
-        </span>
-      </p>
-
-      {% elif user_group == 'change-algorithm-placebo' %}
-
-      <p>
-        For the estimations, you can choose to build a statistical model that
-        will give you estimates based on other students’ performance
-        <strong>or</strong> use your own estimates.
-
-        <span class="text-decoration-underline">
-          If you choose to build the statistical model, you have a say in
-          specifying the algorithm the model uses. This allows you to determine
-          the “inner working” of processing the information. You will then
-          review the performance of the statistical model and decide if you want
-          to use the model or not. If you use the model, you can use the model’s
-          estimated percentile and modify the estimates as much as you would
-          like to form your official estimate.
-        </span>
-      </p>
+      <!-- Ideally, this should be cant change design group -->
 
       {% endif %}
 
-      <h4>Participant Requirements</h4>
+      <h6>Participant Requirements</h6>
 
-      {% if user_group == 'change-outcome-proposed-payment' %}
+      {% if user_group.uses_proposed_payment_scheme %}
 
       <p>
         Participation in this study is limited to individuals age 18 and older,
         and US residents.
       </p>
 
-      {% elif user_group|slice:'-7:' == 'placebo' %}
+      {% elif user_group.has_deception %}
 
       <p>
         Participation in this study is limited to individuals age 18 and older,
@@ -202,23 +157,23 @@
 
       {% endif %}
 
-      <h4>Risks</h4>
+      <h6>Risks</h6>
       <p>
         There are no risks for participating in this study beyond those
         associated with normal computer use and a minor risk of breach of
         confidentiality.
       </p>
 
-      <h4>Benefits</h4>
+      <h6>Benefits</h6>
       <p>
         By completing this task, you will be more familiar with statistical
         models used in education setting. More broadly, this study may benefit
         society by improving the understanding of human-computer interaction.
       </p>
 
-      <h4>Compensation &amp; Costs</h4>
+      <h6>Compensation &amp; Costs</h6>
 
-      {% if user_group == 'change-outcome-proposed-payment' %}
+      {% if user_group.uses_proposed_payment_scheme %}
 
       <p>
         You will be paid a flat rate of $1 per participation. Additionally, you
@@ -245,8 +200,6 @@
           $1 — within 26 percentiles of students’ actual percentiles on average
         </li>
       </ul>
-
-      <p>There will be no cost to you if you participate in this study.</p>
 
       {% else %}
 
@@ -276,11 +229,11 @@
         </li>
       </ul>
 
-      <p>There will be no cost to you if you participate in this study.</p>
-
       {% endif %}
 
-      <h4>Future Use of Information</h4>
+      <p>There will be no cost to you if you participate in this study.</p>
+
+      <h6>Future Use of Information</h6>
       <p>
         In the future, once we have removed all identifiable information from
         your data, we may use the data for our future research studies, or we
@@ -291,7 +244,7 @@
         identified.
       </p>
 
-      <h4>Confidentiality</h4>
+      <h6>Confidentiality</h6>
       <p>
         Other than your Amazon Mechanical Turk serial number, we will collect
         the following demographic information: age, gender, race, level of
@@ -322,7 +275,7 @@
         for a minimum of 3 years.
       </p>
 
-      <h4>Right to Ask Questions &amp; Contact Information</h4>
+      <h6>Right to Ask Questions &amp; Contact Information</h6>
       <p>
         If you have any questions about this study, you should feel free to ask
         them by contacting the Principal Investigator now at Lingwei Cheng,
@@ -343,15 +296,17 @@
         >. Phone: 412-268-1901 or 412-268-5460.
       </p>
 
-      <h4>Voluntary Participation</h4>
+      <h6>Voluntary Participation</h6>
       <p>
         Your participation in this research is voluntary. You may discontinue
         participation at any time during the research activity. You may print a
         copy of this consent form for your records.
       </p>
+    </div>
 
+    <div class="pt-4">
       <p>
-        <strong>Clicking accept:</strong> By clicking the “Accept” button, you
+        <strong>Clicking accept:</strong> By clicking the "Accept" button, you
         indicate that you are 18 years of age or older, that you voluntarily
         agree to participate in this study, and that you understand the
         information in this consent form. You have not waived any legal rights
@@ -359,7 +314,7 @@
       </p>
     </div>
 
-    <div class="col-md-12 py-4">
+    <div class="col-md-12">
       {% if error_message %}
       <div class="alert alert-danger" role="alert">{{ error_message }}</div>
       {% endif %}
@@ -403,6 +358,7 @@
                 class="form-control"
                 id="mturk_id_1"
                 placeholder="Enter your MTurk ID"
+                autocomplete="off"
                 name="mturk_id_1"
                 value="{% if mturk_id_1 %}{{ mturk_id_1 }}{% endif %}"
                 required
@@ -417,6 +373,7 @@
                 class="form-control"
                 id="mturk_id_2"
                 placeholder="Confirm your MTurk ID"
+                autocomplete="off"
                 name="mturk_id_2"
                 value="{% if mturk_id_2 %}{{ mturk_id_2 }}{% endif %}"
                 required
@@ -427,8 +384,12 @@
         </div>
 
         <div class="pt-1">
-          <button type="submit" name="button" class="btn btn-primary">
-            Accept
+          <button
+            type="submit"
+            name="button"
+            class="btn btn-primary btn-lg w-100"
+          >
+            Accept and start the task
           </button>
         </div>
       </form>

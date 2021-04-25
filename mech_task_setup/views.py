@@ -193,32 +193,36 @@ class SetupMechTaskView(View):
 
     def create_user_groups(self):
         user_groups = OrderedDict({
-            'cannot-change-control': {
-                'name': 'Cannot change - control group',
-                'attention_check': 'If you choose to use the model, you will not be able to change the model’s estimates.  You will make estimates no matter which option you choose.',
+            'cant-change-outcome': {
+                'name': 'Cannot change outcome',
+                'attention_check': "If you choose to use the model, you will not be able to change the model's estimates.  You will make estimates no matter which option you choose.",
             },
             'use-freely': {
                 'name': 'Use freely',
-                'attention_check': ' use the model’s estimated percentiles as much as you would like to. For each estimate, you will see the model’s estimate and you can modify it as much as you like to form your official estimate.',
+                'attention_check': " use the model's estimated percentiles as much as you would like to. For each estimate, you will see the model's estimate and you can modify it as much as you like to form your official estimate.",
             },
-            'change-outcome': {
-                'name': 'Change outcome',
+            'adjust-by-10-original': {
+                'name': 'Adjust by 10 percentiles',
                 'attention_check': 'What you want to type',
             },
-            'change-outcome-proposed-payment': {
-                'name': 'Change outcome - new bonus scheme',
+            'adjust-by-10-proposed': {
+                'name': 'Adjust by 10 percentiles - new bonus scheme',
                 'attention_check': 'What you want to type',
             },
-            'change-attributes': {
-                'name': 'Change attributes',
+            'cant-change-design': {
+                'name': 'Cannot change design',
+                'attention_check': 'What you want to type',
+            },
+            'change-input': {
+                'name': 'Change input',
                 'attention_check': 'What you want to type',
             },
             'change-algorithm': {
                 'name': 'Change algorithm',
                 'attention_check': 'What you want to type',
             },
-            'change-attributes-placebo': {
-                'name': 'Change attributes - placebo',
+            'change-input-placebo': {
+                'name': 'Change input - placebo',
                 'attention_check': 'What you want to type',
             },
             'change-algorithm-placebo': {
@@ -227,15 +231,21 @@ class SetupMechTaskView(View):
             },
         })
 
-        deception_groups = ['change-attributes-placebo',
-                            'change-algorithm-placebo']
+        deception_groups = ['change-input-placebo', 'change-algorithm-placebo']
+
+        allow_only_10_percentile_change = ['adjust-by-10-original',
+                                           'adjust-by-10-proposed']
 
         change_algo_groups = ['change-algorithm', 'change-algorithm-placebo']
 
         change_attributes_groups = [
-            'change-attributes', 'change-attributes-placebo']
+            'change-input', 'change-input-placebo']
 
-        new_bonus_scheme_groups = ['change-outcome-proposed-payment']
+        new_bonus_scheme_groups = ['adjust-by-10-proposed']
+
+        should_use_model_estimates_only_for_bonus = ['cant-change-outcome']
+
+        use_freely = ['use-freely']
 
         for slug in user_groups:
             ug = MechTaskUserGroup()
@@ -246,6 +256,10 @@ class SetupMechTaskView(View):
             ug.has_deception = False
             if slug in deception_groups:
                 ug.has_deception = True
+
+            ug.only_10_percentile_change = False
+            if slug in allow_only_10_percentile_change:
+                ug.only_10_percentile_change = True
 
             ug.can_change_algorithm = False
             if slug in change_algo_groups:
@@ -258,6 +272,14 @@ class SetupMechTaskView(View):
             ug.uses_proposed_payment_scheme = False
             if slug in new_bonus_scheme_groups:
                 ug.uses_proposed_payment_scheme = True
+
+            ug.use_model_estimates_only = False
+            if slug in should_use_model_estimates_only_for_bonus:
+                ug.use_model_estimates_only = True
+
+            ug.use_freely = False
+            if slug in use_freely:
+                ug.use_freely = True
 
             ug.save()
 

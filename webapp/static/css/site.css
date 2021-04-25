@@ -15,9 +15,10 @@ main {
 /* Text */
 h1 {
   font-weight: 400;
+  font-size: 2rem;
 }
 
-p {
+p.sub-text {
   color: #777;
 }
 
@@ -40,12 +41,19 @@ p.lead {
 }
 
 .consent-wrap {
-  max-height: 300px;
+  max-height: 145px;
+  /* max-height: 250px; */
   overflow: scroll;
-  padding: 25px;
-  background: rgba(240, 240, 240, 0.9);
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  padding: 20px;
+  background: rgba(250, 250, 250, 0.9);
+  border: 0.5px solid #eee;
+  /* background-color: #efefef; */
+  border-radius: 0px;
+}
+
+.consent-wrap p,
+.consent-wrap ul {
+  font-size: 14px;
 }
 
 .important-check {
@@ -131,4 +139,21 @@ p.lead {
 .btn-primary:hover {
   background-color: #fff;
   color: #002d72 !important;
+}
+
+/* Alerts */
+.alert {
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 0;
+}
+
+/* Input borders */
+
+.form-check-input[type="checkbox"] {
+  border-radius: 0;
+}
+
+.form-control {
+  border-radius: 0;
 }
