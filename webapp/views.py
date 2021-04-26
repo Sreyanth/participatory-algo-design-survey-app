@@ -645,6 +645,12 @@ class SurveyView(View):
         estimates = survey_response.survey_estimates.all()
         use_model_for_bonus = survey_response.use_model_estimates_for_bonus_calc
 
+        use_model_for_bonus = False
+
+        if survey_response.user_group.use_model_estimates_only:
+            if survey_response.use_model_estimates_for_bonus_calc:
+                use_model_for_bonus = True
+
         user_estimates = []
         y_trues = []
 
