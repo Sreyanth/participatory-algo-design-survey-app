@@ -215,12 +215,12 @@ class SetupMechTaskView(View):
             },
             'change-input': {
                 'name': 'Change input',
-                'attention_check': 'What you want to type',
+                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you picked and form your own official estimates.',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model. You will then review the performance of the statistical model and decide if you want to use the model or not. You can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you pick and form your own official estimates. You will pick the information to use for your estimation regardless you would like to use the statistical model or use your own estimation.'
             },
             'change-algorithm': {
                 'name': 'Change algorithm',
-                'attention_check': 'What you want to type',
+                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you picked and form your own official estimates',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses. This allows you to determine the "inner working" of processing the information. You will then review the performance of the statistical model and decide if you want to use the model or not. If you use the model, you can use the model’s estimated percentile and modify the estimates as much as you would like to form your official estimate.'
             },
             'change-input-placebo': {
