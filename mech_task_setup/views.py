@@ -293,31 +293,31 @@ class SetupMechTaskView(View):
         algorithms = OrderedDict({
             'linear-regression': {
                 'name': 'Linear regression',
-                'avg_error': 10
+                'avg_error': 19.7
             },
             'ridge-regression': {
                 'name': 'Ridge regression',
-                'avg_error': 20
+                'avg_error': 19.7
             },
             'lasso-regression': {
                 'name':  'Lasso regression',
-                'avg_error': 30
+                'avg_error': 19.7
             },
             'decision-tree-regression': {
                 'name': 'Decision tree regression',
-                'avg_error': 40
+                'avg_error': 20.80
             },
             'random-forest-regression':  {
                 'name': 'Random forest regression',
-                'avg_error': 50
+                'avg_error': 20.20
             },
             'kneighbors-regression': {
                 'name': 'K neighbors regression',
-                'avg_error': 60
+                'avg_error': 21.00
             },
             'svm-regression':  {
                 'name': 'SVM regression',
-                'avg_error': 70
+                'avg_error': 19.90
             },
         })
 
