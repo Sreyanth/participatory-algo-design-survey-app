@@ -684,6 +684,8 @@ class SurveyView(View):
         if survey_response.survey_estimates.count() == 0:
             self.assign_questions(survey_response)
 
+        no_of_estimates_done = survey_response.number_of_estimates_done
+
         try:
             # Get one question from the allotted questions
             question = survey_response.survey_estimates.filter(completed=False)[
@@ -693,10 +695,45 @@ class SurveyView(View):
             self.calculate_bonus(survey_response)
             return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
 
+        # Build the attributes dict for the question
+        sample = question.sample
+
+        attrs = OrderedDict()
+
+        for attr_class in STUDENT_ATTRIBUTES:
+            attrs[attr_class] = []
+
+            for attr in STUDENT_ATTRIBUTES[attr_class]:
+                tmp = {
+                    'text_to_show': attr['text_to_show'],
+                    'attr_id': attr['attr_id'],
+                    'description': attr['description'],
+                }
+
+                value = getattr(sample, attr['attr_id'])
+
+                tmp['value'] = value
+
+                if value == True:
+                    if attr['attr_id'] == 'male':
+                        tmp['value'] = 'Male'
+                    else:
+                        tmp['value'] = 'Yes'
+                elif value == False:
+                    if attr['attr_id'] == 'male':
+                        tmp['value'] = 'Female'
+                    else:
+                        tmp['value'] = 'No'
+
+                attrs[attr_class].append(tmp)
+
         page_params = {
             'question': question,
             'sample': question.sample,
             'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
+            'estimate_number': no_of_estimates_done + 1,
+            'attributes': attrs,
+            'use_only_model_estimates_for_bonus_calc': survey_response.user_group.use_model_estimates_only,
         }
 
         return render(request, 'survey.html', page_params)
