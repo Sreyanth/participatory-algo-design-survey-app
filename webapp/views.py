@@ -435,6 +435,46 @@ class UnderstandModelView(View):
         survey_response.read_that_model_is_off = True
         survey_response.save()
 
+        return HttpResponseRedirect(reverse('mech_task_understand_payment_structure'))
+
+
+class UnderstandPaymentStructureView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        return render(request, 'understand-payment-structure.html')
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        submitted_form = request.POST
+
+        attention_statement = '''
+        During the official round, you will receive additional bonus money based on the accuracy of the official estimates. You can earn $1 to $5 depending on how close the official estimates are to the actual ranks.
+        '''.strip().replace('\n', '').replace('\t', '')
+
+        submitted_attention_statement = submitted_form.get(
+            'important-check').strip().replace('\n', '')
+
+        error_message = None
+
+        if attention_statement.lower() != submitted_attention_statement.lower():
+            error_message = 'Please enter the underlined text.'
+
+        if error_message:
+            page_params = {
+                'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
+
+            return render(request, 'understand-payment-structure.html', page_params)
+
+        survey_response = request.user.mech_task_survey_response
+        survey_response.passed_second_attention_check = True
+        survey_response.save()
+
         return HttpResponseRedirect(reverse('mech_task_attention_check'))
 
 
