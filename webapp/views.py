@@ -462,8 +462,8 @@ class UnderstandPaymentStructureView(View):
 
         error_message = None
 
-        if attention_statement.lower() != submitted_attention_statement.lower():
-            error_message = 'Please enter the underlined text.'
+        if attention_statement.lower().replace(' ', '') != submitted_attention_statement.lower().replace(' ', ''):
+            error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
 
         if error_message:
             page_params = {
@@ -490,7 +490,7 @@ class AttentionCheckView(View):
 
         page_params = {
             'attention_text': survey_response.user_group.attention_check_statement,
-            'user_group': survey_response.user_group.slug,
+            'user_group': survey_response.user_group,
         }
 
         return render(request, 'attention-check.html', page_params)
@@ -506,17 +506,21 @@ class AttentionCheckView(View):
         submitted_attention_statement = submitted_form.get(
             'important-check').strip()
 
-        if attention_statement.lower() == submitted_attention_statement.lower():
+        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
             # Attention check passed
             survey_response.passed_first_attention_check = True
             survey_response.save()
 
             return HttpResponseRedirect(reverse('mech_task_choose_bonus'))
 
-        error_message = 'Please enter the underlined text.'
+        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
 
-        page_params = {'attention_text': survey_response.user_group.attention_check_statement,
-                       'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
+        page_params = {
+            'attention_text': survey_response.user_group.attention_check_statement,
+            'error_message': error_message,
+            'submitted_attention_statement': submitted_attention_statement,
+            'user_group': survey_response.user_group,
+        }
 
         return render(request, 'attention-check.html', page_params)
 
