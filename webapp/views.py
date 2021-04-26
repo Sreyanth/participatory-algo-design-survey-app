@@ -377,8 +377,58 @@ class UnderstandDataView(View):
         survey_response.read_sample_data_points = True
         survey_response.save()
 
+        if survey_response.user_group.can_change_algorithm:
+            return HttpResponseRedirect(reverse('mech_task_pre_algo_check'))
+
         return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
         # return HttpResponseRedirect(reverse('mech_task_understand_model'))
+
+
+class PreAlgoCheckView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.passed_algo_attr_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+
+        page_params = {
+            'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
+            'user_group': survey_response.user_group,
+        }
+
+        return render(request, 'pre-algo-check.html', page_params)
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
+
+        submitted_form = request.POST
+        submitted_attention_statement = submitted_form.get(
+            'important-check').strip()
+
+        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
+            # Attention check passed
+            survey_response.passed_algo_attr_attention_check = True
+            survey_response.save()
+
+            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+
+        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+
+        page_params = {
+            'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
+            'error_message': error_message,
+            'submitted_attention_statement': submitted_attention_statement,
+            'user_group': survey_response.user_group,
+        }
+
+        return render(request, 'pre-algo-check.html', page_params)
 
 
 class ChooseAlgorithmView(View):
