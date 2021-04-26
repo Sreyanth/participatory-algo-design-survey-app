@@ -128,6 +128,12 @@
           bonus, adjusting them if need be
         </label>
 
+        {% elif user_group.can_change_algorithm %}
+        <label class="form-check-label" for="model">
+          Use the statistical model’s estimated percentiles to determine my
+          bonus, adjusting them if need be
+        </label>
+
         {% else %}
 
         <label class="form-check-label" for="model">
