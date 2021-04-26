@@ -910,6 +910,11 @@ class FollowUpQuestionsView(View):
                 if question in model_estimates_only_questions:
                     continue
 
+            if survey_response.user_group.use_freely:
+                # User didn't really have a choice to choose bonus structure
+                if question in ['why_chose_model_estimate']:
+                    continue
+
             if not survey_response.user_group.can_change_attributes:
                 # User can't change attributes. So skip the related question
                 if question in ['why_chose_the_attributes']:
