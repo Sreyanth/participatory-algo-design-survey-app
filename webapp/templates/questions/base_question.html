@@ -1,23 +1,36 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5">
+<div class="row">
   <div class="col-md-12">
-    <p class="lead">{{ text }}</p>
+    {% if heading %}
+    <h1>{{ heading }}</h1>
+    {% endif %}
 
+    <!-- -->
+
+    {% if text %}
+    <p class="lead">{{ text }}</p>
+    {% endif %}
+
+    <!-- -->
     {% if subs %} {% for sub in subs %}
-    <p>{{ sub }}</p>
+    <p class="sub-text">{{ sub }}</p>
     {% endfor %} {% endif %}
 
     <form action="" method="POST">
       {% csrf_token %}
       <input type="hidden" name="question_id" value="{{ id }}" />
 
-      <div class="w100">
+      <div class="w-100">
         <!--  -->
         {% block form_widget %} {%endblock %}
       </div>
 
-      <button type="submit" name="button" class="btn btn-primary my-2">
+      <button
+        type="submit"
+        name="button"
+        class="btn btn-primary btn-lg w-100 mt-3"
+      >
         Continue
       </button>
     </form>
