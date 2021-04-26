@@ -9,6 +9,8 @@ urlpatterns = [
     path('consent', views.ConsentView.as_view(), name='mech_task_consent'),
     path('instructions', views.InstructionsView.as_view(),
          name='mech_task_instructions'),
+    path('pre-algo-attrs-confirmation', views.PreAlgoAttrsCheckView.as_view(),
+         name='mech_task_pre_algo_attrs_check'),
     path('understand-data', views.UnderstandDataView.as_view(),
          name='mech_task_understand_datapoints'),
     path('choose-algorithm', views.ChooseAlgorithmView.as_view(),

@@ -216,6 +216,7 @@ class SetupMechTaskView(View):
             'change-input': {
                 'name': 'Change input',
                 'attention_check': 'What you want to type',
+                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model. You will then review the performance of the statistical model and decide if you want to use the model or not. You can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you pick and form your own official estimates. You will pick the information to use for your estimation regardless you would like to use the statistical model or use your own estimation.'
             },
             'change-algorithm': {
                 'name': 'Change algorithm',
@@ -264,10 +265,12 @@ class SetupMechTaskView(View):
             ug.can_change_algorithm = False
             if slug in change_algo_groups:
                 ug.can_change_algorithm = True
+                ug.algo_attr_attention_check_statement = user_groups[slug]['extra_attention_check']
 
             ug.can_change_attributes = False
             if slug in change_attributes_groups:
                 ug.can_change_attributes = True
+                ug.algo_attr_attention_check_statement = user_groups[slug]['extra_attention_check']
 
             ug.uses_proposed_payment_scheme = False
             if slug in new_bonus_scheme_groups:

@@ -306,7 +306,57 @@ class InstructionsView(View):
         survey_response.read_percentile_description = True
         survey_response.save()
 
+        if survey_response.user_group.can_change_attributes:
+            return HttpResponseRedirect(reverse('mech_task_pre_algo_attrs_check'))
+
         return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
+
+
+class PreAlgoAttrsCheckView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.passed_algo_attr_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
+
+        page_params = {
+            'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
+            'user_group': survey_response.user_group,
+        }
+
+        return render(request, 'pre-algo-attrs-check.html', page_params)
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
+
+        submitted_form = request.POST
+        submitted_attention_statement = submitted_form.get(
+            'important-check').strip()
+
+        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
+            # Attention check passed
+            survey_response.passed_algo_attr_attention_check = True
+            survey_response.save()
+
+            return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
+
+        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+
+        page_params = {
+            'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
+            'error_message': error_message,
+            'submitted_attention_statement': submitted_attention_statement,
+            'user_group': survey_response.user_group,
+        }
+
+        return render(request, 'pre-algo-attrs-check.html', page_params)
 
 
 class UnderstandDataView(View):
@@ -314,7 +364,9 @@ class UnderstandDataView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
-        return render(request, 'understand-data.html', {'attributes': STUDENT_ATTRIBUTES})
+        survey_response = request.user.mech_task_survey_response
+
+        return render(request, 'understand-data.html', {'attributes': STUDENT_ATTRIBUTES, 'user_group': survey_response.user_group, })
 
     def post(self, request):
         if user_fails_access_check(request):

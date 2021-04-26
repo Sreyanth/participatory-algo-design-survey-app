@@ -27,7 +27,9 @@ class MechTaskUserGroup(TimestampedModel):
         default=False)
 
     attention_check_statement = models.CharField(
-        max_length=500)
+        max_length=1000)
+    algo_attr_attention_check_statement = models.CharField(
+        max_length=1000, default='')
 
     def __str__(self):
         return self.name
@@ -81,6 +83,8 @@ class MechTaskSurveyResponse(TimestampedModel):
     read_that_model_is_off = models.BooleanField(blank=True, null=True)
     passed_first_attention_check = models.BooleanField(blank=True, null=True)
     passed_second_attention_check = models.BooleanField(blank=True, null=True)
+    passed_algo_attr_attention_check = models.BooleanField(
+        blank=True, null=True)
     chose_bonus_baseline = models.BooleanField(blank=True, null=True)
     number_of_estimates_done = models.IntegerField(default=0)
 
