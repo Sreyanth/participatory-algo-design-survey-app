@@ -20,20 +20,20 @@ STUDENT_ATTRIBUTES['Student Characteristics'] = [
     {
         'text_to_show': 'Gender',
         'attr_id': 'male',
-        'description': 'The gender of the student',
+        'description': 'The gender of the student (female / male)',
     },
     {
-        'text_to_show': 'Race/Ethnicity',
+        'text_to_show': 'Race / ethnicity',
         'attr_id': 'raceeth',
         'description': 'The race / ethnicity of the student',
     },
     {
-        'text_to_show': 'Attended Pre-school',
+        'text_to_show': 'Attended pre-school',
         'attr_id': 'preschool',
         'description': 'Whether the student attended preschool',
     },
     {
-        'text_to_show': 'Expects Bachelor',
+        'text_to_show': 'Expects a bachelor\'s degree',
         'attr_id': 'expectBachelors',
         'description': "Whether the student expects to obtain a bachelor's degree",
     },
@@ -41,17 +41,17 @@ STUDENT_ATTRIBUTES['Student Characteristics'] = [
 
 STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
     {
-        'text_to_show': 'Has Computer for School Work',
+        'text_to_show': 'Has a computer for school work',
         'attr_id': 'computerForSchoolwork',
         'description': 'Whether the student has access to a computer for schoolwork',
     },
     {
-        'text_to_show': 'Read 30min A Day',
+        'text_to_show': 'Reads 30 minutes a day',
         'attr_id': 'read30MinsADay',
         'description': 'Whether the student reads for pleasure for 30 minutes/day',
     },
     {
-        'text_to_show': 'Minutes Per Week Spent in English',
+        'text_to_show': 'Minutes per week spent in English',
         'attr_id': 'minutesPerWeekEnglish',
         'description': 'The number of minutes per week the student spend in English class',
     },
@@ -59,17 +59,17 @@ STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
 
 STUDENT_ATTRIBUTES['School Characteristics'] = [
     {
-        'text_to_show': 'Number of Student in English',
+        'text_to_show': 'Number of students in English class',
         'attr_id': 'studentsInEnglish',
         'description': "The number of students in this student's English class at school",
     },
     {
-        'text_to_show': 'School Has Library',
+        'text_to_show': 'School has a library',
         'attr_id': 'schoolHasLibrary',
         'description': "Whether this student's school has a library",
     },
     {
-        'text_to_show': 'Public School',
+        'text_to_show': 'Public school',
         'attr_id': 'publicSchool',
         'description': 'Whether this student attends a public school',
     },
@@ -79,7 +79,7 @@ STUDENT_ATTRIBUTES['School Characteristics'] = [
         'description': "Whether this student's school is in an urban area",
     },
     {
-        'text_to_show': 'School Size',
+        'text_to_show': 'School size',
         'attr_id': 'schoolSize',
         'description': "The number of students in this student's school",
     },
@@ -87,34 +87,34 @@ STUDENT_ATTRIBUTES['School Characteristics'] = [
 
 STUDENT_ATTRIBUTES['Parental Characteristics'] = [
     {
-        'text_to_show': 'Mother Completed High School',
+        'text_to_show': 'Mother completed high school',
         'attr_id': 'motherHS',
         'description': "Whether the student's mother completed high school",
     },
     {
-        'text_to_show': "Mother Has Bachelor's Degree",
+        'text_to_show': "Mother has a bachelor's degree",
         'attr_id': 'motherBachelors',
         'description': "Whether the student's mother obtained a bachelor's degree",
     },
     {
-        'text_to_show': 'Mother Works',
+        'text_to_show': 'Mother works',
         'attr_id': 'motherWork',
-        'description': "Whether the student's mother has part-time or full-time work",
+        'description': "Whether the student's mother has a part-time or a full-time job",
     },
     {
-        'text_to_show': 'Father Completed High School',
+        'text_to_show': 'Father completed high school',
         'attr_id': 'fatherHS',
         'description': "Whether the student's father completed high school",
     },
     {
-        'text_to_show': "Father Has Bachelor's Degree",
+        'text_to_show': "Father has a bachelor's degree",
         'attr_id': 'fatherBachelors',
         'description': "Whether the student's father obtained a bachelor's degree",
     },
     {
-        'text_to_show': 'Father Works',
+        'text_to_show': 'Father works',
         'attr_id': 'fatherWork',
-        'description': "Whether the student's father has part-time or full-time work",
+        'description': "Whether the student's father has a part-time or a full-time work",
     },
 ]
 
@@ -135,7 +135,7 @@ STUDENT_ATTRIBUTES['Family Characteristics'] = [
         'description': "Whether the student's father was born in the United States of America",
     },
     {
-        'text_to_show': 'Speak English at Home',
+        'text_to_show': 'Speaks English at home',
         'attr_id': 'englishAtHome',
         'description': 'Whether the student speaks English at home',
     },
@@ -314,7 +314,7 @@ class UnderstandDataView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
-        return render(request, 'understand-data.html')
+        return render(request, 'understand-data.html', {'attributes': STUDENT_ATTRIBUTES})
 
     def post(self, request):
         if user_fails_access_check(request):

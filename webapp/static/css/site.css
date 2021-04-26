@@ -157,3 +157,30 @@ p.lead {
 .form-control {
   border-radius: 0;
 }
+
+/* Attributes listing new card type design */
+
+.attributes-list {
+  border-radius: 0;
+  border: 1px solid #eee;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.attr-group--heading {
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: 400;
+}
+
+.attr-group--list-item-heading {
+  font-weight: bold;
+  /* margin-top: 10px; */
+  font-size: 14px;
+}
+
+.attr-group--list-item-description {
+  color: #777;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
