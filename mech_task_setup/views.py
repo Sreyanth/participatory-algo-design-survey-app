@@ -203,11 +203,11 @@ class SetupMechTaskView(View):
             },
             'adjust-by-10-original': {
                 'name': 'Adjust by 10 percentiles',
-                'attention_check': 'What you want to type',
+                'attention_check': 'If you choose to use the statistical model\'s estimates, you will be able to adjust the model\'s estimate for each student by up to 10 percentiles to form your official estimate.',
             },
             'adjust-by-10-proposed': {
                 'name': 'Adjust by 10 percentiles - new bonus scheme',
-                'attention_check': 'What you want to type',
+                'attention_check': 'If you choose to use the statistical model\'s estimates, you will be able to adjust the model\'s estimate for each student by up to 10 percentiles to form your official estimate.',
             },
             'cant-change-design': {
                 'name': 'Cannot change design',

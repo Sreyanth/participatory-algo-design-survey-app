@@ -22,6 +22,17 @@
       <span class="important-check">{{ attention_text }}</span>
     </p>
 
+    {% elif user_group.only_10_percentile_change %}
+    <!-- This is both the modify outcome groups -->
+
+    <p>
+      For the 20 official estimates, you can choose to have either your
+      estimated percentiles or the statistical model’s estimated percentile
+      determine your bonus.
+      <span class="important-check">{{ attention_text }}</span> You will make
+      estimates no matter which option you choose.
+    </p>
+
     {% endif %}
 
     <p>
