@@ -712,6 +712,8 @@ class SurveyView(View):
                 model_estimate_field = 'random_forest_prediction'
             elif selected_algo.startswith('svm'):
                 model_estimate_field = 'svm_reg_prediction'
+            elif selected_algo.startswith('kneighbors'):
+                model_estimate_field = 'kneighbors_prediction'
 
             selected_student_ids = []
 
