@@ -475,6 +475,8 @@ class UnderstandModelView(View):
         else:
             page_params = {'avg_err': survey_response.algorithm.average_error}
 
+        page_params['user_group'] = survey_response.user_group
+
         return render(request, 'understand-model.html', page_params)
 
     def post(self, request):
