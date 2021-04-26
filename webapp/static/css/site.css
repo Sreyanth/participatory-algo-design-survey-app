@@ -10,12 +10,17 @@ main {
   margin-bottom: 40px;
   /* min-height: calc(100vh - 200px); */
   max-width: 800px;
+  max-width: 960px;
 }
 
 /* Text */
 h1 {
   font-weight: 400;
   font-size: 2rem;
+}
+
+.small-text {
+  font-size: 14px;
 }
 
 p.sub-text {
@@ -195,4 +200,10 @@ textarea {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
+}
+
+/* Cards */
+.card {
+  border-radius: 0;
+  border: 1px solid #eee;
 }
