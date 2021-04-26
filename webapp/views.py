@@ -445,11 +445,17 @@ class UnderstandPaymentStructureView(View):
 
         survey_response = request.user.mech_task_survey_response
 
-        return render(request, 'understand-payment-structure.html')
+        page_params = {
+            'user_group': survey_response.user_group,
+        }
+
+        return render(request, 'understand-payment-structure.html', page_params)
 
     def post(self, request):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
 
         submitted_form = request.POST
 
@@ -467,11 +473,13 @@ class UnderstandPaymentStructureView(View):
 
         if error_message:
             page_params = {
-                'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
+                'error_message': error_message,
+                'submitted_attention_statement': submitted_attention_statement,
+                'user_group': survey_response.user_group,
+            }
 
             return render(request, 'understand-payment-structure.html', page_params)
 
-        survey_response = request.user.mech_task_survey_response
         survey_response.passed_second_attention_check = True
         survey_response.save()
 
@@ -535,7 +543,11 @@ class ChooseBonusView(View):
         if survey_response.chose_bonus_baseline:
             return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
-        return render(request, 'choose-bonus.html')
+        page_params = {
+            'user_group': survey_response.user_group
+        }
+
+        return render(request, 'choose-bonus.html', page_params)
 
     def post(self, request):
         if user_fails_access_check(request):
@@ -543,25 +555,28 @@ class ChooseBonusView(View):
 
         survey_response = request.user.mech_task_survey_response
 
-        submitted_form = request.POST
-
-        error_message = None
-
-        bonus_choice = submitted_form.get('bonus_preference').strip()
-        if bonus_choice not in ['model', 'self']:
-            error_message = 'Please select your bonus preference.'
-
-        if error_message:
-            page_params = {
-                'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
-
-            return render(request, 'choose-bonus.html', page_params)
-
-        survey_response.chose_bonus_baseline = True
-        if bonus_choice == 'model':
+        if survey_response.user_group.use_freely:
             survey_response.use_model_estimates_for_bonus_calc = True
         else:
-            survey_response.use_model_estimates_for_bonus_calc = False
+            submitted_form = request.POST
+
+            error_message = None
+
+            bonus_choice = submitted_form.get('bonus_preference').strip()
+            if bonus_choice not in ['model', 'self']:
+                error_message = 'Please select your bonus preference.'
+
+            if error_message:
+                page_params = {
+                    'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
+
+                return render(request, 'choose-bonus.html', page_params)
+
+            survey_response.chose_bonus_baseline = True
+            if bonus_choice == 'model':
+                survey_response.use_model_estimates_for_bonus_calc = True
+            else:
+                survey_response.use_model_estimates_for_bonus_calc = False
 
         survey_response.save()
         return HttpResponseRedirect(reverse('mech_task_survey_question'))
