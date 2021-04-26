@@ -1,8 +1,14 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5 attr-selection">
+<div class="row attr-selection">
   <div class="col-md-12">
-    <h3>Choose the attributes that you want to use to build the model</h3>
+    <h1>Choose the data that you want to use</h1>
+
+    <p class="lead">
+      Now you will pick the information you want to use to make your estimation.
+      All the data shown in this study represent data from real high school
+      students. You can choose any number of factors below for your estimation.
+    </p>
 
     <form action="" method="POST">
       {% csrf_token %}
@@ -12,12 +18,12 @@
       {% for attr_class, attrs in attributes.items %}
 
       <div name="{{ attr_class }}">
-        <h4 class="pt-3">
+        <h5 class="pt-3">
           {{ attr_class }}
           <a href="#" onclick="return select_all('{{ attr_class }}')"
             ><span class="select-all-link">Select all</span></a
           >
-        </h4>
+        </h5>
 
         {% for attr in attrs %}
 
@@ -38,14 +44,18 @@
 
       {% endfor %}
 
-      <button type="submit" name="button" class="btn btn-primary my-2">
+      <button
+        type="submit"
+        name="button"
+        class="btn btn-primary mt-3 btn-lg w-100"
+      >
         Build the model
       </button>
     </form>
   </div>
 </div>
 
-<div class="model-building-status">
+<div class="row model-building-status">
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
@@ -59,7 +69,7 @@
   </div>
 </div>
 
-<div class="model-finished-status">
+<div class="row model-finished-status">
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
@@ -98,6 +108,8 @@
   function showProgressModal() {
     var regular_div_area = document.getElementsByClassName("attr-selection")[0];
     regular_div_area.style["display"] = "none";
+    document.getElementsByTagName("main")[0].style["minHeight"] =
+      "calc(100vh - 200px)";
 
     var modal_area = document.getElementsByClassName(
       "model-building-status"
@@ -110,6 +122,8 @@
       "model-building-status"
     )[0];
     modal_area.style["display"] = "none";
+    document.getElementsByTagName("main")[0].style["minHeight"] =
+      "calc(100vh - 200px)";
 
     var modal_area = document.getElementsByClassName(
       "model-finished-status"
