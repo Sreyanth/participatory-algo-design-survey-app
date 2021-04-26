@@ -750,7 +750,7 @@ class SurveyView(View):
         survey_response.average_deviation = avg_devs
         survey_response.save()
 
-    def get_attrs(self, sample):
+    def get_attrs(self, sample, attributes_to_show):
 
         attrs = OrderedDict()
 
@@ -758,6 +758,10 @@ class SurveyView(View):
             attrs[attr_class] = []
 
             for attr in STUDENT_ATTRIBUTES[attr_class]:
+                if attributes_to_show != 'all':
+                    if attr['attr_id'] not in attributes_to_show:
+                        continue
+
                 tmp = {
                     'text_to_show': attr['text_to_show'],
                     'attr_id': attr['attr_id'],
@@ -811,7 +815,7 @@ class SurveyView(View):
             'sample': question.sample,
             'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
             'estimate_number': no_of_estimates_done + 1,
-            'attributes': self.get_attrs(sample),
+            'attributes': self.get_attrs(sample, survey_response.user_selected_attributes),
             'use_only_model_estimates_for_bonus_calc': survey_response.user_group.use_model_estimates_only,
         }
 
@@ -861,7 +865,7 @@ class SurveyView(View):
                         'sample': question.sample,
                         'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
                         'estimate_number': no_of_estimates_done + 1,
-                        'attributes': self.get_attrs(sample),
+                        'attributes': self.get_attrs(sample, survey_response.user_selected_attributes),
                         'use_only_model_estimates_for_bonus_calc': survey_response.user_group.use_model_estimates_only,
                         'error_message': error_message,
                     }
@@ -879,6 +883,16 @@ class SurveyView(View):
 
 
 class FollowUpQuestionsView(View):
+    def get_list_of_attrs_to_show(self, selected_attrs):
+        to_return = []
+
+        for attr_class in STUDENT_ATTRIBUTES:
+            for attr in STUDENT_ATTRIBUTES[attr_class]:
+                if attr['attr_id'] in selected_attrs:
+                    to_return.append('- ' + attr['text_to_show'])
+
+        return to_return
+
     def get_next_question(self, survey_response):
         follow_up_questions = OrderedDict({
             'model_estimate_average_error': {
@@ -909,7 +923,7 @@ class FollowUpQuestionsView(View):
             },
             'why_chose_the_attributes': {
                 'question_text': 'Why did you choose to use following factors to make your estimation?',
-                'sub_texts': [survey_response.user_selected_attributes],
+                'sub_texts': self.get_list_of_attrs_to_show(survey_response.user_selected_attributes),
                 'type': 'long_text',
             },
             'why_chose_the_algorithm': {
