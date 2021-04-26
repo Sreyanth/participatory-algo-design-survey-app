@@ -6,20 +6,20 @@
 
     <p class="lead">You will make 20 official estimates in a few moments.</p>
 
-    {% if user_group.use_model_estimates_only %}
-    <!-- This is the control group -->
-    <p>
-      You will be given a choice of having your estimated ranks count as the
-      official estimates or having the model’s estimated ranks count as the
-      official estimates.
-    </p>
-
-    {% elif user_group.use_freely %}
+    {% if user_group.use_freely %}
     <!-- This is the use freely group -->
 
     <p>
       You will be able to use the estimates produced by the statistical model to
       make your official estimates.
+    </p>
+
+    {% else %}
+    <!-- This is the control group & modify outcome group -->
+    <p>
+      You will be given a choice of having your estimated ranks count as the
+      official estimates or having the model’s estimated ranks count as the
+      official estimates.
     </p>
 
     {% endif %}
