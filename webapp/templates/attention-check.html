@@ -33,6 +33,13 @@
       estimates no matter which option you choose.
     </p>
 
+    {% elif user_group.can_change_attributes %}
+    <!-- This is both the modify input groups -->
+
+    <p>
+      <span class="important-check">{{ attention_text }}</span>
+    </p>
+
     {% endif %}
 
     <p>
