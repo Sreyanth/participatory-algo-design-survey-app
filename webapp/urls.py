@@ -13,6 +13,8 @@ urlpatterns = [
          name='mech_task_pre_algo_attrs_check'),
     path('understand-data', views.UnderstandDataView.as_view(),
          name='mech_task_understand_datapoints'),
+    path('pre-algo-confirmation', views.PreAlgoCheckView.as_view(),
+         name='mech_task_pre_algo_check'),
     path('choose-algorithm', views.ChooseAlgorithmView.as_view(),
          name='mech_task_choose_algorithm'),
     path('choose-algorithm-attributes', views.ChooseAttributesView.as_view(),

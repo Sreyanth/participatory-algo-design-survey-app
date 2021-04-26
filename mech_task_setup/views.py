@@ -221,6 +221,7 @@ class SetupMechTaskView(View):
             'change-algorithm': {
                 'name': 'Change algorithm',
                 'attention_check': 'What you want to type',
+                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses. This allows you to determine the "inner working" of processing the information. You will then review the performance of the statistical model and decide if you want to use the model or not. If you use the model, you can use the model’s estimated percentile and modify the estimates as much as you would like to form your official estimate.'
             },
             'change-input-placebo': {
                 'name': 'Change input - placebo',
