@@ -545,17 +545,7 @@ class ChooseBonusView(View):
 
         submitted_form = request.POST
 
-        attention_statement = '''
-        During the official round, you will receive additional bonus money based on the accuracy of the official estimates. You can earn $1 to $5 depending on how close the official estimates are to the actual ranks.
-        '''.strip().replace('\n', '').replace('\t', '')
-
-        submitted_attention_statement = submitted_form.get(
-            'important-check').strip().replace('\n', '')
-
         error_message = None
-
-        if attention_statement.lower() != submitted_attention_statement.lower():
-            error_message = 'Please enter the underlined text.'
 
         bonus_choice = submitted_form.get('bonus_preference').strip()
         if bonus_choice not in ['model', 'self']:
@@ -567,7 +557,6 @@ class ChooseBonusView(View):
 
             return render(request, 'choose-bonus.html', page_params)
 
-        survey_response.passed_second_attention_check = True
         survey_response.chose_bonus_baseline = True
         if bonus_choice == 'model':
             survey_response.use_model_estimates_for_bonus_calc = True
