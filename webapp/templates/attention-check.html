@@ -14,6 +14,14 @@
       <span class="important-check">{{ attention_text }}</span>
     </p>
 
+    {% elif user_group.use_freely %}
+    <!-- This is the use freely group -->
+
+    <p>
+      For the 20 official estimates, you can choose to
+      <span class="important-check">{{ attention_text }}</span>
+    </p>
+
     {% endif %}
 
     <p>
