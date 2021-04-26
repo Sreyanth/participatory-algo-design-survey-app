@@ -58,26 +58,33 @@
 
     <!---->
 
-    {% if use_only_model_estimates_for_bonus_calc %}
-
     <div class="card">
       <div class="card-body">
         <p class="fw-bold">Model's estimate</p>
         <p class="fs-1">{{ question.model_estimate }}</p>
+        {% if use_only_model_estimates_for_bonus_calc %}
         <p class="sub-text small-text">
           Because you have chosen to use the model’s prediction as yours, your
           estimate for the student’s percentile on the standardized reading test
           is {{ question.model_estimate }}. This is the number that is used to
           determine your bonus.
         </p>
+        {% endif %}
       </div>
     </div>
     <div class="card mt-3">
       <div class="card-body">
+        {% if use_only_model_estimates_for_bonus_calc %}
         <p class="fw-bold">
           However, you can still make your own estimation. What do you think
           this student’s percentile was on the standardized reading test?
         </p>
+        {% else %}
+        <p class="fw-bold">
+          What do you think this student’s percentile was on the standardized
+          reading test?
+        </p>
+        {% endif %}
         <form class="" action="" method="post" autocomplete="off">
           {% csrf_token %}
           <input
@@ -96,6 +103,7 @@
               placeholder="0-100"
               name="user_estimate"
               required
+              autofocus
             />
             <label for="user_estimate">Enter your estimate (1-100)</label>
           </div>
@@ -109,7 +117,7 @@
         </form>
       </div>
     </div>
-    {% endif %} {% else %}
+    {% else %}
 
     <div class="card">
       <div class="card-body">
@@ -135,6 +143,7 @@
               placeholder="0-100"
               name="user_estimate"
               required
+              autofocus
             />
             <label for="user_estimate">Enter your estimate (1-100)</label>
           </div>
