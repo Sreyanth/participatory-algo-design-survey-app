@@ -35,7 +35,21 @@
           aria-labelledby="{{ attr_class|slugify }}"
           data-bs-parent="#attrs-accordion"
         >
+          <!-- Accordion body starts here -->
           <div class="accordion-body">
+            {% if not attrs %}
+            <!-- -->
+            <div class="attr-group--list-item-description">
+              <!-- Ideally should've been a different class and style -->
+              <span
+                >You didn't select any datapoint in this group to build your
+                model</span
+              >
+            </div>
+            <!-- -->
+            {% endif %}
+            <!-- -->
+
             {% for attr in attrs %}
             <div class="attr-group--list-item">
               <div class="attr-group--list-item-heading">
