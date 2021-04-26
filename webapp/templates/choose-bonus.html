@@ -37,6 +37,28 @@
 
     <p>The bonus will be determined as follows:</p>
 
+    {% if user_group.uses_proposed_payment_scheme %}
+
+    <ul>
+      <li>
+        $5 — within 14 percentiles of students’ actual percentiles on average
+      </li>
+      <li>
+        $4 — within 17 percentiles of students’ actual percentiles on average
+      </li>
+      <li>
+        $3 — within 20 percentiles of students’ actual percentiles on average
+      </li>
+      <li>
+        $2 — within 23 percentiles of students’ actual percentiles on average
+      </li>
+      <li>
+        $1 — within 26 percentiles of students’ actual percentiles on average
+      </li>
+    </ul>
+
+    {% else %}
+
     <ul>
       <li>
         $5 — within 5 percentiles of students’ actual percentiles on average
@@ -54,6 +76,10 @@
         $1 — within 25 percentiles of students’ actual percentiles on average
       </li>
     </ul>
+
+    {% endif %}
+
+    <!-- -->
 
     {% if user_group.use_freely %}
     <form action="" method="POST">
