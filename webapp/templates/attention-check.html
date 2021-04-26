@@ -1,10 +1,11 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row w-50 py-5">
+<div class="row">
   <div class="col-md-12">
-    <h3>Before you start the survey ...</h3>
+    <h1>Before you start the survey ...</h1>
 
-    {% if user_group == 'cannot-change-control' %}
+    {% if user_group.use_model_estimates_only %}
+    <!-- This is the control group -->
 
     <p>
       For the 20 official estimates, you can choose to either use your own
@@ -13,26 +14,13 @@
       <span class="important-check">{{ attention_text }}</span>
     </p>
 
-    {% elif user_group == 'use-freely' %}
+    {% endif %}
 
     <p>
-      For the 20 official estimates, you can choose to
-      <span class="important-check">{{ attention_text }}</span>
-    </p>
-
-    {% endif %} {% comment %}
-    <p>
-      The model is designed to forecast each student’s percentile. The model is
-      based on data from thousands of high school sophomores. The model does not
-      have any additional information that you will not receive. This will be a
-      sophisticated model, put together and optimized through a program written
-      by the research team.
-    </p>
-    {% endcomment %}
-
-    <p>
-      Please type the underlined sentences in the paragraph above the question
-      in the text box.
+      <strong>
+        Please type the underlined sentences in the paragraph above in the text
+        box:
+      </strong>
     </p>
 
     {% if error_message %}
@@ -48,7 +36,11 @@
         >
       </div>
 
-      <button type="submit" name="button" class="btn btn-primary my-2">
+      <button
+        type="submit"
+        name="button"
+        class="btn btn-primary btn-lg w-100 mt-3"
+      >
         Continue
       </button>
     </form>

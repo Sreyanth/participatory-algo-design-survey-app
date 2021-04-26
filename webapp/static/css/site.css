@@ -158,6 +158,10 @@ p.lead {
   border-radius: 0;
 }
 
+textarea {
+  border-radius: 0;
+}
+
 /* Attributes listing new card type design */
 
 .attributes-list {
