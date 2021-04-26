@@ -17,6 +17,8 @@ urlpatterns = [
          name='mech_task_choose_attributes'),
     path('understand-model', views.UnderstandModelView.as_view(),
          name='mech_task_understand_model'),
+    path('understand-payment-structure', views.UnderstandPaymentStructureView.as_view(),
+         name='mech_task_understand_payment_structure'),
     path('pre-survey-confirmation', views.AttentionCheckView.as_view(),
          name='mech_task_attention_check'),
     path('choose-bonus-structure', views.ChooseBonusView.as_view(),
