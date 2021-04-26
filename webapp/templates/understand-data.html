@@ -10,7 +10,13 @@
       the student.
     </p>
 
-    {% comment %}
+    {% if user_group.can_change_attributes %}
+    <p class="sub-text">
+      Please read and decide on which data points you'd want to use to build
+      your model. In the next page, you will get to select as many data points
+      as possible for your estimates.
+    </p>
+    {% endif %} {% comment %}
     <div class="attributes-list">
       {% for attr_class, attrs in attributes.items %}
       <div class="attr-group">
