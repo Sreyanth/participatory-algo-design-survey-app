@@ -696,28 +696,7 @@ class SurveyView(View):
         survey_response.average_deviation = avg_devs
         survey_response.save()
 
-    def get(self, request):
-        if user_fails_access_check(request):
-            return HttpResponseRedirect(reverse('home_page'))
-
-        survey_response = request.user.mech_task_survey_response
-
-        if survey_response.survey_estimates.count() == 0:
-            self.assign_questions(survey_response)
-
-        no_of_estimates_done = survey_response.number_of_estimates_done
-
-        try:
-            # Get one question from the allotted questions
-            question = survey_response.survey_estimates.filter(completed=False)[
-                0]
-        except IndexError:
-            # There are no more questions
-            self.calculate_bonus(survey_response)
-            return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
-
-        # Build the attributes dict for the question
-        sample = question.sample
+    def get_attrs(self, sample):
 
         attrs = OrderedDict()
 
@@ -748,12 +727,37 @@ class SurveyView(View):
 
                 attrs[attr_class].append(tmp)
 
+        return attrs
+
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.survey_estimates.count() == 0:
+            self.assign_questions(survey_response)
+
+        no_of_estimates_done = survey_response.number_of_estimates_done
+
+        try:
+            # Get one question from the allotted questions
+            question = survey_response.survey_estimates.filter(completed=False)[
+                0]
+        except IndexError:
+            # There are no more questions
+            self.calculate_bonus(survey_response)
+            return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
+
+        # Build the attributes dict for the question
+        sample = question.sample
+
         page_params = {
             'question': question,
             'sample': question.sample,
             'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
             'estimate_number': no_of_estimates_done + 1,
-            'attributes': attrs,
+            'attributes': self.get_attrs(sample),
             'use_only_model_estimates_for_bonus_calc': survey_response.user_group.use_model_estimates_only,
         }
 
@@ -776,6 +780,39 @@ class SurveyView(View):
                 completed=False, id=int(question_id))[0]
         except IndexError:
             return HttpResponseRedirect(reverse('mech_task_survey_question'))
+
+        # Handle the case of accepting user estimates only if the estimates are
+        # Within a 10 percentile range
+
+        if survey_response.user_group.only_10_percentile_change:
+            if survey_response.use_model_estimates_for_bonus_calc:
+                lower_estimate = question.model_estimate - 10
+                upper_estimate = question.model_estimate + 10
+
+                if lower_estimate < 0:
+                    lower_estimate = 0
+
+                if upper_estimate > 100:
+                    upper_estimate = 100
+
+                if float(user_estimate) < lower_estimate or float(user_estimate) > upper_estimate:
+                    error_message = 'Your estimate should be within %s and %s' % (
+                        str(lower_estimate), str(upper_estimate))
+
+                    no_of_estimates_done = survey_response.number_of_estimates_done
+                    sample = question.sample
+
+                    page_params = {
+                        'question': question,
+                        'sample': question.sample,
+                        'use_model_estimates_for_bonus_calc': survey_response.use_model_estimates_for_bonus_calc,
+                        'estimate_number': no_of_estimates_done + 1,
+                        'attributes': self.get_attrs(sample),
+                        'use_only_model_estimates_for_bonus_calc': survey_response.user_group.use_model_estimates_only,
+                        'error_message': error_message,
+                    }
+
+                    return render(request, 'survey.html', page_params)
 
         question.user_estimate = float(user_estimate)
         question.completed = True

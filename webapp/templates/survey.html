@@ -93,6 +93,11 @@
             value="{{question.id}}"
             hidden
           />
+
+          {% if error_message %}
+          <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+          {% endif %}
+
           <div class="form-floating">
             <input
               type="number"
@@ -133,6 +138,11 @@
             value="{{question.id}}"
             hidden
           />
+
+          {% if error_message %}
+          <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+          {% endif %}
+
           <div class="form-floating">
             <input
               type="number"
