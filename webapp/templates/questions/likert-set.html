@@ -1,0 +1,40 @@
+{% extends "questions/base_question.html" %} {% block form_widget %}
+
+<!-- -->
+{% for question in questions %}
+
+<p class="{% if not forloop.first %}mt-5{% endif %}">
+  {{ question.question_text }}
+</p>
+
+<div class="py-2">
+  <ul class="likert">
+    {% for scale_item in question.scale %}
+    <li>
+      <input
+        type="radio"
+        name="answer-{{ question.question_id }}"
+        value="{{ scale_item }}"
+        required
+      />
+      <label>{{ scale_item }}</label>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endfor %}
+
+<!-- -->
+
+{% if explanation %}
+
+<p class="mt-4">{{ explanation.question_text }}</p>
+<textarea
+  name="answer-fairness_explanation"
+  id="answer"
+  class="w-100"
+  required
+  rows="4"
+></textarea>
+{% endif %} {% endblock %}

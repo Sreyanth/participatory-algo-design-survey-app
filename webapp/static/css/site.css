@@ -10,7 +10,7 @@ main {
   margin-bottom: 40px;
   /* min-height: calc(100vh - 200px); */
   max-width: 800px;
-  max-width: 960px;
+  /* max-width: 960px; */
 }
 
 /* Text */
@@ -74,7 +74,7 @@ p.lead {
   list-style: none;
   width: 100%;
   margin: 0;
-  padding: 0 0 35px;
+  /* padding: 0 0 35px; */
   display: block;
   border-bottom: 2px solid #efefef;
 }
@@ -86,11 +86,11 @@ p.lead {
 .likert:before {
   content: "";
   position: relative;
-  top: 11px;
+  top: 8px;
   left: 9.5%;
   display: block;
-  background-color: #efefef;
-  height: 4px;
+  background-color: #eee;
+  height: 2px;
   width: 78%;
 }
 
@@ -111,6 +111,7 @@ p.lead {
 
 .likert li label {
   width: 100%;
+  font-size: 14px;
 }
 
 .model-building-status,

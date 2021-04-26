@@ -770,23 +770,27 @@ class FollowUpQuestionsView(View):
     def get_next_question(self, survey_response):
         follow_up_questions = OrderedDict({
             'model_estimate_average_error': {
+                # 'heading_text': 'Average error of the model',
                 'question_text': 'On average, how many percentiles do you think the model’s estimates are away from students’ actual percentiles?',
-                'sub_texts': ['An answer of zero would mean that you think the model perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.', 'Your answer can range from 0-100.'],
+                'sub_texts': ['An answer of zero would mean that you think the model perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'self_estimate_average_error': {
+                # 'heading_text': 'Average error of your estimates',
                 'question_text': 'On average, how many percentiles do you think your estimates are away from students’ actual percentiles?',
-                'sub_texts': ['An answer of zero would mean that you think you perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.', 'Your answer can range from 0-100.'],
+                'sub_texts': ['An answer of zero would mean that you think you perfectly estimates all of the percentiles. An answer of one would mean that you think the model’s estimates are off by 1 percentile, on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'model_estimate_confidence': {
+                # 'heading_text': 'Confidence in the model\'s estimates',
                 'question_text': 'How much confidence do you have in the statistical model’s estimates?',
                 'type': 'likert',
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
             },
             'self_estimate_confidence': {
+                # 'heading_text': 'Confidence in your estimates',
                 'question_text': 'How much confidence do you have in your estimates?',
                 'type': 'likert',
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
@@ -818,23 +822,31 @@ class FollowUpQuestionsView(View):
                 'type': 'likert',
                 'scale': ['Not at all transparent', 'Slightly transparent', 'Moderately transparent', 'Very transparent', 'Extremely transparent'],
             },
-            'fairness_tutoring_resources': {
-                'question_text': 'Based on the scenarios you rated, would it be fair for the school to allocate tutoring resources to the students that the model predicts will have the lowest reading scores?',
-                'type': 'long_text',
+            'fairness_questions': {
+                'type': 'likert-set',
+                'question_text': None,
+                'questions': [
+                    {
+                        'question_id': 'fairness_tutoring_resources',
+                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to allocate tutoring resources to the students that the model predicts will have the lowest reading scores?',
+                        'scale': ['Not at all fair', 'Slightly fair', 'Moderately fair', 'Very fair', 'Extremely fair'],
+                    }, {
+                        'question_id': 'fairness_scholarship',
+                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to recommend students with the highest predicted reading scores for a competitive scholarship in reading? ',
+                        'scale': ['Not at all fair', 'Slightly fair', 'Moderately fair', 'Very fair', 'Extremely fair'],
+                    },
+                    {
+                        'question_id': 'fairness_absent_students',
+                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model’s forecast to decide some part of the students’ final grade if the students were unable to attend exams?',
+                        'scale': ['Not at all fair', 'Slightly fair', 'Moderately fair', 'Very fair', 'Extremely fair'],
+                    },
+                ],
+                'explanation': {
+                    'question_id': 'fairness_explanation',
+                    'question_text': 'Please give a brief explanation for your choices to the three questions above',
+                }
             },
-            'fairness_scholarship': {
-                'question_text': 'Based on the scenarios you rated, would it be fair for the school to recommend students with the highest predicted reading scores for a competitive scholarship in reading? ',
-                'type': 'long_text',
-            },
-            'fairness_absent_students': {
-                'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model’s forecast to decide some part of the students’ final grade if the students were unable to attend exams?',
-                'type': 'long_text',
-            },
-            # 'fairness_explanation': {
-            #     'question_text': '',
-            #     'type': '',
-            #     'scale': [],
-            # },
+
             'likeliness_to_use_model': {
                 'question_text': 'How likely would you be to use the model’s estimates to complete this task in the future?',
                 'type': 'likert',
@@ -854,9 +866,11 @@ class FollowUpQuestionsView(View):
             'why_chose_model_estimate',
             'representativeness',
             'transparency',
+            'fairness_questions',
             'fairness_tutoring_resources',
             'fairness_scholarship',
             'fairness_absent_students',
+            'fairness_explanation',
             'likeliness_to_use_model',
             'any_other_thoughts',
         ]
@@ -885,7 +899,12 @@ class FollowUpQuestionsView(View):
                 if question in ['why_chose_the_algorithm']:
                     continue
 
-            answer = getattr(survey_response, question)
+            # A small hack around the group of likerts we have for fairness
+            if question == 'fairness_questions':
+                answer = getattr(
+                    survey_response, 'fairness_tutoring_resources')
+            else:
+                answer = getattr(survey_response, question)
 
             if answer:
                 continue
@@ -906,6 +925,10 @@ class FollowUpQuestionsView(View):
             # All follow-up questions are done. Take the user to the exit_survey
             return HttpResponseRedirect(reverse('mech_task_exit_survey'))
 
+        if 'heading_text' in question_details:
+            question_heading = question_details['heading_text']
+        else:
+            question_heading = None
         question_text = question_details['question_text']
         question_type = question_details['type']
 
@@ -913,6 +936,7 @@ class FollowUpQuestionsView(View):
             'id': question,
             'text': question_text,
             'type': question_type,
+            'heading': question_heading,
         }
 
         if 'sub_texts' in question_details:
@@ -924,6 +948,12 @@ class FollowUpQuestionsView(View):
         if 'label' in question_details:
             page_params['label'] = question_details['label']
 
+        if 'questions' in question_details:
+            page_params['questions'] = question_details['questions']
+
+        if 'explanation' in question_details:
+            page_params['explanation'] = question_details['explanation']
+
         return render(request, 'questions/' + question_type + '.html', page_params)
 
     def post(self, request):
@@ -934,11 +964,29 @@ class FollowUpQuestionsView(View):
 
         question_id = request.POST.get('question_id')
 
-        answer = getattr(survey_response, question_id)
+        if question_id.strip() == 'fairness_questions':
+            fairness_questions = [
+                'fairness_tutoring_resources',
+                'fairness_scholarship',
+                'fairness_absent_students',
+                'fairness_explanation',
+            ]
 
-        if not answer:
-            setattr(survey_response, question_id, request.POST.get('answer'))
-            survey_response.save()
+            for q_id in fairness_questions:
+                answer = getattr(survey_response, q_id)
+
+                if not answer:
+                    setattr(survey_response, q_id,
+                            request.POST.get('answer-' + q_id))
+
+        else:
+            answer = getattr(survey_response, question_id)
+
+            if not answer:
+                setattr(survey_response, question_id,
+                        request.POST.get('answer'))
+
+        survey_response.save()
 
         return HttpResponseRedirect(reverse('mech_task_follow_up_questions'))
 
