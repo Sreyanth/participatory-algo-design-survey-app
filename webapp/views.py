@@ -1174,7 +1174,7 @@ class FollowUpQuestionsView(View):
         else:
             answer = getattr(survey_response, question_id)
 
-            if answer != None:
+            if not answer:
                 setattr(survey_response, question_id,
                         request.POST.get('answer').strip())
 
