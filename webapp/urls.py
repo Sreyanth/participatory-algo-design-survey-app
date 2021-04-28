@@ -33,6 +33,8 @@ urlpatterns = [
          name='mech_task_follow_up_questions'),
     path('exit-survey', views.ExitSurveyView.as_view(),
          name='mech_task_exit_survey'),
+    path('choose-mturk-id', views.ChooseFinalMTurkIDView.as_view(),
+         name='mech_task_choose_mturk_id'),
     path('thanks', views.ThanksView.as_view(),
          name='mech_task_thanks'),
 ]
