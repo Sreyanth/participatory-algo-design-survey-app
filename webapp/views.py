@@ -1240,7 +1240,7 @@ class ThanksView(View):
 
         page_params = {
             'bonus': survey_response.bonus,
-            'show_debrief_form_link': survey_response.user_group.has_deception,
+            'user_group': survey_response.user_group,
         }
 
         return render(request, 'thanks.html', page_params)

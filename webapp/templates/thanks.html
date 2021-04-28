@@ -2,22 +2,25 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h1>Thanks for participating!</h1>
+    <h1>Thank you for participating!</h1>
     <p>
-      {% if bonus > 0 %}
+      <!-- -->
+      You’ve earned a base rate of
+      <strong>
+        <!-- -->
+        {% if user_group.uses_proposed_payment_scheme %} $1
+        <!---->
+        {% else %}$2{% endif %}
+      </strong>
+      and a bonus of <strong>${{ bonus }}</strong>.
+      <!-- -->
 
       <!-- -->
-      You've earned a bonus of <strong>${{ bonus }}</strong>.
-      <!-- -->
-
-      {% endif %}
-
-      <!-- -->
-      You should receive your payment in a few days. You can close the window
-      now.
+      You should receive your payment in a few days. You should receive your
+      payment in a few days once the hit is accepted.
     </p>
 
-    {% if show_debrief_form_link %}
+    {% if user_group.has_deception %}
 
     <!-- -->
     <p>
@@ -31,8 +34,7 @@
     {% endif %}
 
     <p>
-      You can reach out to us at this email address if you have any questions:
-      (insert email here).
+      You can reach out to lingweic@andrew.cmu.edu if you have any questions.
     </p>
   </div>
 </div>
