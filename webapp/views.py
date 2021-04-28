@@ -274,6 +274,7 @@ class ConsentView(View):
                 'age_check': age_check,
                 'read_information_check': read_information_check,
                 'consent_check': consent_check,
+                'only_once_check': only_once_check,
                 'mturk_id_1': mturk_id_1,
                 'mturk_id_2': mturk_id_2
             }

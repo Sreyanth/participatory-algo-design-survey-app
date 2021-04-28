@@ -66,6 +66,7 @@ class MechTaskSurveyResponse(TimestampedModel):
     user_read_and_understood_info = models.BooleanField(blank=True, null=True)
     user_wants_to_participate = models.BooleanField(blank=True, null=True)
     user_consented_to_survey = models.BooleanField(blank=True, null=True)
+    user_agreed_to_take_only_once = models.BooleanField(blank=True, null=True)
 
     # MTurk details
     mturk_id_attempt_1 = models.CharField(
