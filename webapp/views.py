@@ -1098,7 +1098,7 @@ class FollowUpQuestionsView(View):
                 continue
 
             if follow_up_questions[question]['type'] == 'number_input':
-                if answer == 0:
+                if answer != None:
                     continue
 
             return question, follow_up_questions[question]
