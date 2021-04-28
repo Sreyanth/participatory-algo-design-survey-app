@@ -8,6 +8,21 @@
       {% csrf_token %}
 
       <div class="w100 mt-3">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="18"
+            max="200"
+            class="form-control"
+            id="age"
+            placeholder="What is your age?"
+            name="age"
+            autocomplete="off"
+            required
+          />
+          <label for="age">What is your age?</label>
+        </div>
+
         <!--  -->
 
         {% for question, question_details in questions.items %}
@@ -34,6 +49,25 @@
         {% endfor %}
 
         <!--  -->
+
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            max="9999"
+            class="form-control"
+            id="prev_mturk_algo_participation_number"
+            placeholder="How many times in total have you participated in algorithm-related
+            studies on Amazon Mechanical Turk?"
+            name="prev_mturk_algo_participation_number"
+            autocomplete="off"
+            required
+          />
+          <label for="prev_mturk_algo_participation_number"
+            >How many times have you participated in algorithm-related
+            studies?</label
+          >
+        </div>
 
         <div class="form-floating mb-3">
           <input

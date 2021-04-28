@@ -140,9 +140,14 @@ class MechTaskSurveyResponse(TimestampedModel):
     any_other_thoughts = models.TextField(blank=True, null=True)
 
     # Demographics
-    age_bracket = models.CharField(max_length=255, blank=True, null=True)
+    age = models.CharField(max_length=255, blank=True, null=True)
     pronoun = models.CharField(max_length=255, blank=True, null=True)
-    race_ethnicity = models.CharField(max_length=255, blank=True, null=True)
+    race = models.CharField(max_length=255, blank=True, null=True)
+    ethnicity = models.CharField(max_length=255, blank=True, null=True)
+    confidence_in_math = models.CharField(
+        max_length=255, blank=True, null=True)
+    prev_mturk_algo_participation_number = models.CharField(
+        max_length=255, blank=True, null=True)
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
 
