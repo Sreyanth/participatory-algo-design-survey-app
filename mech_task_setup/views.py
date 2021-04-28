@@ -211,7 +211,7 @@ class SetupMechTaskView(View):
             },
             'cant-change-design': {
                 'name': 'Cannot change design',
-                'attention_check': 'What you want to type',
+                'attention_check': 'Need to change this. For now, just type this text you see as is.',
             },
             'change-input': {
                 'name': 'Change input',
