@@ -285,6 +285,7 @@ class ConsentView(View):
         survey_response.user_read_and_understood_info = True
         survey_response.user_wants_to_participate = True
         survey_response.user_consented_to_survey = True
+        survey_response.user_agreed_to_take_only_once = True
         survey_response.mturk_id_attempt_1 = mturk_id_1
         survey_response.current_stage = 'instructions'
 
