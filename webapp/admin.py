@@ -19,7 +19,10 @@ class MechTaskSurveyEstimateAdmin(admin.ModelAdmin):
 
 
 class MechTaskSurveyResponseAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        'id',
+        'user_group'
+    )
 
 
 class MechTaskUserGroupAdmin(admin.ModelAdmin):

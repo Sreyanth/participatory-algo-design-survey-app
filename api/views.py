@@ -1,18 +1,19 @@
+import random
+import uuid
 from pathlib import Path
 
 import pandas as pd
+from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import (HttpResponse, HttpResponseRedirect, render,
                               reverse)
 from django.views import View
-
-from .regression_code import run_regression
-
+from webapp.models import (MechTaskCustomModel, MechTaskCustomModelSample,
+                           MechTaskStudentSample, MechTaskSurveyEstimate,
+                           MechTaskSurveyResponse, MechTaskUserGroup)
 from webapp.views import user_fails_access_check
 
-import random
-
-from webapp.models import MechTaskCustomModel, MechTaskCustomModelSample, MechTaskStudentSample, MechTaskSurveyEstimate
-
+from .regression_code import run_regression
 
 BASE_DIR = str(Path(__file__).resolve().parent)
 DATASET = BASE_DIR + '/data/pisa2009.csv'
@@ -132,3 +133,37 @@ class CreateLinearRegressionView(View):
                 estimate.save()
 
         return HttpResponse(reverse('mech_task_understand_model'))
+
+
+class GetTestUserView(View):
+    def get(self, request, slug):
+        allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
+                         'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
+
+        if slug not in allowed_slugs:
+            response_to_return = 'Click on the following links to get a test user for that group: '
+            response_to_return += '<br/><br/>'
+
+            for i in allowed_slugs:
+                link = '/api/get-test-user/' + i
+                response_to_return += i + ' group:     <a href="' + \
+                    link + '">' + link + '</a><br/><br/>'
+
+            return HttpResponse(response_to_return)
+
+        if request.user.is_authenticated:
+            # User is logged in. Log them out
+            logout(request)
+
+        new_user = User()
+        new_user.username = uuid.uuid4()
+        new_user.save()
+
+        survey_response = MechTaskSurveyResponse()
+        survey_response.user = new_user
+        survey_response.user_group = MechTaskUserGroup.objects.get(slug=slug)
+        survey_response.save()
+
+        login(request, new_user)
+
+        return HttpResponseRedirect(reverse('start_mech_task_survey'))
