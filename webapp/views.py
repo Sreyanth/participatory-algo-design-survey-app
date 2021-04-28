@@ -1244,9 +1244,44 @@ class ExitSurveyView(View):
         if survey_response.mturk_id_attempt_1.strip() == survey_response.mturk_id_attempt_2.strip():
             survey_response.final_mturk_id = survey_response.mturk_id_attempt_1.strip()
         else:
-            # Ideally redirect them to choose one ID
-            pass
+            # Save the responses first
+            survey_response.save()
 
+            return HttpResponseRedirect(reverse('mech_task_choose_mturk_id'))
+
+        survey_response.completed = True
+        survey_response.save()
+
+        return HttpResponseRedirect(reverse('mech_task_thanks'))
+
+
+class ChooseFinalMTurkIDView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.final_mturk_id:
+            return HttpResponseRedirect(reverse('mech_task_thanks'))
+
+        page_params = {
+            'mturk_id_1': survey_response.mturk_id_attempt_1,
+            'mturk_id_2': survey_response.mturk_id_attempt_2,
+        }
+
+        return render(request, 'choose-mturk-id.html', page_params)
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.final_mturk_id:
+            return HttpResponseRedirect(reverse('mech_task_thanks'))
+
+        survey_response.final_mturk_id = request.POST.get('final_mturk_id')
         survey_response.completed = True
         survey_response.save()
 
