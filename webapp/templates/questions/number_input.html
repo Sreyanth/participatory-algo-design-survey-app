@@ -2,12 +2,16 @@
 
 <div class="form-floating">
   <input
-    type="text"
+    type="number"
+    min="0"
+    max="100"
     class="form-control"
     id="answer"
     name="answer"
     autocomplete="off"
     placeholder="{{ label }}"
+    required
+    autofocus
     required
     autofocus
   />
