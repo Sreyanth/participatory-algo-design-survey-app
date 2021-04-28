@@ -1190,22 +1190,30 @@ class ExitSurveyView(View):
             return HttpResponseRedirect(reverse('mech_task_thanks'))
 
         exit_survey_questions = {
-            'age': {
-                'question_text': 'What is your age?',
-                'options': range(18, 100)
-            },
             'pronoun': {
                 'question_text': 'What is your pronoun?',
-                'options': ['He/his', 'she/her', 'they/their', 'other', 'I prefer not to answer']
+                'options': ['He/his', 'She/her', 'They/their', 'Other', 'I prefer not to answer']
             },
-            'raceeth': {
-                'question_text': 'How do you identify your race or ethnicity?',
-                'options': ['White', 'Hispanic', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other', 'I prefer not to answer']
+            'race': {
+                'question_text': 'How do you identify your race?',
+                'options': ['White', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other', 'I decline to answer']
+            },
+            'ethnicity': {
+                'question_text': 'How do you identify your ethnicity?',
+                'options': ['Hispanic or Latino', 'Not Hispanic or Latino', 'I decline to answer']
+            },
+            'confidence_in_math': {
+                'question_text': 'How would you rate your level of confidence in math?',
+                'options': ['Not confident', ' Slightly confident', 'Confident', 'Very confident', 'Extremely confident']
             },
             'education': {
                 'question_text': 'What is the highest level of education you have completed?',
-                'options': ['Less than high school', 'high school/GED', 'some college', '2-year college degree', '4-year college degree', 'masters degree', 'professional degree(JD, MD)', 'Doctoral Degree', 'I prefer not to answer']
+                'options': ['Less than high school', 'High school/GED', 'Some college', '2-year college degree', '4-year college degree', 'Masters degree', 'Professional degree(JD, MD)', 'Doctoral degree', 'I prefer not to answer']
             },
+            # 'prev_mturk_algo_participation': {
+            #     'question_text': 'Have you participated in algorithm-related studies on Amazon Mechanical turk before?',
+            #     'options': ['Yes', 'No']
+            # },
         }
 
         return render(request, 'exit-survey.html', {'questions': exit_survey_questions})
@@ -1218,7 +1226,12 @@ class ExitSurveyView(View):
 
         survey_response.age_bracket = request.POST.get('age')
         survey_response.pronoun = request.POST.get('pronoun')
-        survey_response.race_ethnicity = request.POST.get('raceeth')
+        survey_response.race = request.POST.get('race')
+        survey_response.ethnicity = request.POST.get('ethnicity')
+        survey_response.confidence_in_math = request.POST.get(
+            'confidence_in_math')
+        survey_response.prev_mturk_algo_participation_number = request.POST.get(
+            'prev_mturk_algo_participation_number')
         survey_response.highest_level_of_education = request.POST.get(
             'education')
         survey_response.mturk_id_attempt_2 = request.POST.get(
@@ -1226,6 +1239,9 @@ class ExitSurveyView(View):
 
         if survey_response.mturk_id_attempt_1.strip() == survey_response.mturk_id_attempt_2.strip():
             survey_response.final_mturk_id = survey_response.mturk_id_attempt_1.strip()
+        else:
+            # Ideally redirect them to choose one ID
+            pass
 
         survey_response.completed = True
         survey_response.save()
