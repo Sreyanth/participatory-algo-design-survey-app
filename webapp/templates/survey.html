@@ -19,11 +19,11 @@
       <div class="accordion-item">
         <h2 class="accordion-header" id="{{ attr_class|slugify }}">
           <button
-            class="accordion-button {% if forloop.first %}show{% else %}collapsed{% endif %}"
+            class="accordion-button"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#flush-{{ attr_class|slugify }}"
-            aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-expanded="true"
             aria-controls="flush-{{ attr_class|slugify }}"
           >
             {{ attr_class }}
@@ -31,7 +31,7 @@
         </h2>
         <div
           id="flush-{{ attr_class|slugify }}"
-          class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+          class="accordion-collapse collapse show"
           aria-labelledby="{{ attr_class|slugify }}"
           data-bs-parent="#attrs-accordion"
         >
