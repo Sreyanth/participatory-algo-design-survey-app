@@ -1097,6 +1097,10 @@ class FollowUpQuestionsView(View):
             if answer:
                 continue
 
+            if follow_up_questions[question]['type'] == 'number_input':
+                if answer == 0:
+                    continue
+
             return question, follow_up_questions[question]
 
         return None, None
@@ -1170,9 +1174,9 @@ class FollowUpQuestionsView(View):
         else:
             answer = getattr(survey_response, question_id)
 
-            if not answer:
+            if answer != None:
                 setattr(survey_response, question_id,
-                        request.POST.get('answer'))
+                        request.POST.get('answer').strip())
 
         survey_response.save()
 
@@ -1224,7 +1228,7 @@ class ExitSurveyView(View):
 
         survey_response = request.user.mech_task_survey_response
 
-        survey_response.age_bracket = request.POST.get('age')
+        survey_response.age = request.POST.get('age')
         survey_response.pronoun = request.POST.get('pronoun')
         survey_response.race = request.POST.get('race')
         survey_response.ethnicity = request.POST.get('ethnicity')
