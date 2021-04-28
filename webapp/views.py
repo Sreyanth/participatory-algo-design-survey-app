@@ -245,6 +245,7 @@ class ConsentView(View):
 
         age_check = submitted_form.get('age_check')
         consent_check = submitted_form.get('consent_check')
+        only_once_check = submitted_form.get('only_once_check')
         read_information_check = submitted_form.get(
             'read_information_check')
         mturk_id_1 = submitted_form.get('mturk_id_1').strip()
@@ -258,6 +259,8 @@ class ConsentView(View):
             error_message = 'You need to read and understand the information above'
         elif consent_check != 'true':
             error_message = 'You need to consent to the survey policies to continue'
+        elif only_once_check != 'true':
+            error_message = 'You need to agree that you will take this survey only once to continue'
         elif len(mturk_id_1) == 0:
             error_message = 'You need to input your MTurk ID to proceed'
         elif len(mturk_id_2) == 0:

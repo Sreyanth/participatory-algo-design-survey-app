@@ -195,12 +195,20 @@ textarea {
   margin-bottom: 10px;
 }
 
-/* Style the radio buttons */
+/* Style the radio buttons & checkboxes */
 
 .form-check {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
+}
+
+/* Change style for checkboxes in consent form */
+
+.consent-form .form-check {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: none;
 }
 
 /* Cards */
