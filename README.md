@@ -31,17 +31,17 @@ Create the DB and tables.
 ./run_dev_server.sh
 ```
 
-This should open the server at [localhost:8000](localhost:8000).
+This should open the server at http://localhost:8000.
 
 ### Setup the mechanical survey
 
-Open the admin page at [localhost:8000/admin](localhost:8000/admin). Log in using the admin login details as created with the `createsuperuser` command before.
+Open the admin page at http://localhost:8000/admin. Log in using the admin login details as created with the `createsuperuser` command before.
 
-Now, open the following url [localhost:8000/setup-mech-task](localhost:8000/setup-mech-task). It will automatically create everything that is needed (like creating the treatment conditions, algorithms, read the students into the system etc.,)
+Now, open the following url http://localhost:8000/setup-mech-task. It will automatically create everything that is needed (like creating the treatment conditions, algorithms, read the students into the system etc.,)
 
 ## Testing different treatment arms
 
-You can use the magic links to test any treatment arm as needed. To get the magic links, visit: [localhost:8000/api/get-test-user/help](localhost:8000/api/get-test-user/help).
+You can use the magic links to test any treatment arm as needed. To get the magic links, visit: http://localhost:8000/api/get-test-user/help.
 
 Visiting any of these links will automatically create a dummy user and assign that user to that specific treatment arm (instead of the randomization).
 
