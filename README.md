@@ -66,13 +66,31 @@ We use SQLite as the database in the dev environment. The file `db.sqlite3` is w
 
 We use PostgreSQL as the database in production. You can use the `psql` tool to access the tables and exporting the data into CSV. Right now, there is no backup script for this.
 
-You can't access the data with any PGAdmin tool as the port 5432 is not publicly accessible.
+You can't access the data directly with any PGAdmin tool as the port 5432 is not publicly accessible.
+
+Instead, we can do an SSH tunnel (the idea is to create a dummy local server, that will relay all requests to the Heinz server via SSH).
+
+```bash
+ssh -L 5432:localhost:5432 -l your_username study.heinz.cmu.edu
+```
+
+Then, open some pgadmin tool (like https://www.pgadmin.org/), and connect to localhost:5432. Our database name is `survey`. For the login details, check the `survey/settings.py` file.
+
+> **NOTE**: Remember to connect to Campus VPN to be able to SSH to the Heinz server.
 
 ## App refresh / deployment
 
-> **NOTE:** Always deploy the `main` branch. If there is a different branch, that branch MUST be pulled into the `main` branch after appropriate testing.
+### SSH to the Heinz server
+
+> **NOTE**: Remember to connect to Campus VPN to be able to SSH to the Heinz server.
+
+```bash
+ssh -l your_username study.heinz.cmu.edu
+```
 
 ### Get the new codebase
+
+> **NOTE:** Always deploy the `main` branch. If there is a different branch, that branch MUST be pulled into the `main` branch after appropriate testing.
 
 Use `git` to get the new codebase in the `main` branch.
 
