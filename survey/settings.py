@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,15 +28,12 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'uax#z&+3&o1ct_4rw_taxn_Sreyanth_h1jp+d=_lu6vdv()5tqz2&pryp&'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 # Make this only the domain after we are done with testing
 ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
