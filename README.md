@@ -88,6 +88,14 @@ Then, open some pgadmin tool (like https://www.pgadmin.org/), and connect to loc
 ssh -l your_username study.heinz.cmu.edu
 ```
 
+### Go to the code directory
+
+```bash
+cd /home/smora/participatory_algo_design_survey
+```
+
+You will be inside the repo. You can double check this by using the `ls` command.
+
 ### Get the new codebase
 
 > **NOTE:** Always deploy the `main` branch. If there is a different branch, that branch MUST be pulled into the `main` branch after appropriate testing.
