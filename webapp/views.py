@@ -569,7 +569,7 @@ class UnderstandPaymentStructureView(View):
         submitted_form = request.POST
 
         attention_statement = '''
-        During the official round, you will receive additional bonus money based on the accuracy of the official estimates. You can earn $1 to $5 depending on how close the official estimates are to the actual ranks.
+        You will receive additional bonus money based on the accuracy of the final predictions. You can earn $1 to $5 depending on how close the final predictions are to students' actual performances.
         '''.strip().replace('\n', '').replace('\t', '')
 
         submitted_attention_statement = submitted_form.get(
