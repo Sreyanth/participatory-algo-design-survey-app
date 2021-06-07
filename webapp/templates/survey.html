@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% block body_content %}
-
 <div class="row">
   <div class="col-md-12">
     <h1>Prediction #{{ estimate_number }} of 20</h1>
@@ -22,18 +21,17 @@
             class="accordion-button"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#flush-{{ attr_class|slugify }}"
+            data-bs-target="#panelsStayOpen-{{ attr_class|slugify }}"
             aria-expanded="true"
-            aria-controls="flush-{{ attr_class|slugify }}"
+            aria-controls="panelsStayOpen-{{ attr_class|slugify }}"
           >
             {{ attr_class }}
           </button>
         </h2>
         <div
-          id="flush-{{ attr_class|slugify }}"
+          id="panelsStayOpen-{{ attr_class|slugify }}"
           class="accordion-collapse collapse show"
           aria-labelledby="{{ attr_class|slugify }}"
-          data-bs-parent="#attrs-accordion"
         >
           <!-- Accordion body starts here -->
           <div class="accordion-body">
