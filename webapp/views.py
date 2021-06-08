@@ -48,7 +48,7 @@ STUDENT_ATTRIBUTES['Study Experience Characteristics'] = [
     {
         'text_to_show': 'Reads 30 minutes a day',
         'attr_id': 'read30MinsADay',
-        'description': 'Whether the student reads for pleasure for 30 minutes/day',
+        'description': 'Whether the student reads for pleasure for at least 30 minutes/day',
     },
     {
         'text_to_show': 'Minutes per week spent in English',
