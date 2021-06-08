@@ -13,7 +13,7 @@
       the student.
     </p>
 
-    <div class="accordion accordion-flush mb-4" id="attrs-accordion">
+    <div class="accordion accordion-flush mb-12" id="attrs-accordion">
       {% for attr_class, attrs in attributes.items %}
       <div class="accordion-item">
         <h2 class="accordion-header" id="{{ attr_class|slugify }}">
@@ -73,7 +73,7 @@
     <div class="card">
       <div class="card-body">
         <p class="fw-bold">Model's estimate</p>
-        <p class="fs-1">{{ question.model_estimate }}</p>
+        <p class="fs-1">{{ question.model_estimate | floatformat:"0" }}</p>
         {% if use_only_model_estimates_for_bonus_calc %}
         <p class="sub-text small-text">
           Because you have chosen to use the model’s prediction as the final prediction, your
@@ -120,7 +120,6 @@
               placeholder="0-100"
               name="user_estimate"
               required
-              autofocus
             />
             <label for="user_estimate">Enter your prediction (1-100)</label>
           </div>
@@ -165,7 +164,6 @@
               placeholder="0-100"
               name="user_estimate"
               required
-              autofocus
             />
             <label for="user_estimate">Enter your prediction (1-100)</label>
           </div>
