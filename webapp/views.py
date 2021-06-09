@@ -295,6 +295,7 @@ class ConsentView(View):
 
 
 class InstructionsView(View):
+
     def get(self, request):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
@@ -305,10 +306,14 @@ class InstructionsView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
-        survey_response = request.user.mech_task_survey_response
+        user_ans = request.POST.getlist('answers')
+        user_understood_instruction = (user_ans == ['A', 'D'])
 
+        survey_response = request.user.mech_task_survey_response
         survey_response.read_first_instruction = True
         survey_response.read_percentile_description = True
+        survey_response.user_understood_first_instruction = user_understood_instruction
+        survey_response.user_first_instruction_ans = user_ans
         survey_response.save()
 
         if survey_response.user_group.can_change_attributes:
@@ -912,7 +917,7 @@ class SurveyView(View):
 
                 if float(user_estimate) < lower_estimate or float(user_estimate) > upper_estimate:
                     error_message = 'Your estimate should be within %s and %s' % (
-                        str(lower_estimate), str(upper_estimate))
+                        str(round(lower_estimate,0)), str(round(upper_estimate,0)))
 
                     no_of_estimates_done = survey_response.number_of_estimates_done
                     sample = question.sample

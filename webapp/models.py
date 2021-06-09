@@ -89,6 +89,10 @@ class MechTaskSurveyResponse(TimestampedModel):
     chose_bonus_baseline = models.BooleanField(blank=True, null=True)
     number_of_estimates_done = models.IntegerField(default=0)
 
+    # Fields to track their understanding of the tasks
+    user_first_instruction_ans = models.CharField(max_length=500, blank=True, null=True)
+    user_understood_first_instruction = models.BooleanField(blank=True, null=True)
+
     # User choices
     use_model_estimates_for_bonus_calc = models.BooleanField(
         blank=True, null=True)
