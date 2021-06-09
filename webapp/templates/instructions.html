@@ -1,5 +1,15 @@
 {% extends "base.html" %} {% block body_content %}
 
+<script type="text/javascript">
+$(document).ready(function () {
+  var checkBoxes = $('.form-check-input');
+  checkBoxes.change(function () {
+      $('#checkBtn').prop('disabled', checkBoxes.filter(':checked').length < 2);
+  });
+  $('.form-check-input').change();
+});
+</script>
+
 <div class="row">
   <div class="col-md-12">
     <h1>Read Carefully</h1>
@@ -21,11 +31,37 @@
 
     <form class="" action="" method="post">
       {% csrf_token %}
-      <button type="submit" name="button" class="btn btn-primary btn-lg w-100">
+        If Jimmy has a score of 77 on the standardized reading test, which of the following <b>two</b> statements are true? Choose all that apply.
+
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+        {% endif %}
+
+        <div class="form-check">
+          <label class="form-check-label" for="an1">
+            Jimmy was in the 77th (77%) percentile of all students
+          </label>
+          <input class="form-check-input" type="checkbox" value="A" id="an1" name='answers'>     
+          <label class="form-check-label" for="an2">
+            Jimmy performed better than 23% of the other students
+          </label>
+          <input class="form-check-input" type="checkbox" value="B" id="an2" name='answers'>
+          <label class="form-check-label" for="an2">
+            Jimmy performed worse than 77% of the other students
+          </label>
+          <input class="form-check-input" type="checkbox" value="C" id="an2" name='answers'>
+
+          <label class="form-check-label" for="an3">
+             Jimmy performed better than 77% of the other students
+          </label>
+          <input class="form-check-input" type="checkbox" value="D" id="an3" name='answers'>      
+        </div>
+      <button type="submit" name="button" class="btn btn-primary btn-lg w-100" id='checkBtn'>
         Continue
       </button>
     </form>
-  </div>
+
+  </div>  
 </div>
 
 {% endblock %}
