@@ -92,6 +92,8 @@ class MechTaskSurveyResponse(TimestampedModel):
     # Fields to track their understanding of the tasks
     user_first_instruction_ans = models.CharField(max_length=500, blank=True, null=True)
     user_understood_first_instruction = models.BooleanField(blank=True, null=True)
+    # the answer for the field is True so it's equivalent to understood last instruction
+    user_last_instruction_ans = models.CharField(max_length=500, blank=True, null=True)
 
     # User choices
     use_model_estimates_for_bonus_calc = models.BooleanField(
