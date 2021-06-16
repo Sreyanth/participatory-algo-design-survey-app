@@ -960,14 +960,14 @@ class FollowUpQuestionsView(View):
             'model_estimate_average_error': {
                 # 'heading_text': 'Average error of the model',
                 'question_text': 'On average, how many points do you think the model’s predictions are away from students’ actual performances',
-                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 1 would mean that you think the model’s predictions are off by 1 point on average.'],
+                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'self_estimate_average_error': {
                 # 'heading_text': 'Average error of your estimates',
                 'question_text': 'On average, how many points do you think your predictions are away from students’ actual performances?',
-                'sub_texts': ['An answer of 0 would mean that you think you perfectly predicts all students\' performances. An answer of 1 would mean that you think the model’s predictions are off by 1 point on average.'],
+                'sub_texts': ['An answer of 0 would mean that you think you perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
@@ -1200,16 +1200,16 @@ class ExitSurveyView(View):
 
         exit_survey_questions = {
             'pronoun': {
-                'question_text': 'What is your pronoun?',
-                'options': ['He/his', 'She/her', 'They/their', 'Other', 'I prefer not to answer']
+                'question_text': 'What are your pronouns?',
+                'options': ['He/his', 'She/her', 'They/their', 'Ze/zir','None of the above','I prefer not to answer']
             },
             'race': {
                 'question_text': 'How do you identify your race?',
-                'options': ['White', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'Other', 'I decline to answer']
+                'options': ['White', 'Black or African American', 'Asian', 'American Indian or Alaska Native', 'Middle Eastern or North African', 'Native Hawaiian or other pacific islander', 'Multi', 'None of the above', 'I prefer not to answer']
             },
             'ethnicity': {
                 'question_text': 'How do you identify your ethnicity?',
-                'options': ['Hispanic or Latino', 'Not Hispanic or Latino', 'I decline to answer']
+                'options': ['Hispanic or Latino', 'Not Hispanic or Latino', 'I prefer not to answer']
             },
             'confidence_in_math': {
                 'question_text': 'How would you rate your level of confidence in math?',
