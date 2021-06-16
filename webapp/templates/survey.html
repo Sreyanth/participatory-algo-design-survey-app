@@ -51,7 +51,7 @@
             {% for attr in attrs %}
             <div class="attr-group--list-item">
               <div class="attr-group--list-item-heading">
-                <span>{{ attr.text_to_show }}: {{ attr.value }}</span>
+                <span>{{ attr.text_to_show }}: <span style='color:orange'>{{ attr.value }}</span></span>
               </div>
               <div class="attr-group--list-item-description">
                 <span>{{ attr.description }}</span>
