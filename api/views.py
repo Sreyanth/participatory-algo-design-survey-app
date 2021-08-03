@@ -137,16 +137,18 @@ class CreateLinearRegressionView(View):
 
 class GetTestUserView(View):
     def get(self, request, slug):
-        allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
-                         'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
+        # allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
+        #                  'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
+
+        allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed']
 
         if slug not in allowed_slugs:
             response_to_return = 'Click on the following links to get a test user for that group: '
             response_to_return += '<br/><br/>'
 
-            for i in allowed_slugs:
-                link = '/api/get-test-user/' + i
-                response_to_return += i + ' group:     <a href="' + \
+            for name in allowed_slugs:
+                link = '/api/get-test-user/' + name
+                response_to_return += name + ' group:     <a href="' + \
                     link + '">' + link + '</a><br/><br/>'
 
             return HttpResponse(response_to_return)
