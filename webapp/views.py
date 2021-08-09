@@ -915,9 +915,12 @@ class SurveyView(View):
                 if upper_estimate > 100:
                     upper_estimate = 100
 
+                lower_estimate = round(lower_estimate,0)
+                upper_estimate = round(upper_estimate,0)
+
                 if float(user_estimate) < lower_estimate or float(user_estimate) > upper_estimate:
                     error_message = 'Your estimate should be within %s and %s' % (
-                        str(round(lower_estimate,0)), str(round(upper_estimate,0)))
+                        str(lower_estimate), str(upper_estimate))
 
                     no_of_estimates_done = survey_response.number_of_estimates_done
                     sample = question.sample
