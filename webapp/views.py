@@ -1009,7 +1009,7 @@ class FollowUpQuestionsView(View):
                 'scale': ['Not representative at all', 'Slightly representative', 'Moderately representative', 'Very representative', 'Extremely representative'],
             },
             'transparency': {
-                'question_text': 'How transparent would you rate the model\'s prediction process? ',
+                'question_text': 'How transparent would you rate the model’s prediction process? ',
                 'type': 'likert',
                 'scale': ['Not at all transparent', 'Slightly transparent', 'Moderately transparent', 'Very transparent', 'Extremely transparent'],
             },
@@ -1028,7 +1028,7 @@ class FollowUpQuestionsView(View):
                     },
                     {
                         'question_id': 'fairness_absent_students',
-                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model\' predictions to decide some part of the students’ final grade if the students were unable to attend exams?',
+                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model’s predictions to decide some part of the students’ final grade if the students were unable to attend exams?',
                         'scale': ['Not at all fair', 'Slightly fair', 'Moderately fair', 'Very fair', 'Extremely fair'],
                     },
                 ],
@@ -1039,7 +1039,7 @@ class FollowUpQuestionsView(View):
             },
 
             'likeliness_to_use_model': {
-                'question_text': 'How likely would you be to use the model\'s predictions to complete this task in the future?',
+                'question_text': 'How likely would you be to use the model’s predictions to complete this task in the future?',
                 'type': 'likert',
                 'scale': ['Very unlikely', 'unlikely', 'undecided', 'likely', 'very likely'],
             },
