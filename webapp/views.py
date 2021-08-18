@@ -183,6 +183,7 @@ class StartSurveyView(View):
         # Randomly assign a survey group
         # Right now, we fetch all groups all the time. We can optimize this.
         # TODO: optimize this workflow.
+
         # survey_response.user_group = random.choice(
         #     MechTaskUserGroup.objects.all())
         survey_response.user_group = random.choice(
