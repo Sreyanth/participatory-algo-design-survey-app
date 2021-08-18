@@ -184,8 +184,12 @@ class StartSurveyView(View):
         # Right now, we fetch all groups all the time. We can optimize this.
         # TODO: optimize this workflow.
 
+        # survey_response.user_group = random.choice(
+        #     MechTaskUserGroup.objects.all())
+
         survey_response.user_group = random.choice(
-            MechTaskUserGroup.objects.all())
+        MechTaskUserGroup.objects.get(id=1), MechTaskUserGroup.objects.get(id=2), MechTaskUserGroup.objects.get(id=3), \
+        MechTaskUserGroup.objects.get(id=4))
 
         survey_response.save()
 
