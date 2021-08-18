@@ -186,6 +186,7 @@ class StartSurveyView(View):
 
         # survey_response.user_group = random.choice(
         #     MechTaskUserGroup.objects.all())
+        
         survey_response.user_group = random.choice(
             [MechTaskUserGroup.objects.get(name="Cannot change outcome"), 
               MechTaskUserGroup.objects.get(name="Use freely"),
