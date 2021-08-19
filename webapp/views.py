@@ -184,15 +184,8 @@ class StartSurveyView(View):
         # Right now, we fetch all groups all the time. We can optimize this.
         # TODO: optimize this workflow.
 
-        # survey_response.user_group = random.choice(
-        #     MechTaskUserGroup.objects.all())
-        
         survey_response.user_group = random.choice(
-            [MechTaskUserGroup.objects.get(name="Cannot change outcome"), 
-              MechTaskUserGroup.objects.get(name="Use freely"),
-              MechTaskUserGroup.objects.get(name="Adjust by 10 percentiles"),
-              MechTaskUserGroup.objects.get(name="Adjust by 10 percentiles - new bonus scheme")]
-        )
+            MechTaskUserGroup.objects.filter(in_production=True))
 
         survey_response.save()
 
@@ -922,8 +915,8 @@ class SurveyView(View):
                 if upper_estimate > 100:
                     upper_estimate = 100
 
-                lower_estimate = round(lower_estimate,0)
-                upper_estimate = round(upper_estimate,0)
+                lower_estimate = round(lower_estimate, 0)
+                upper_estimate = round(upper_estimate, 0)
 
                 if float(user_estimate) < lower_estimate or float(user_estimate) > upper_estimate:
                     error_message = 'Your estimate should be within %s and %s' % (
@@ -1211,7 +1204,7 @@ class ExitSurveyView(View):
         exit_survey_questions = {
             'pronoun': {
                 'question_text': 'What are your pronouns?',
-                'options': ['He/his', 'She/her', 'They/their', 'Ze/zir','None of the above','I prefer not to answer']
+                'options': ['He/his', 'She/her', 'They/their', 'Ze/zir', 'None of the above', 'I prefer not to answer']
             },
             'race': {
                 'question_text': 'How do you identify your race?',

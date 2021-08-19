@@ -36,6 +36,7 @@ class MechTaskUserGroupAdmin(admin.ModelAdmin):
         'can_change_algorithm',
         'has_deception',
         'uses_proposed_payment_scheme',
+        'in_production'
     )
 
 
