@@ -31,6 +31,9 @@ class MechTaskUserGroup(TimestampedModel):
     algo_attr_attention_check_statement = models.CharField(
         max_length=1000, default='')
 
+    # A flag to control which groups will be in prod
+    in_production = models.BooleanField(default=True)
+
     def __str__(self):
         return self.name
 
@@ -90,10 +93,13 @@ class MechTaskSurveyResponse(TimestampedModel):
     number_of_estimates_done = models.IntegerField(default=0)
 
     # Fields to track their understanding of the tasks
-    user_first_instruction_ans = models.CharField(max_length=500, blank=True, null=True)
-    user_understood_first_instruction = models.BooleanField(blank=True, null=True)
+    user_first_instruction_ans = models.CharField(
+        max_length=500, blank=True, null=True)
+    user_understood_first_instruction = models.BooleanField(
+        blank=True, null=True)
     # the answer for the field is True so it's equivalent to understood last instruction
-    user_last_instruction_ans = models.CharField(max_length=500, blank=True, null=True)
+    user_last_instruction_ans = models.CharField(
+        max_length=500, blank=True, null=True)
 
     # User choices
     use_model_estimates_for_bonus_calc = models.BooleanField(
