@@ -29,8 +29,20 @@
 
     {% endif %}
 
+    {% if user_group.uses_proposed_payment_scheme %}
+      <p>
+      You will receive $1 for completing this survey.
+      </p>
+
+    {% else %}
+      <p>
+      You will receive $2 for completing this survey.
+      </p>
+
+    {% endif %}
+
     <p>
-      You will receive additional bonus money based
+      Additionally, you will receive bonus money based
       on the accuracy of the final predictions. You can earn $1 to $5 depending
       on how close the final predictions are to students' actual performances.
     </p>
