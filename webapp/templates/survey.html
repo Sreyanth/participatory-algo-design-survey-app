@@ -78,7 +78,7 @@
         <p class="sub-text small-text">
           Because you have chosen to use the model’s prediction as the final prediction, your
           prediction for the student’s percentile on the standardized reading test
-          is {{ question.model_estimate }}. This is the number that is used to
+          is {{ question.model_estimate | floatformat:"0" }}. This is the number that is used to
           determine your bonus.
         </p>
         {% endif %}
