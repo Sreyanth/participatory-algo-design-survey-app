@@ -774,27 +774,35 @@ class SurveyView(View):
         })
 
         estimates = survey_response.survey_estimates.all()
-        use_model_for_bonus = survey_response.use_model_estimates_for_bonus_calc
 
+        # By default, we will use the user's predictions to calculate the bonus
         use_model_for_bonus = False
 
+        # Unless, the user is in the can't change outcome group
         if survey_response.user_group.use_model_estimates_only:
+            # use_model_estimates_only is only True for the can't change outcome group
+
+            # That too, only if the user specifically selected that their bonus is calculated based on
+            # the model's prediction and NOT theirs.
             if survey_response.use_model_estimates_for_bonus_calc:
                 use_model_for_bonus = True
 
         user_estimates = []
+        model_estimates = []
         y_trues = []
 
         for estimate in estimates:
             y_trues.append(estimate.real_score)
-            if use_model_for_bonus:
-                user_estimates.append(estimate.model_estimate)
-            else:
-                user_estimates.append(estimate.user_estimate)
+            model_estimates.append(estimate.model_estimate)
+            user_estimates.append(estimate.user_estimate)
 
-        devs = [a_i - b_i for a_i, b_i in zip(user_estimates, y_trues)]
-        devs = [np.abs(i) for i in devs]
-        avg_devs = np.mean(devs)
+        user_devs = [np.abs(a_i - b_i)
+                     for a_i, b_i in zip(user_estimates, y_trues)]
+        avg_user_dev = np.mean(user_devs)
+
+        model_devs = [np.abs(a_i - b_i)
+                      for a_i, b_i in zip(model_estimates, y_trues)]
+        avg_model_dev = np.mean(model_devs)
 
         bonus_calc_to_use = bonus_scheme
 
@@ -803,13 +811,26 @@ class SurveyView(View):
 
         bonus = 0
 
+        if use_model_for_bonus:
+            avg_devs = avg_model_dev
+        else:
+            avg_devs = avg_user_dev
+
         for limit in bonus_calc_to_use:
             if avg_devs <= limit:
                 bonus = bonus_calc_to_use[limit]
                 break
 
+        if survey_response.user_group.uses_proposed_payment_scheme:
+            survey_response.base_rate = 1
+        else:
+            survey_response.base_rate = 2
+
         survey_response.bonus = bonus
         survey_response.average_deviation = avg_devs
+        survey_response.used_model_for_bonus = use_model_for_bonus
+        survey_response.human_aae = avg_user_dev
+        survey_response.model_aae = avg_model_dev
         survey_response.save()
 
     def get_attrs(self, sample, attributes_to_show):
