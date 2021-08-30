@@ -163,10 +163,21 @@ class MechTaskSurveyResponse(TimestampedModel):
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
 
-    # Bonus related fields
+    # Payment & bonus related fields
+    base_rate = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
     bonus = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
+
+    # Average absolute error ~ average_deviation
     average_deviation = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+
+    used_model_for_bonus = models.BooleanField(
+        blank=True, null=True)
+    human_aae = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    model_aae = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
 
     completed = models.BooleanField(default=False)
