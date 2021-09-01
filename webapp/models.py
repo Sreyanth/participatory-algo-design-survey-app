@@ -120,10 +120,14 @@ class MechTaskSurveyResponse(TimestampedModel):
     # Follow-up questions
     model_estimate_average_error = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
+    model_estimate_average_error_when_user_did_not_select_model = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
     self_estimate_average_error = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
 
     model_estimate_confidence = models.CharField(
+        max_length=255, blank=True, null=True)
+    model_estimate_confidence_when_user_did_not_select_model = models.CharField(
         max_length=255, blank=True, null=True)
     self_estimate_confidence = models.CharField(
         max_length=255, blank=True, null=True)
@@ -162,6 +166,12 @@ class MechTaskSurveyResponse(TimestampedModel):
         max_length=255, blank=True, null=True)
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
+
+    # Attention check - in exit survey
+    model_performance_as_per_user = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    model_performance_correctly_identified = models.BooleanField(
+        blank=True, null=True)
 
     # Payment & bonus related fields
     base_rate = models.DecimalField(
