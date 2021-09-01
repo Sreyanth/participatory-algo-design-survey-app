@@ -988,6 +988,13 @@ class FollowUpQuestionsView(View):
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
+            'model_estimate_average_error_when_user_did_not_select_model': {
+                # 'heading_text': 'Average error of the model',
+                'question_text': 'On average, how many points do you think the model’s predictions would have been away from students’ actual performances if you chose to use the model instead at the beginning of the prediction tasks?',
+                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
+                'type': 'number_input',
+                'label': 'Enter your answer (0-100)',
+            },
             'self_estimate_average_error': {
                 # 'heading_text': 'Average error of your estimates',
                 'question_text': 'On average, how many points do you think your predictions are away from students’ actual performances?',
@@ -998,6 +1005,12 @@ class FollowUpQuestionsView(View):
             'model_estimate_confidence': {
                 # 'heading_text': 'Confidence in the model\'s estimates',
                 'question_text': 'How much confidence do you have in the statistical model’s predictions?',
+                'type': 'likert',
+                'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
+            },
+            'model_estimate_confidence_when_user_did_not_select_model': {
+                # 'heading_text': 'Confidence in the model\'s estimates',
+                'question_text': 'How much confidence do you think you would have in the statistical model’s predictions if you chose to use the model instead at the beginning of the prediction tasks?',
                 'type': 'likert',
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
             },
@@ -1070,7 +1083,11 @@ class FollowUpQuestionsView(View):
             },
         })
 
-        self_estimates_only_questions = ['why_chose_self_estimate']
+        self_estimates_only_questions = [
+            'why_chose_self_estimate',
+            'model_estimate_average_error_when_user_did_not_select_model',
+            'model_estimate_confidence_when_user_did_not_select_model',
+        ]
 
         model_estimates_only_questions = [
             'model_estimate_average_error',

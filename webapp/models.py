@@ -120,10 +120,14 @@ class MechTaskSurveyResponse(TimestampedModel):
     # Follow-up questions
     model_estimate_average_error = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
+    model_estimate_average_error_when_user_did_not_select_model = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
     self_estimate_average_error = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
 
     model_estimate_confidence = models.CharField(
+        max_length=255, blank=True, null=True)
+    model_estimate_confidence_when_user_did_not_select_model = models.CharField(
         max_length=255, blank=True, null=True)
     self_estimate_confidence = models.CharField(
         max_length=255, blank=True, null=True)
