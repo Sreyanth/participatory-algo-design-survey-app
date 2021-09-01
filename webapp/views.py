@@ -1266,7 +1266,21 @@ class ExitSurveyView(View):
             # },
         }
 
-        return render(request, 'exit-survey.html', {'questions': exit_survey_questions})
+        if survey_response.model:
+            model_performance = survey_response.model.average_error
+        else:
+            model_performance = survey_response.algorithm.average_error
+
+        # Creating a set of model performance options. In some edge cases, we may have only 3 options. But mostly it will be 5.
+        model_performance_options = set([
+            model_performance - 12,
+            float(int(model_performance / 10)*10),
+            model_performance,
+            float(int((model_performance / 10)+1)*10),
+            model_performance + 8,
+        ])
+
+        return render(request, 'exit-survey.html', {'questions': exit_survey_questions, 'model_performance_options': model_performance_options})
 
     def post(self, request):
         if user_fails_access_check(request):
@@ -1289,6 +1303,18 @@ class ExitSurveyView(View):
 
         # answer is True so it's equivalent to understood instruction
         survey_response.user_last_instruction_ans = user_ans
+
+        # Checking the model performance answer - att check 2
+        model_performance_as_per_user = request.POST.get('att_check_2')
+
+        if survey_response.model:
+            actual_model_performance = survey_response.model.average_error
+        else:
+            actual_model_performance = survey_response.algorithm.average_error
+
+        survey_response.model_performance_as_per_user = model_performance_as_per_user
+        survey_response.model_performance_correctly_identified = (
+            float(model_performance_as_per_user) == float(actual_model_performance))
 
         survey_response.mturk_id_attempt_2 = request.POST.get(
             'final_mturk_id').strip()

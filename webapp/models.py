@@ -167,6 +167,12 @@ class MechTaskSurveyResponse(TimestampedModel):
     highest_level_of_education = models.CharField(
         max_length=255, blank=True, null=True)
 
+    # Attention check - in exit survey
+    model_performance_as_per_user = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    model_performance_correctly_identified = models.BooleanField(
+        blank=True, null=True)
+
     # Payment & bonus related fields
     base_rate = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)

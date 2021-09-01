@@ -70,13 +70,37 @@
         </div>
 
         <div class="form-floating mb-3">
-          <select class="form-select"  id="att_check" name="att_check" required>
+          <select class="form-select" id="att_check" name="att_check" required>
             <option selected disabled value="">Select an option</option>
             <option>True</option>
             <option>False</option>
           </select>
           <label for="prev_mturk_algo_participation_number"
-            >Jimmy has a score of 77. This means he did better than 77% of the students.</label>
+            >Jimmy has a score of 77. This means he did better than 77% of the
+            students.</label
+          >
+        </div>
+
+        <div class="form-floating mb-3">
+          <select
+            class="form-select"
+            id="att_check_2"
+            name="att_check_2"
+            required
+            style="padding-top: 3rem; height: calc(5rem + 2px)"
+          >
+            <option selected disabled value="">Select an option</option>
+            {% for option in model_performance_options %}
+            <option value="{{ option }}">
+              {{ option }} points off on average
+            </option>
+            {% endfor %}
+          </select>
+          <label for="prev_mturk_algo_participation_number"
+            >At the beginning of the study, you learned about the model's
+            average performance. What did the survey say the model's average
+            performance was?</label
+          >
         </div>
 
         <div class="form-floating mb-3">
