@@ -1,0 +1,106 @@
+<div>
+  <h2>{{ algo }}</h2>
+  <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
+  <div>
+    <p>
+      Linear regression makes a prediction by weighing factors associated with
+      the outcome, and summing the weighted factors. It is called “linear”
+      because it tries to fit a straight line between the factors and the
+      predicted outcomes.
+    </p>
+  </div>
+  <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
+  <div>
+    <p>
+      To illustrate how it works, let’s take the example of predicting the sale
+      price of a house listing in Ames, Iowa.
+    </p>
+
+    <p>
+      We first gather a list of all the factors that we think should be
+      associated with sale prices. This may include the location, age, size, and
+      surrounding amenities of the house and so on. We collect this information
+      for the house we are selling and all the houses that were sold in this
+      city in the past.
+    </p>
+
+    <p>
+      We can then fit a “linear” or a straight line to identify any relationship
+      between the factors and the sale prices using information on houses that
+      were sold in the past.
+    </p>
+
+    <p>
+      For example, if we use only the size of the house, we can see in the graph
+      that every additional 100 sqft increases the house price by about $1,000.
+      This algorithm might then look like:
+    </p>
+
+    <pre><code>Predicted house price = -50,000 + 1000 * sqft</code></pre>
+
+    <p>
+      <img src="/static/img/algorithms/plain-linear-regression.png" alt="" />
+    </p>
+
+    <p>
+      The house we want to sell has an area of 1,000 sqft, so the predicted
+      house price is
+    </p>
+    <pre><code>-50,000 + 1,000 * 1,000 (the area of our house) = 95,000</code></pre>
+
+    <p>
+      Of course, as we consider more factors, the graph will be more complex and
+      each factor will have different weight. For example, while a larger area
+      is associated with an increase in price, the age of the house is
+      associated with a decrease in price. Such an algorithm might look like
+      this:
+    </p>
+
+    <pre><code>Predicted house price = -40,000 + 1000 * sqft - 1,000 * age</code></pre>
+
+    <p>
+      <img src="/static/img/algorithms/linear-regression.png" alt="" />
+    </p>
+
+    <p>
+      The house we want to sell has an area of 1,000 sqft, and is 10 years old,
+      so the predicted house price is <br />
+    </p>
+    <pre><code>-50,000 + 1,000 * 1,000 (the area of our house) - 1,000 * 10 = 94,000</code></pre>
+
+    <p>
+      However, regardless how many factors we consider, the idea of weighing and
+      summing them together to produce a prediction is the same.
+    </p>
+  </div>
+
+  <h3 id="{{ algo|slugify }}-3">Advantages</h3>
+  <p>
+    The advantage of this algorithm is that it is
+    <strong>simple to implement</strong>. It is
+    <strong>easy to explain</strong> the predictions of the outcomes by using
+    the weights associated with the factors.
+  </p>
+  <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
+  <p>
+    However, because it assumes the relationship between the factors and the
+    outcome can only be represented by a straight line,
+    <strong
+      >it does not capture more complex relationships like other more
+      complicated algorithms do</strong
+    >, if we don’t take care to create hints to the model. For example, a large
+    house is good, but if it is located in a cold place, it would require lots
+    of heating that can be a burden and decrease the value of the house. The
+    algorithm can also be <strong>easily influenced by outliers</strong>. So if
+    a house for reasons unknown to us is priced at an extremely high or low
+    price compared to similar houses, it will mislead our algorithm and reduce
+    its performance.
+  </p>
+  <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>
+  <p>
+    You can learn more about this algorithm
+    <a href="https://en.wikipedia.org/wiki/Linear_regression" target="_blank"
+      >here</a
+    >!
+  </p>
+</div>

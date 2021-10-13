@@ -295,7 +295,6 @@ class ConsentView(View):
 
 
 class InstructionsView(View):
-
     def get(self, request):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
@@ -390,8 +389,7 @@ class UnderstandDataView(View):
         if survey_response.user_group.can_change_algorithm:
             return HttpResponseRedirect(reverse('mech_task_pre_algo_check'))
 
-        return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
-        # return HttpResponseRedirect(reverse('mech_task_understand_model'))
+        return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
 
 
 class PreAlgoCheckView(View):
@@ -402,7 +400,7 @@ class PreAlgoCheckView(View):
         survey_response = request.user.mech_task_survey_response
 
         if survey_response.passed_algo_attr_attention_check:
-            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+            return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
 
         page_params = {
             'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
@@ -427,7 +425,7 @@ class PreAlgoCheckView(View):
             survey_response.passed_algo_attr_attention_check = True
             survey_response.save()
 
-            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+            return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
 
         error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
 
@@ -441,6 +439,45 @@ class PreAlgoCheckView(View):
         return render(request, 'pre-algo-check.html', page_params)
 
 
+class UnderstandAlgorithmView(View):
+    def get(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        if not survey_response.user_group.can_change_algorithm:
+            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+
+        if survey_response.algorithm is not None:
+            # User already selected an algorithm
+            # There is no point in showing this again.
+            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+
+        algorithms = MechTaskAlgorithm.objects.all()
+
+        headings = [
+            'How does it work?',
+            "Let's try an example",
+            'Advantages',
+            'Disadvantages',
+            'Curious to learn more?',
+        ]
+
+        return render(request, 'understand-algorithms.html', {'algorithms': algorithms, 'headings': headings})
+
+    def post(self, request):
+        if user_fails_access_check(request):
+            return HttpResponseRedirect(reverse('home_page'))
+
+        survey_response = request.user.mech_task_survey_response
+
+        survey_response.read_understand_algos = True
+        survey_response.save()
+
+        return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
+
+
 class ChooseAlgorithmView(View):
     def get(self, request):
         if user_fails_access_check(request):
@@ -449,6 +486,8 @@ class ChooseAlgorithmView(View):
         survey_response = request.user.mech_task_survey_response
 
         if not survey_response.user_group.can_change_algorithm:
+            # ID=1 is Linear Regression
+            # TODO: Don't rely on IDs as things _might_ break if we end up changing the ID of Linear Regression
             algorithm = MechTaskAlgorithm.objects.get(id=1)
             survey_response.algorithm = algorithm
             survey_response.user_selected_algorithm = algorithm

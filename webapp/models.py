@@ -89,6 +89,7 @@ class MechTaskSurveyResponse(TimestampedModel):
     passed_second_attention_check = models.BooleanField(blank=True, null=True)
     passed_algo_attr_attention_check = models.BooleanField(
         blank=True, null=True)
+    read_understand_algos = models.BooleanField(blank=True, null=True)
     chose_bonus_baseline = models.BooleanField(blank=True, null=True)
     number_of_estimates_done = models.IntegerField(default=0)
 
