@@ -464,7 +464,7 @@ class UnderstandAlgorithmView(View):
             'Curious to learn more?',
         ]
 
-        return render(request, 'understand-algorithms.html', {'algorithms': algorithms, 'headings': headings})
+        return render(request, 'understand-algorithms.html', {'algorithms': algorithms, 'headings': headings, 'main_class': 'algo-content'})
 
     def post(self, request):
         if user_fails_access_check(request):

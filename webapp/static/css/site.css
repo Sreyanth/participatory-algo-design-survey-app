@@ -13,6 +13,11 @@ main {
   /* max-width: 960px; */
 }
 
+/* Set the main's max-width to 1280px on the algo content screen */
+main.algo-content {
+  max-width: 1280px;
+}
+
 /* Text */
 h1 {
   font-weight: 400;
