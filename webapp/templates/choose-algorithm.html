@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block body_content %}
 
-<div class="row">
+<div class="row algo-selection">
   <div class="col-md-12">
     <h1>Choose the algorithm you want to use</h1>
 
@@ -40,5 +40,86 @@
     </form>
   </div>
 </div>
+
+<div class="row model-building-status">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="w-50 pt-3 m-auto">
+    <h3>Building the selected model.</h3>
+
+    <p class="lead">
+      Don't refresh or go back. You will be redirected to the next screen
+      automatically.
+    </p>
+  </div>
+</div>
+
+<div class="row model-finished-status">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="w-50 pt-3 m-auto">
+    <h3 class="text-success">Successfully built the model</h3>
+
+    <p class="lead">
+      Don't refresh or go back. You will be redirected to the next screen
+      automatically.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Model building stuff
+
+  const submit_button = document.querySelector("button");
+
+  function showProgressModal() {
+    var regular_div_area = document.getElementsByClassName("algo-selection")[0];
+    regular_div_area.style["display"] = "none";
+    document.getElementsByTagName("main")[0].style["minHeight"] =
+      "calc(100vh - 200px)";
+
+    var modal_area = document.getElementsByClassName(
+      "model-building-status"
+    )[0];
+    modal_area.style["display"] = "unset";
+  }
+
+  function showFinishedModal() {
+    var modal_area = document.getElementsByClassName(
+      "model-building-status"
+    )[0];
+    modal_area.style["display"] = "none";
+    document.getElementsByTagName("main")[0].style["minHeight"] =
+      "calc(100vh - 200px)";
+
+    var modal_area = document.getElementsByClassName(
+      "model-finished-status"
+    )[0];
+    modal_area.style["display"] = "unset";
+  }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function buildModel(data) {
+    // Sleep first
+    await sleep(4000);
+    showFinishedModal();
+    await sleep(3000);
+    submit_button.removeEventListener("click", handleSubmit);
+    submit_button.click();
+  }
+
+  submit_button.addEventListener("click", handleSubmit);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    showProgressModal();
+    buildModel();
+  }
+</script>
 
 {% endblock %}
