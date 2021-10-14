@@ -3,37 +3,38 @@
 
   <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
   <p>
-    This algorithm makes predictions by using outcomes of other a student’s
-    score by using the scores of other students who have similar
-    characteristics.
+    This algorithm predicts a student's score by taking an average of the scores
+    of other students who have similar characteristics.
   </p>
 
   <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
   <p>
-    To illustrate how it works, let’s take the example of predicting the sale
+    To illustrate how it works, let's take the example of predicting the sale
     price of a house listing.
   </p>
 
-  <p>
+  <p class="text-center">
     <img src="/static/img/algorithms/knn-regression.jpg" alt="" />
   </p>
 
   <p>
-    This algorithm then works similar to a real estate agent who assesses your
+    This algorithm works similarly to a real estate agent who assesses your
     house and suggests a listing price. You first tell the algorithm/agent all
-    the features that you think should be associated with the sales price such
+    the features that you think should be associated with the sales price, such
     as the location, age, size, the surrounding amenities of the house, and so
-    on. The agent will identify comparable houses in similar neighborhoods that
-    have similar age, area, and other features to the house you are selling. A
-    reasonable prediction for the price of your house should then be the average
-    of the prices of these similar houses.
+    on. The agent will identify comparable homes in the same or similar
+    neighborhoods with similar age, area, and other features to the place you
+    are selling. A reasonable prediction for the price of your house should then
+    be the average of the prices of these similar houses. Like the real estate
+    agent, this algorithm identifies houses similar to a given house and
+    predicts that the house's sale price is an average of the sale prices of all
+    those similar houses.
   </p>
+  
   <p>
-    For example, if your house is in a good school district and about 2,000
-    square feet. The algorithm will find houses that are in similarly good
-    school district with about the same indoor area. The average price of these
-    houses will be about $3 million, which will be the suggested sale price for
-    your listing as well.
+    Just like the real estate agent, this algorithm, identifies houses that are
+    similar to a given house, and predicts that the sale price of the house is
+    an average of the price of all those similar houses.
   </p>
 
   <h3 id="{{ algo|slugify }}-3">Advantages</h3>
@@ -46,11 +47,10 @@
 
   <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
   <p>
-    The main drawback of the approach is if we have to predict the price for a
-    house that is like no other, it will be very difficult to do so because
-    there is
-    <strong>no other “neighbors” that look similar to the house</strong>. As a
-    result it would make subpar prediction for this outlier.
+    The main drawback of this algorithm is that if we have to predict the price
+    for a house like no other, it will be challenging because there are
+    <strong>no other "neighbors" that are similar to the house</strong>. As a
+    result, it would make a subpar prediction for this outlier.
   </p>
 
   <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>

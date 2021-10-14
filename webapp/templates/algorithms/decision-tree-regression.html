@@ -2,17 +2,17 @@
   <h2>{{ algo }}</h2>
   <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
   <p>
-    If you have ever thought to yourself “if the weather is hot I will go to the
-    beach, and if it is not I will not go”, then you have used a decision tree
-    for making decisions. Intuitively, this algorithm is very similar to how we
-    make everyday decisions by using “if-this-then-that” rules. As we consider
-    more factors, the algorithm keeps asking more questions until it has
-    considered all the factors to reach a final prediction.
+    If you have ever thought to yourself, "if the weather is hot, I will go to
+    the beach, and if it is not, I will not go," then you have used a decision
+    tree for making decisions. Intuitively, this algorithm is very similar to
+    making everyday decisions using "if-this-then-that" rules. As we consider
+    more factors, the algorithm keeps asking more such questions until it has
+    considered all the elements to reach a final prediction.
   </p>
   <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
   <p>
-    To illustrate how it works, let’s take the example of predicting the sale
-    price of a house listing in Ames, Iowa.
+    To illustrate how it works, let's take the example of predicting the sale
+    price of a house listing.
   </p>
 
   <p>
@@ -20,35 +20,34 @@
   </p>
 
   <p>
-    We first gather a list of all the factors that we think should be associated
-    with sale prices. This may include the location, age, size, and surrounding
-    amenities of the house and so on. We collect this information for the house
-    we are selling and all the houses that were sold in this city in the past.
+    We first gather all the factors that we think should be associated with the
+    sale prices, such as the location, age, size, the surrounding amenities of
+    the house, and whether the home has painted walls, and so on.
   </p>
 
   <p>
-    The algorithm will then make up rules based on what factors distinguish a
-    cheap house from an expensive house in the past. For example, if the house
-    has an area larger than 2,500 square feet, it will be on the more expensive
-    side. It will be on the cheaper side otherwise. Next, if a house is more
-    than 2,500 square feet and has heating, it will be approximately $100,000.
-    It will be about $85,000 without heating. The list can go on.
+    The algorithm will then make rules based on what factors distinguish a cheap
+    house from an expensive one. For example, if the house is larger than 1400
+    square feet, it will be on the pricier side and the cheaper side otherwise.
+    Next, if a house is more than 1400 square feet and has high-quality
+    materials, it will be approximately $706,000, and it will be about $412,000
+    if the materials used are of not so good quality. The list can go on.
   </p>
 
   <p>
-    To predict a price for the house we are selling, the algorithm will simply
-    walk through a tree-like flow chart. After it reaches the bottom of the
-    chart, we will know what price the house should have.
+    To predict a price for the house we are selling, the algorithm will walk
+    through a tree-like flowchart. After it reaches the bottom of the chart, we
+    will know what price the house should have.
   </p>
 
   <h3 id="{{ algo|slugify }}-3">Advantages</h3>
   <p>
     The biggest advantage of the algorithm is that it is
-    <strong>intuitive and easy</strong> to explain. Like its name suggests, you
+    <strong>intuitive and easy</strong> to explain. As its name suggests, you
     can draw a decision tree showing exactly how a decision is made. It is also
     <strong>better at capturing complex relationships</strong> among the pricing
-    factors, and so <strong>can perform better</strong> than linear regressions
-    in certain cases when such relationships exist.
+    factors and <strong>performs better</strong> than linear regressions in some
+    instances when such relationships exist.
   </p>
   <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
   <p>

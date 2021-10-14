@@ -4,36 +4,17 @@
   <div class="col-md-12">
     <h1>Learn about the algorithms you can select from</h1>
 
-    <p>
-      Algorithm is a process or set of rules to be followed in calculations or
-      other problem-solving operations, especially by a computer.
-    </p>
-
-    <p>
-      For the main prediction tasks, you can choose to use an algorithm to aid
-      your predictions of students’ test scores or use your own estimations
-      exclusively. However, before you decide what to do, you will have a say in
-      what algorithm you want to use to generate predictions for the students’
-      test scores.
-    </p>
-
-    <p>
+    <p class="mb-4">
       This page gives you a brief overview of algorithms that are available to
       you to generate predictions. Please take some time to check out different
-      algorithms by clicking on the side bar. In the next page you will decide
-      which algorithm you want to use to generate predictions for the students’
-      test scores, see the performance of it, and decide if you want to use it
+      algorithms by clicking on the sidebar. On the next page, you will decide
+      which algorithm you want to use to generate predictions for the students'
+      test scores, see its performance, and determine if you're going to use it
       or not.
     </p>
 
-    <p class="mb-4">
-      Now, you will learn about the various algorithms that you can choose from
-      to get the statistical model built using the headingibutes that you've
-      seen earlier.
-    </p>
-
     <div class="understand-algo row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="left-nav sticky-top">
           <ul class="list-unstyled ps-0">
             {% for algo in algorithms %}
@@ -79,7 +60,10 @@
         </div>
       </div>
 
-      <div class="algo-content col-md-8">
+      <div
+        class="algo-content col-md-9 pl-5"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
         {% for algo in algorithms %}
         <div
           class="individual-algo-content d-none"
@@ -97,7 +81,7 @@
   var visible_content = "{{ algorithms.0|slugify }}";
   var highlighted_link = "{{ algorithms.0|slugify }}-1-link";
   // const SCROLL_LIMIT = 234;
-  const SCROLL_LIMIT = 560;
+  const SCROLL_LIMIT = 260;
   const HIGHLIGHT_COLOR = "#0c63e4";
 
   showContent(visible_content);

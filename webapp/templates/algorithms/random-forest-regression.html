@@ -1,70 +1,72 @@
 <div>
   <h2>{{ algo }}</h2>
+
   <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
   <p>
-    A
-    <a href="#" onclick="handleContent('decision-tree-regression')"
-      >decision tree</a
+    This algorithm makes predictions by building multiple
+    <em
+      ><a href="#" onclick="handleContent('decision-tree-regression')"
+        >decision trees</a
+      ></em
     >
-    represents a set of “if-this-then-that” rules and can be illustrated as a
-    decision flow chart. This algorithm makes predictions by building multiple
-    <em>decision trees</em> (hence a “forest”) and taking the average of the
-    trees’ predictions.
+    (hence a "forest") and taking the average of the trees' forecasts.
   </p>
+
   <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
   <p>
-    To illustrate how it works, let’s take the example of predicting the sale
+    To illustrate how it works, let's take the example of predicting the sale
     price of a house listing.
   </p>
 
-  <p>
+  <p class="text-center">
     <img src="/static/img/algorithms/random-forest-regression.jpg" alt="" />
   </p>
 
   <p>
     We first gather all the factors that we think should be associated with the
-    sale prices such as the location, age, size, the surrounding amenities of
-    the house, and whether the house has painted walls and so on.
+    sale prices, such as the location, age, size, the surrounding amenities of
+    the house, and whether the home has painted walls, and so on.
   </p>
 
   <p>
-    The algorithm will then make up rules based on what factors distinguish a
-    cheap house from an expensive house. For example, if the house has an area
-    larger than 2,500 square feet, it will be on the more expensive side. It
-    will be on the cheaper side otherwise. Next, if a house is more than 2,500
-    square feet and has heating, it will be approximately $100,000. It will be
-    about $85,000 without heating.
+    The algorithm will then make rules based on what factors distinguish a cheap
+    house from an expensive one. For example, if the house is larger than 1400
+    square feet, it will be on the pricier side and the cheaper side otherwise.
+    Next, if a house is more than 1400 square feet and has high-quality
+    materials, it will be approximately $706,000, and it will be about $412,000
+    if the materials used are of not so good quality.
   </p>
 
   <p>
     To predict a price for a house, the algorithm will randomly choose some of
-    the factors and use them to build multiple simple decision trees. Each of
-    the tree will be a very simple flow-chart unlike the one built by the
-    decision tree algorithm. Although each tree may give a different prediction
-    for the price, the power of the algorithm lies in averaging the trees’
-    performance. So if the first decision tree estimates the sale price to be $1
-    million and the second to be $2 million, we will say the predicated sale
-    price is $1.5 million.
+    the factors and use them to build multiple simple decision trees. Each tree
+    will be a very simple flowchart, unlike the one created by the decision tree
+    algorithm. Although each tree may give a different prediction for the price,
+    the power of the algorithm lies in averaging the trees' performance. So if
+    the first decision tree estimates the sale price to be $500,000 and the
+    second to be $412,000, we will say the predicated sale price is $456,000.
   </p>
 
   <h3 id="{{ algo|slugify }}-3">Advantages</h3>
   <p>
     Because this algorithm builds multiple decision trees,
     <strong>it often obtains better performance than a decision tree</strong>.
-    It is also <strong>less influenced</strong> by outliers (houses that for
-    some reason have unusually high or low prices compared to similar houses)
+    It is also <strong>less influenced</strong> by outliers (houses that, for
+    some reason, have unusually high or low prices compared to similar houses)
     because we take the average of all the hundreds of predictions to make a
     final prediction.
   </p>
+
   <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
   <p>
     Because the algorithm itself is complicated, it will be the most difficult
-    to explain a particular prediction it makes for a specific house. To do so,
-    we will have to find all the predictions made for it, and how each
-    prediction is made using what factors. The task can simply be too onerous.
-    Of all the algorithms presented here, it is the most akin to what policy
-    makers would call “a black box model.”
+    to explain a particular prediction for a specific house. We will have to
+    find all the predictions made and how each projection is completed using
+    what factors, and the task can be too demanding. Of all the algorithms
+    presented here, it is the most akin to what policymakers would call "a black
+    box model."
   </p>
+
   <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>
   <p>
     You can learn more about the algorithm

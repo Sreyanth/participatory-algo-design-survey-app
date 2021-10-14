@@ -5,72 +5,71 @@
     This algorithm is a type of
     <a href="#" onclick="handleContent('linear-regression')"
       >linear regression</a
-    >. Additionally, if a factor is not important to predicting the outcome, the
-    algorithm will ignore its impact on the prediction completely.
+    >. Additionally, if a factor is not important to predict the outcome, the
+    algorithm will completely ignore its impact on the prediction.
   </p>
+
   <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
   <p>
-    To illustrate how it works, let’s take the example of predicting the sale
-    price of a house listing in Ames, Iowa.
+    To illustrate how it works, let's take the example of predicting the sale
+    price of a house listing.
   </p>
 
   <p>
-    We first gather a list of all the factors that we think should be associated
-    with sale prices. This may include the location, age, size, and surrounding
-    amenities of the house and so on. We collect this information for the house
-    we are selling and all the houses that were sold in this city in the past.
+    We first gather all the factors that we think should be associated with the
+    sale prices, such as the location, age, size, the surrounding amenities of
+    the house, and whether the home has painted walls, and so on.
   </p>
 
   <p>
-    We can then fit a “linear” or a straight line to identify any relationship
-    between the factors and the sale prices using information on houses that
-    were sold in the past.
+    We can then fit a "linear" or a straight line to identify any relationship
+    between the factors and the sale prices using the information on houses sold
+    in the past.
   </p>
 
-  <p>
-    For example, if we use only the size of the house, we can see in the graph
-    that every additional 100 sqft increases the house price by about $1,000.
-    Additionally if the house has painted walls, it will raise the value by $1.
-    A linear regression algorithm might then look like:
-  </p>
-
-  <pre><code>Predicted house price = -50,000 + 1000 * sqft + 1 * painted wall</code></pre>
-
-  <p>
+  <p class="text-center">
     <img src="/static/img/algorithms/lasso-regression.jpg" alt="" />
   </p>
 
   <p>
-    The house we want to sell has an area of 1,000 sqf and painted wallt, so the
-    predicted house price is -50,000 + 1,000 * 1,000 (the area of our house) =
-    95,001
+    For example, if we use only the size of the house, we can see in the graph
+    that every additional 100 sqft increases the house price by about $90,000.
+    Additionally, if the house is built with high-quality materials, it will
+    raise the value by $60,000. A linear regression algorithm might then look
+    like this:
+  </p>
+
+  <pre><code>Predicted price = -50,000 + 90,000 * living area + 60,000 * (if quality materials) + ...</code></pre>
+
+  <p>
+    So, if the house we want to sell has an area of 1000 sq.ft and is built with
+    high-quality materials, the house prediction will be: <br />
+    <code
+      >-50,000 + 90,000 * 10 (the area of the house in 100sq.ft) + 60,000 * 1 =
+      910,000</code
+    >
   </p>
 
   <p>
-    Different from the normal linear regression model, however, this algorithm
-    will
+    However, unlike the regular linear regression model, this algorithm will
     <strong>drop factors that it considers trivial to the prediction</strong>.
-    In this case, the algorithm considers the impact of whether the house has
-    painted walls on the predictions to be too small, and subsequently drops it
-    from its consideration:
+    In this case, the algorithm considers the impact of the garage area and
+    subsequently drops it from its consideration.
   </p>
 
-  <pre><code>Predicted house price = -50,000 + 1000 * sqft</code></pre>
-
   <p>
-    So the house we want to sell will be priced at 95,000 which is similar to
-    the original prediction. Although this may seem bad at first because it
-    lowers the value slightly, the algorithm can in fact make better predictions
-    for many houses because it can focus on finding more meaningful
-    relationships between the factors and price by ignoring trivial factors.
+    Although this may seem bad at first because it lowers the value slightly,
+    the algorithm can make better predictions for many houses because it can
+    focus on finding more meaningful relationships between the factors and price
+    by ignoring trivial factors.
   </p>
 
   <h3 id="{{ algo|slugify }}-3">Advantages</h3>
   <p>
     The advantage of this algorithm is that it is
     <strong>simple to implement</strong> and
-    <strong>easy to explain</strong> the predictions of the outcome by using the
-    weights associated with each factors.
+    <strong>easy to explain</strong> the outcome predictions by using the
+    weights associated with each factor.
     <strong
       >It performs better than linear regression when there are outliers</strong
     >. Because the algorithm disregards information it deems unimportant,
@@ -82,17 +81,17 @@
     However, it suffers from the same drawbacks as
     <a href="#" onclick="handleContent('linear-regression')"
       >linear regression</a
-    >. Because it arbitrarily drops factors that do not contribute to the
-    performance of the prediction, it
+    >. Because it drops factors that do not contribute to the performance of the
+    prediction, it
     <strong
       >may drop factors that you may feel should be part of the consideration
       regardless</strong
     >. For example, the algorithm will think whether the house has painted walls
-    does not matter to the sales price. However, you may personally feel very
-    strongly about it and would like to include it in your decision-making
-    anway. <strong>It is slightly more difficult to interpret</strong> than
-    linear regression because we need justification for why some factors are
-    excluded, but easier than other models.
+    does not matter to the sales price. However, you may feel very strongly
+    about it and would like to include it in your decision-making anyway.
+    <strong>It is slightly more difficult to interpret</strong> than linear
+    regression because we need justification for why some factors are excluded
+    but easier than other models.
   </p>
   <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>
   <p>

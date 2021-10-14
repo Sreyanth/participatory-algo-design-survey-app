@@ -13,9 +13,9 @@ main {
   /* max-width: 960px; */
 }
 
-/* Set the main's max-width to 1280px on the algo content screen */
+/* Set the main's max-width on the algo content screen */
 main.algo-content {
-  max-width: 1280px;
+  max-width: 1024px;
 }
 
 /* Text */
@@ -326,5 +326,6 @@ textarea {
 }
 
 .understand-algo img {
+  max-width: 560px;
   width: 100%;
 }
