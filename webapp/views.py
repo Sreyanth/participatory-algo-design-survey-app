@@ -1022,21 +1022,21 @@ class FollowUpQuestionsView(View):
         follow_up_questions = OrderedDict({
             'model_estimate_average_error': {
                 # 'heading_text': 'Average error of the model',
-                'question_text': 'On average, how many points do you think the model’s predictions are away from students’ actual performances',
-                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
+                'question_text': "On average, how many points do you think the model's predictions are away from students' actual performances",
+                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model\'s predictions are off by 23 point on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'self_estimate_average_error': {
                 # 'heading_text': 'Average error of your estimates',
-                'question_text': 'On average, how many points do you think your predictions are away from students’ actual performances?',
-                'sub_texts': ['An answer of 0 would mean that you think you perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
+                'question_text': 'On average, how many points do you think your predictions are away from students\' actual performances?',
+                'sub_texts': ['An answer of 0 would mean that you think you perfectly predicts all students\' performances. An answer of 23 would mean that you think the model\'s predictions are off by 23 point on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'model_estimate_confidence': {
                 # 'heading_text': 'Confidence in the model\'s estimates',
-                'question_text': 'How much confidence do you have in the statistical model’s predictions?',
+                'question_text': 'How much confidence do you have in the statistical model\'s predictions?',
                 'type': 'likert',
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
             },
@@ -1048,14 +1048,14 @@ class FollowUpQuestionsView(View):
             },
             'model_estimate_average_error_when_user_did_not_select_model': {
                 # 'heading_text': 'Average error of the model',
-                'question_text': 'On average, how many points do you think the model’s predictions would have been away from students’ actual performances if you chose to use the model instead at the beginning of the prediction tasks?',
-                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model’s predictions are off by 23 point on average.'],
+                'question_text': 'On average, how many points do you think the model\'s predictions would have been away from students\' actual performances if you chose to use the model instead at the beginning of the prediction tasks?',
+                'sub_texts': ['An answer of 0 would mean that you think the model perfectly predicts all students\' performances. An answer of 23 would mean that you think the model\'s predictions are off by 23 point on average.'],
                 'type': 'number_input',
                 'label': 'Enter your answer (0-100)',
             },
             'model_estimate_confidence_when_user_did_not_select_model': {
                 # 'heading_text': 'Confidence in the model\'s estimates',
-                'question_text': 'How much confidence do you think you would have in the statistical model’s predictions if you chose to use the model instead at the beginning of the prediction tasks?',
+                'question_text': 'How much confidence do you think you would have in the statistical model\'s predictions if you chose to use the model instead at the beginning of the prediction tasks?',
                 'type': 'likert',
                 'scale': ['None', 'Little', 'Some', 'A Fair Amount', 'A Lot'],
             },
@@ -1069,20 +1069,20 @@ class FollowUpQuestionsView(View):
                 'type': 'long_text',
             },
             'why_chose_model_estimate': {
-                'question_text': 'Why did you choose to have your bonus be determined by the statistical model’s predictions instead of your predictions?',
+                'question_text': 'Why did you choose to have your bonus be determined by the statistical model\'s predictions instead of your predictions?',
                 'type': 'long_text',
             },
             'why_chose_self_estimate': {
-                'question_text': 'Why did you choose to have your bonus be determined by your predictions instead of the statistical model’s predictions?',
+                'question_text': 'Why did you choose to have your bonus be determined by your predictions instead of the statistical model\'s predictions?',
                 'type': 'long_text',
             },
             'representativeness': {
-                'question_text': 'How well do you think the model represent your assessment of the students’ performance?',
+                'question_text': 'How well do you think the model represent your assessment of the students\' performance?',
                 'type': 'likert',
                 'scale': ['Not representative at all', 'Slightly representative', 'Moderately representative', 'Very representative', 'Extremely representative'],
             },
             'transparency': {
-                'question_text': 'How transparent would you rate the model’s prediction process? ',
+                'question_text': 'How transparent would you rate the model\'s prediction process? ',
                 'type': 'likert',
                 'scale': ['Not at all transparent', 'Slightly transparent', 'Moderately transparent', 'Very transparent', 'Extremely transparent'],
             },
@@ -1101,7 +1101,7 @@ class FollowUpQuestionsView(View):
                     },
                     {
                         'question_id': 'fairness_absent_students',
-                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model’s predictions to decide some part of the students’ final grade if the students were unable to attend exams?',
+                        'question_text': 'Based on the scenarios you rated, would it be fair for the school to use the statistical model\'s predictions to decide some part of the students\' final grade if the students were unable to attend exams?',
                         'scale': ['Not at all fair', 'Slightly fair', 'Moderately fair', 'Very fair', 'Extremely fair'],
                     },
                 ],
@@ -1112,7 +1112,7 @@ class FollowUpQuestionsView(View):
             },
 
             'likeliness_to_use_model': {
-                'question_text': 'How likely would you be to use the model’s predictions to complete this task in the future?',
+                'question_text': 'How likely would you be to use the model\'s predictions to complete this task in the future?',
                 'type': 'likert',
                 'scale': ['Very unlikely', 'unlikely', 'undecided', 'likely', 'very likely'],
             },
