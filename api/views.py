@@ -137,16 +137,32 @@ class CreateLinearRegressionView(View):
 
 class GetTestUserView(View):
     def get(self, request, slug):
-        # allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
-        #                  'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
+        all_allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
+                             'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
 
-        allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed']
+        phase1_allowed_slugs = ['cant-change-outcome', 'use-freely',
+                                'adjust-by-10-original', 'adjust-by-10-proposed']
 
-        if slug not in allowed_slugs:
+        if slug not in all_allowed_slugs:
             response_to_return = 'Click on the following links to get a test user for that group: '
             response_to_return += '<br/><br/>'
 
-            for name in allowed_slugs:
+            # Show all phase 2 links first
+
+            response_to_return += '<h2>Phase 2:</h2> '
+
+            for name in all_allowed_slugs:
+                if name in phase1_allowed_slugs:
+                    continue
+                link = '/api/get-test-user/' + name
+                response_to_return += name + ' group:     <a href="' + \
+                    link + '">' + link + '</a><br/><br/>'
+
+            # Show all phase 1 links also, just in case we want to check something
+
+            response_to_return += '<br/><h2>Phase 1:</h2> '
+
+            for name in phase1_allowed_slugs:
                 link = '/api/get-test-user/' + name
                 response_to_return += name + ' group:     <a href="' + \
                     link + '">' + link + '</a><br/><br/>'
