@@ -519,12 +519,12 @@ class ChooseAlgorithmView(View):
             # Now, select a random algorithm
             deception_algo_choices = [
                 'linear-regression',
-                'ridge-regression',
+                # 'ridge-regression',
                 'lasso-regression',
                 'decision-tree-regression',
                 'random-forest-regression',
                 'kneighbors-regression',
-                'svm-regression',
+                # 'svm-regression',
             ]
 
             deception_algo_choices.remove(user_selected_algo)
