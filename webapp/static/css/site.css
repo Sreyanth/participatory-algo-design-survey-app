@@ -328,4 +328,6 @@ textarea {
 .understand-algo img {
   max-width: 560px;
   width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
