@@ -1,0 +1,109 @@
+<div>
+  <h2>{{ algo }}</h2>
+  <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
+  <div>
+    <p>
+      Linear regression predicts by weighing factors associated with the outcome
+      and summing the weighted factors. It is called "linear" because it tries
+      to fit a straight line between the characteristics and the predictions.
+    </p>
+  </div>
+  <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
+  <div>
+    <p class="text-center">
+      <img src="/static/img/algorithms/simple-linear-regression.jpg" alt="" />
+    </p>
+
+    <p>
+      To illustrate how it works, let's take the example of predicting the sale
+      price of a house listing.
+    </p>
+
+    <p>
+      We first gather all the factors that we think should be associated with
+      the sale prices, such as the location, age, size, the surrounding
+      amenities of the house, and whether the home has painted walls, and so on.
+    </p>
+
+    <p>
+      We can then fit a "linear" or a straight line to identify any relationship
+      between the factors and the sale prices using the information on houses
+      sold in the past.
+    </p>
+
+    <p>
+      For example, if we use only the size of the house, we can see in the graph
+      that every additional 100 sqft increases the house price by about
+      $100,000. This algorithm might then look like:
+    </p>
+
+    <pre><code>Predicted house price = -50,000 + 100,000 * living area in 100 sqft</code></pre>
+
+    <p class="text-center">
+      <img src="/static/img/algorithms/linear-regression.jpg" alt="" />
+    </p>
+
+    <p>
+      So, if the house we want to sell has an area of 1000 sq.ft, the house
+      price prediction will be: <br />
+      <code
+        >-50,000 + 100,000 * 10 (the area of our house in 100 sqft) =
+        950,000</code
+      >
+    </p>
+
+    <p>
+      Of course, as we consider more factors, the regression equation will be
+      more complex, and each factor will have a different weight. For example,
+      while a larger area is associated with a price increase, the age of the
+      house is associated with a price decrease. Such an algorithm might look
+      like this:
+    </p>
+
+    <pre><code>Predicted house price = -40,000 + 100,000 * living area - 10,000 * age</code></pre>
+
+    <p>
+      So, if the house we want to sell has an area of 1,000 sqft, and is 10
+      years old, the predicted house price will be <br />
+      <code
+        >-40,000 + 100,000 * 10 (the area of our house in 100sqft) - 10,000 * 10
+        = 860,000</code
+      >
+    </p>
+
+    <p>
+      Regardless of how many factors we consider, the idea of weighing and
+      summing them together to produce a prediction is the same.
+    </p>
+  </div>
+
+  <h3 id="{{ algo|slugify }}-3">Advantages</h3>
+  <p>
+    The advantage of this algorithm is that it is
+    <strong>simple to implement</strong>. It is
+    <strong>easy to explain</strong> the predictions of the outcomes by using
+    the weights associated with the factors.
+  </p>
+  <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
+  <p>
+    However, because it assumes a straight line can only represent the
+    relationship between the factors and the outcome,
+    <strong
+      >it does not capture more complex relationships like other more
+      complicated algorithms do
+    </strong>
+    if we don’t take care to create hints to the model. For example, a large
+    house is good, but if it is located in a cold place, it would require lots
+    of heating that can be a burden and decrease its value. Outliers can easily
+    influence the algorithm. So if a house for reasons unknown to us is priced
+    at an extremely high or low price compared to similar houses, it will
+    mislead our algorithm and reduce its performance.
+  </p>
+  <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>
+  <p>
+    You can learn more about this algorithm
+    <a href="https://en.wikipedia.org/wiki/Linear_regression" target="_blank"
+      >here</a
+    >!
+  </p>
+</div>

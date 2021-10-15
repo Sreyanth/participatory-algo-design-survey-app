@@ -62,7 +62,6 @@
       });
     </script>
     {% endif %}
-
   </head>
   <body>
     <nav class="navbar bg-primary">
@@ -73,7 +72,7 @@
       </div>
     </nav>
 
-    <main>{% block body_content %}{% endblock %}</main>
+    <main class="{{ main_class }}">{% block body_content %}{% endblock %}</main>
 
     <!-- Bootstrap JS -->
     <script src="/static/js/bootstrap.bundle.min.js"></script>

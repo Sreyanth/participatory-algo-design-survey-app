@@ -1,0 +1,136 @@
+{% extends "base.html" %} {% block body_content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <h1>Learn about the algorithms you can select from</h1>
+
+    <p class="mb-4">
+      This page gives you a brief overview of algorithms that are available to
+      you to generate predictions. Please take some time to check out different
+      algorithms by clicking on the sidebar. On the next page, you will decide
+      which algorithm you want to use to generate predictions for the students'
+      test scores, see its performance, and determine if you're going to use it
+      or not.
+    </p>
+
+    <div class="understand-algo row">
+      <div class="col-md-3">
+        <div class="left-nav sticky-top">
+          <ul class="list-unstyled ps-0">
+            {% for algo in algorithms %}
+            <li>
+              <button
+                class="btn btn-toggle align-items-center collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#{{ algo|slugify }}-collapse"
+                aria-expanded="false"
+                onclick="handleContent('{{ algo|slugify }}')"
+                id="{{ algo|slugify }}-button"
+              >
+                {{ algo }}
+              </button>
+              <div class="collapse" id="{{ algo|slugify }}-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  {% for heading in headings %}
+                  <li>
+                    <a
+                      href="#{{ algo|slugify }}-{{ forloop.counter }}"
+                      onclick="return scrollToElement(this)"
+                      id="{{ algo|slugify }}-{{ forloop.counter }}-link"
+                      >{{ heading }}</a
+                    >
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+
+          <form class="" action="" method="post">
+            {% csrf_token %}
+            <button
+              type="submit"
+              name="button"
+              class="btn btn-primary btn-lg w-100"
+            >
+              Continue
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div
+        class="algo-content col-md-9 pl-5"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        {% for algo in algorithms %}
+        <div
+          class="individual-algo-content d-none"
+          id="{{ algo|slugify }}-content"
+        >
+          {% include 'algorithms/'|add:algo.slug|add:'.html' with algo=algo%}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var visible_content = "{{ algorithms.0|slugify }}";
+  var highlighted_link = "{{ algorithms.0|slugify }}-1-link";
+  // const SCROLL_LIMIT = 234;
+  const SCROLL_LIMIT = 260;
+  const HIGHLIGHT_COLOR = "#0c63e4";
+
+  showContent(visible_content);
+
+  function handleContent(content_to_show) {
+    if (visible_content == content_to_show) {
+      // Don't do anything
+    } else {
+      showContent(content_to_show);
+      hideContent(visible_content);
+      visible_content = content_to_show;
+    }
+  }
+
+  function hideContent(content) {
+    document.getElementById(content + "-content").classList.add("d-none");
+    document.getElementById(content + "-button").ariaExpanded = "false";
+    document.getElementById(content + "-button").classList.add("collapsed");
+    document.getElementById(content + "-collapse").classList.remove("show");
+  }
+
+  function showContent(content) {
+    document.getElementById(content + "-content").classList.remove("d-none");
+    document.getElementById(content + "-button").ariaExpanded = "true";
+    document.getElementById(content + "-button").classList.remove("collapsed");
+    document.getElementById(content + "-collapse").classList.add("show");
+
+    if (window.scrollY > SCROLL_LIMIT) {
+      window.scrollTo(0, SCROLL_LIMIT);
+    }
+
+    document.getElementById(highlighted_link).style.color = "inherit";
+    highlighted_link = content + "-1-link";
+    document.getElementById(highlighted_link).style.color = HIGHLIGHT_COLOR;
+  }
+
+  function scrollToElement(e) {
+    document.getElementById(highlighted_link).style.color = "inherit";
+    e.style.color = HIGHLIGHT_COLOR;
+
+    rect = document
+      .getElementById(e.href.split("#")[1])
+      .getBoundingClientRect();
+
+    window.scrollTo(rect.left + window.scrollX, rect.top + window.scrollY);
+    highlighted_link = e.id;
+
+    return false;
+  }
+</script>
+
+{% endblock %}

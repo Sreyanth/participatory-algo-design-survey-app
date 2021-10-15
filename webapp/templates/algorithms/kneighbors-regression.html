@@ -1,0 +1,65 @@
+<div>
+  <h2>{{ algo }}</h2>
+
+  <h3 id="{{ algo|slugify }}-1">How does it work?</h3>
+  <p>
+    This algorithm predicts a student's score by taking an average of the scores
+    of other students who have similar characteristics.
+  </p>
+
+  <h3 id="{{ algo|slugify }}-2">Let's try an example</h3>
+  <p>
+    To illustrate how it works, let's take the example of predicting the sale
+    price of a house listing.
+  </p>
+
+  <p class="text-center">
+    <img src="/static/img/algorithms/knn-regression.jpg" alt="" />
+  </p>
+
+  <p>
+    This algorithm works similarly to a real estate agent who assesses your
+    house and suggests a listing price. You first tell the algorithm/agent all
+    the features that you think should be associated with the sales price, such
+    as the location, age, size, the surrounding amenities of the house, and so
+    on. The agent will identify comparable homes in the same or similar
+    neighborhoods with similar age, area, and other features to the place you
+    are selling. A reasonable prediction for the price of your house should then
+    be the average of the prices of these similar houses. Like the real estate
+    agent, this algorithm identifies houses similar to a given house and
+    predicts that the house's sale price is an average of the sale prices of all
+    those similar houses.
+  </p>
+  
+  <p>
+    Just like the real estate agent, this algorithm, identifies houses that are
+    similar to a given house, and predicts that the sale price of the house is
+    an average of the price of all those similar houses.
+  </p>
+
+  <h3 id="{{ algo|slugify }}-3">Advantages</h3>
+  <p>
+    The algorithm can <strong>easily explain its predictions</strong> by
+    referring to outcomes of similar houses. It can also capture the more
+    complicated relationships between the factors and outcomes than linear
+    regression algorithms.
+  </p>
+
+  <h3 id="{{ algo|slugify }}-4">Disadvantages</h3>
+  <p>
+    The main drawback of this algorithm is that if we have to predict the price
+    for a house like no other, it will be challenging because there are
+    <strong>no other "neighbors" that are similar to the house</strong>. As a
+    result, it would make a subpar prediction for this outlier.
+  </p>
+
+  <h3 id="{{ algo|slugify }}-5">Curious to learn more?</h3>
+  <p>
+    You can learn more about it
+    <a
+      href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#k-NN_regression"
+      target="_blank"
+      >here</a
+    >!
+  </p>
+</div>
