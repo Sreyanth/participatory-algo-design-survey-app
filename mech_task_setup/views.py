@@ -295,10 +295,10 @@ class SetupMechTaskView(View):
                 'name': 'Linear regression',
                 'avg_error': 19.7
             },
-            'ridge-regression': {
-                'name': 'Ridge regression',
-                'avg_error': 19.7
-            },
+            # 'ridge-regression': {
+            #     'name': 'Ridge regression',
+            #     'avg_error': 19.7
+            # },
             'lasso-regression': {
                 'name':  'Lasso regression',
                 'avg_error': 19.7
@@ -315,10 +315,10 @@ class SetupMechTaskView(View):
                 'name': 'K neighbors regression',
                 'avg_error': 21.00
             },
-            'svm-regression':  {
-                'name': 'SVM regression',
-                'avg_error': 19.90
-            },
+            # 'svm-regression':  {
+            #     'name': 'SVM regression',
+            #     'avg_error': 19.90
+            # },
         })
 
         for slug in algorithms:
