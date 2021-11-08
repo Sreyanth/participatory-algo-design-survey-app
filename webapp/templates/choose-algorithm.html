@@ -9,6 +9,11 @@
       consider:
     </p>
 
+    <p class="note-regular">
+      <strong>Important:</strong> Once you select an algorithm to use, you won't
+      be able to change it again.
+    </p>
+
     {% if error_message %}
     <div class="alert alert-danger" role="alert">{{ error_message }}</div>
     {% endif %}
@@ -120,9 +125,9 @@
 
   async function buildModel(data) {
     // Sleep first
-    await sleep(4000);
+    await sleep(2000);
     showFinishedModal();
-    await sleep(3000);
+    await sleep(2000);
     submit_button.removeEventListener("click", handleSubmit);
     submit_button.click();
   }
