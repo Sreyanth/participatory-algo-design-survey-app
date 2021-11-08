@@ -1,4 +1,5 @@
 import random
+import re
 import uuid
 from collections import OrderedDict
 
@@ -14,6 +15,8 @@ from django.views import View
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
                      MechTaskSurveyEstimate, MechTaskSurveyResponse,
                      MechTaskUserGroup)
+
+PREVIOUSLY_TAKEN_THE_SURVEY = []
 
 STUDENT_ATTRIBUTES = OrderedDict()
 STUDENT_ATTRIBUTES['Student Characteristics'] = [
@@ -142,6 +145,11 @@ STUDENT_ATTRIBUTES['Family Characteristics'] = [
 ]
 
 
+def sanitize(string):
+    only_alphabet = re.findall("[a-zA-Z]+", string)
+    return ''.join(only_alphabet).lower()
+
+
 def user_fails_access_check(request):
     if not request.user.is_authenticated:
         return True
@@ -267,6 +275,10 @@ class ConsentView(View):
             error_message = 'You need to reconfirm your MTurk ID to proceed'
         elif mturk_id_1 != mturk_id_2:
             error_message = "The MTurk IDs you provided don't match. Try again"
+        elif mturk_id_1 in PREVIOUSLY_TAKEN_THE_SURVEY:
+            error_message = "You've previously taken this survey. Thanks for your interest, but you can't participate in this survey again."
+        elif mturk_id_1 in MechTaskSurveyResponse.objects.values_list('final_mturk_id', flat=True):
+            error_message = "You've already taken this survey. Thanks for your interest, but you can't participate in this survey again."
 
         if error_message:
             page_params = {
@@ -349,14 +361,14 @@ class PreAlgoAttrsCheckView(View):
         submitted_attention_statement = submitted_form.get(
             'important-check').strip()
 
-        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
+        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
             # Attention check passed
             survey_response.passed_algo_attr_attention_check = True
             survey_response.save()
 
             return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
 
-        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+        error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
         page_params = {
             'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
@@ -420,14 +432,14 @@ class PreAlgoCheckView(View):
         submitted_attention_statement = submitted_form.get(
             'important-check').strip()
 
-        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
+        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
             # Attention check passed
             survey_response.passed_algo_attr_attention_check = True
             survey_response.save()
 
             return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
 
-        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+        error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
         page_params = {
             'attention_text': survey_response.user_group.algo_attr_attention_check_statement,
@@ -621,8 +633,8 @@ class UnderstandPaymentStructureView(View):
 
         error_message = None
 
-        if attention_statement.lower().replace(' ', '') != submitted_attention_statement.lower().replace(' ', ''):
-            error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+        if sanitize(attention_statement) != sanitize(submitted_attention_statement):
+            error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
         if error_message:
             page_params = {
@@ -667,14 +679,14 @@ class AttentionCheckView(View):
         submitted_attention_statement = submitted_form.get(
             'important-check').strip()
 
-        if attention_statement.lower().replace(' ', '') == submitted_attention_statement.lower().replace(' ', ''):
+        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
             # Attention check passed
             survey_response.passed_first_attention_check = True
             survey_response.save()
 
             return HttpResponseRedirect(reverse('mech_task_choose_bonus'))
 
-        error_message = 'Please enter the underlined text as is. You might be missing a word or some punctuation!'
+        error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
         page_params = {
             'attention_text': survey_response.user_group.attention_check_statement,
@@ -721,7 +733,7 @@ class ChooseBonusView(View):
 
             if error_message:
                 page_params = {
-                    'error_message': error_message, 'submitted_attention_statement': submitted_attention_statement, }
+                    'error_message': error_message}
 
                 return render(request, 'choose-bonus.html', page_params)
 

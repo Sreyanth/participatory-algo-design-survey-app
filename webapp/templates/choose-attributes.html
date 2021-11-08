@@ -4,10 +4,10 @@
   <div class="col-md-12">
     <h1>Choose the factors that you want to consider</h1>
 
-    <p class="lead">
-      Now you will pick the information you want to use to make your predictions.
-      All the data shown in this study represent data from real high school
-      students. You can choose any number of factors below for your predictions.
+    <p>
+      Now you will pick the information you want to use to make your
+      predictions. All the data shown in this study represent data from real
+      high school students.
     </p>
 
     <p class="sub-text">
@@ -15,7 +15,12 @@
       your predictions.
     </p>
 
-    <form action="" method="POST">
+    <p class="note-regular">
+      <strong>Important:</strong> Once you select the factors to use, you won't
+      be able to change them again.
+    </p>
+
+    <form action="" method="POST" class="choose-attributes">
       {% csrf_token %}
 
       <!-- -->
@@ -49,13 +54,27 @@
 
       {% endfor %}
 
-      <button
-        type="submit"
-        name="button"
-        class="btn btn-primary mt-3 btn-lg w-100"
-      >
-        Build the model
-      </button>
+      <div class="row">
+        <div class="col-md-6 mt-3 text-center text-sm-start">
+          <a
+            href="/understand-algorithms"
+            class="link-primary text-decoration-none"
+            style="line-height: 3rem; font-size: 14px"
+          >
+            &larr; Go back to attribute descriptions
+          </a>
+        </div>
+
+        <div class="col-md-6">
+          <button
+            type="submit"
+            name="button"
+            class="btn btn-primary mt-3 btn-lg w-100"
+          >
+            Build the model
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
