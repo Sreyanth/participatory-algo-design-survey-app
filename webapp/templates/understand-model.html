@@ -9,46 +9,57 @@
       to this page again.
     </p>
 
-    {% if user_group.can_change_attributes %}
+    <div class="row">
+      <div class="col-md-8">
+        {% if user_group.can_change_attributes %}
 
-    <p class="sub-text">
-      Across all students, using the factors you just picked, the model’s
-      prediction is on average off by <strong>{{ avg_err }}</strong> points on
-      the 100-point scale. Although this is the model’s average performance, it
-      may perform better or worse than this for the small set of students that
-      you will be asked about in this experiment.
-    </p>
+        <p class="sub-text">
+          Across all students, using the factors you just picked, the model’s
+          prediction is on average off by <strong>{{ avg_err }}</strong> points
+          on the 100-point scale. Although this is the model’s average
+          performance, it may perform better or worse than this for the small
+          set of students that you will be asked about in this experiment.
+        </p>
 
-    {% elif user_group.can_change_algorithm %}
+        {% elif user_group.can_change_algorithm %}
 
-    <p class="sub-text">
-      Across all students, the model’s prediction is on average off by
-      <strong>{{ avg_err }}</strong>
-      points on the 100-point scale. Although this is the model’s average
-      performance, it may perform better or worse than this for the small set of
-      students that you will be asked about in this experiment.
-    </p>
+        <p class="sub-text">
+          Across all students, the model’s prediction is on average off by
+          <strong>{{ avg_err }}</strong>
+          points on the 100-point scale. Although this is the model’s average
+          performance, it may perform better or worse than this for the small
+          set of students that you will be asked about in this experiment.
+        </p>
 
-    {% else %}
+        {% else %}
 
-    <p class="sub-text">
-      In addition to the predictions that you produce, there are also
-      predictions produced by a statistical model. The model is designed to
-      predict each student's reading test score (as a percentile) using the same
-      information that you will receive. The model is based on data from
-      thousands of high school sophomores. This is a sophisticated model, put
-      together by the research team.
-    </p>
+        <p class="sub-text">
+          In addition to the predictions that you produce, there are also
+          predictions produced by a statistical model. The model is designed to
+          predict each student's reading test score (as a percentile) using the
+          same information that you will receive. The model is based on data
+          from thousands of high school sophomores. This is a sophisticated
+          model, put together by the research team.
+        </p>
 
-    <p class="sub-text">
-      Across all students, the model’s prediction is on average off by
-      <strong>{{ avg_err }}</strong>
-      points on the 100-point scale. Although this is the model’s average
-      performance, it may perform better or worse than this for the small set of
-      students that you will be asked about in this experiment.
-    </p>
+        <p class="sub-text">
+          Across all students, the model’s prediction is on average off by
+          <strong>{{ avg_err }}</strong>
+          points on the 100-point scale. Although this is the model’s average
+          performance, it may perform better or worse than this for the small
+          set of students that you will be asked about in this experiment.
+        </p>
 
-    {% endif %}
+        {% endif %}
+      </div>
+      <div class="col-md-4">
+        <div class="card understand-model-card">
+          <p>On average, the model’s prediction is off by</p>
+          <h1>{{ avg_err }}</h1>
+          <p>points on the 100-point scale.</p>
+        </div>
+      </div>
+    </div>
 
     <form class="" action="" method="post">
       {% csrf_token %}
