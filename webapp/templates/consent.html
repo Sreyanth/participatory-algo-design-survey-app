@@ -53,11 +53,12 @@
       {% if user_group.use_model_estimates_only %}
 
       <p>
-        For the predictions, you can choose to have either your predictions or the statistical model's predictions as your final predictions.
+        For the predictions, you can choose to have either your predictions or
+        the statistical model's predictions as your final predictions.
 
         <span class="text-decoration-underline">
-          If you choose to use the model's predictions, you will not
-          be able to change the model's predictions.
+          If you choose to use the model's predictions, you will not be able to
+          change the model's predictions.
         </span>
 
         You will make predictions no matter which option you choose.
@@ -66,11 +67,12 @@
       {% elif user_group.only_10_percentile_change %}
 
       <p>
-        For the predictions, you can choose to have either your predictions or the model's predictions as your final predictions.
+        For the predictions, you can choose to have either your predictions or
+        the model's predictions as your final predictions.
 
         <span class="text-decoration-underline">
-          If you choose to use the model's predictions, you will be
-          able to adjust the model's predictions for each student by up to 10
+          If you choose to use the model's predictions, you will be able to
+          adjust the model's predictions for each student by up to 10
           percentiles to form your final predictions.
         </span>
       </p>
@@ -81,9 +83,9 @@
         For the predictions, you can choose to
 
         <span class="text-decoration-underline">
-          use the model's predictions as much as you would like to.
-          For each prediction, you will see the model's prediction and you can
-          modify it as much as you like to form your final predictions.
+          use the model's predictions as much as you would like to. For each
+          prediction, you will see the model's prediction and you can modify it
+          as much as you like to form your final predictions.
         </span>
       </p>
 
@@ -96,12 +98,11 @@
 
         <span class="text-decoration-underline">
           If you choose to build the statistical model, you have a say in
-          specifying the input into the model. This allows you to determine
-          the "inner working" of the model. You will then review the
-          performance of the model and decide if you want to use the
-          model or not. If you use the model, you can use the model's predictions
-          and modify the predictions as much as you would like to form
-          your final predictions. 
+          specifying the input into the model. This allows you to determine the
+          "inner working" of the model. You will then review the performance of
+          the model and decide if you want to use the model or not. If you use
+          the model, you can use the model's predictions and modify the
+          predictions as much as you would like to form your final predictions.
         </span>
       </p>
 
@@ -115,11 +116,10 @@
         <span class="text-decoration-underline">
           If you choose to build the statistical model, you have a say in
           specifying the algorithm the model uses. This allows you to determine
-          the "inner working" of the model. You will then
-          review the performance of the model and decide if you want
-          to use the model or not. If you use the model, you can use the model's
-          predictions and modify the predictions as much as you would
-          like to form your final predictions. 
+          the "inner working" of the model. You will then review the performance
+          of the model and decide if you want to use the model or not. If you
+          use the model, you can use the model's predictions and modify the
+          predictions as much as you would like to form your final predictions.
         </span>
       </p>
 
@@ -299,6 +299,15 @@
         participation at any time during the research activity. You may print a
         copy of this consent form for your records.
       </p>
+
+      <p class="consent-read-more">
+        <a
+          href="#"
+          onclick="return showConsentTerms();"
+          class="btn btn-sm btm-outline-primary btn-read-more"
+          >Read More</a
+        >
+      </p>
     </div>
 
     <div class="pt-4">
@@ -402,5 +411,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  function showConsentTerms() {
+    document
+      .getElementsByClassName("consent-wrap")[0]
+      .classList.add("consent-wrap-open");
+    document.getElementsByClassName("btn-read-more")[0].hidden = true;
+    return false;
+  }
+</script>
 
 {% endblock %}
