@@ -236,6 +236,13 @@ textarea {
   border-bottom: 1px solid #eee;
 }
 
+.choose-attributes .form-check {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
 /* Change style for checkboxes in consent form */
 
 .consent-form .form-check {
@@ -362,6 +369,15 @@ textarea {
 
 .note-read-algos {
   font-size: 12px;
+  color: #000000;
+  border: solid 1px #ccc;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 3px;
+}
+
+.note-regular {
+  /* font-size: 12px; */
   color: #000000;
   border: solid 1px #ccc;
   padding: 10px;
