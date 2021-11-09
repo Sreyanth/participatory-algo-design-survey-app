@@ -211,7 +211,7 @@ class SetupMechTaskView(View):
             },
             'cant-change-design': {
                 'name': 'Cannot change design',
-                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions however you like to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
             },
             'change-input': {
                 'name': 'Change input',
