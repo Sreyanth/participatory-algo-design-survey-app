@@ -195,42 +195,42 @@ class SetupMechTaskView(View):
         user_groups = OrderedDict({
             'cant-change-outcome': {
                 'name': 'Cannot change outcome',
-                'attention_check': "If you choose to use the model, you will not be able to change the model's estimates.  You will make estimates no matter which option you choose.",
+                'attention_check': "If you choose to use the model, you will not be able to change the model's predictions.  You will make predictions no matter which option you choose.",
             },
             'use-freely': {
                 'name': 'Use freely',
-                'attention_check': "use the model's estimated percentiles as much as you would like to. For each estimate, you will see the model's estimate and you can modify it as much as you like to form your official estimate.",
+                'attention_check': "use the model's predicted percentiles as much as you would like to. For each prediction, you will see the model's prediction and you can modify it as much as you like to form your official prediction.",
             },
             'adjust-by-10-original': {
                 'name': 'Adjust by 10 percentiles',
-                'attention_check': "If you choose to use the statistical model's estimates, you will be able to adjust the model's estimate for each student by up to 10 percentiles to form your official estimate.",
+                'attention_check': "If you choose to use the statistical model's predictions, you will be able to adjust the model's prediction for each student by up to 10 percentiles to form your official prediction.",
             },
             'adjust-by-10-proposed': {
                 'name': 'Adjust by 10 percentiles - new bonus scheme',
-                'attention_check': "If you choose to use the statistical model's estimates, you will be able to adjust the model's estimate for each student by up to 10 percentiles to form your official estimate.",
+                'attention_check': "If you choose to use the statistical model's predictions, you will be able to adjust the model's prediction for each student by up to 10 percentiles to form your official prediction.",
             },
             'cant-change-design': {
                 'name': 'Cannot change design',
-                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will form your own official estimates based on the data.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions however you like to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
             },
             'change-input': {
                 'name': 'Change input',
-                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you picked and form your own official estimates.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will receive the same information you picked and form your own official predictions.',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model.'
             },
             'change-algorithm': {
                 'name': 'Change algorithm',
-                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will form your own official estimates based on the data of each student.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses.'
             },
             'change-input-placebo': {
                 'name': 'Change input - placebo',
-                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will receive the same information you picked and form your own official estimates.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will receive the same information you picked and form your own official predictions.',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model.'
             },
             'change-algorithm-placebo': {
                 'name': 'Change algorithm - placebo',
-                'attention_check': 'If you choose to use the statistical model, you can use and modify the estimates however you like to form your official estimates. If you choose to use your own estimation, you will form your own official estimates based on the data of each student.',
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
                 'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses.'
             },
         })
