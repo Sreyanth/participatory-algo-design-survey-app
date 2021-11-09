@@ -311,6 +311,14 @@ class InstructionsView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.read_first_instruction:
+            if survey_response.user_group.can_change_attributes:
+                return HttpResponseRedirect(reverse('mech_task_pre_algo_attrs_check'))
+
+            return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
+
         return render(request, 'instructions.html')
 
     def post(self, request):
@@ -355,6 +363,10 @@ class PreAlgoAttrsCheckView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
+
+        if survey_response.passed_algo_attr_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
+
         attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
 
         submitted_form = request.POST
@@ -426,6 +438,10 @@ class PreAlgoCheckView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
+
+        if survey_response.passed_algo_attr_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
+
         attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
 
         submitted_form = request.POST
@@ -516,15 +532,20 @@ class ChooseAlgorithmView(View):
         if user_fails_access_check(request):
             return HttpResponseRedirect(reverse('home_page'))
 
+        survey_response = request.user.mech_task_survey_response
+
+        if survey_response.algorithm is not None:
+            # User already selected an algorithm
+            return HttpResponseRedirect(reverse('mech_task_choose_attributes'))
+
         user_selected_algo = request.POST.get('algorithm').strip()
 
         try:
             algorithm = MechTaskAlgorithm.objects.get(
                 slug=user_selected_algo)
         except ObjectDoesNotExist:
-            return HttpResponseRedirect(reverse('mech_task_choose_attributes'))
+            return HttpResponseRedirect(reverse('mech_task_choose_algorithm'))
 
-        survey_response = request.user.mech_task_survey_response
         survey_response.user_selected_algorithm = algorithm
 
         if survey_response.user_group.has_deception:
@@ -610,6 +631,9 @@ class UnderstandPaymentStructureView(View):
 
         survey_response = request.user.mech_task_survey_response
 
+        if survey_response.passed_second_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_attention_check'))
+
         page_params = {
             'user_group': survey_response.user_group,
         }
@@ -621,6 +645,9 @@ class UnderstandPaymentStructureView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
+
+        if survey_response.passed_second_attention_check:
+            return HttpResponseRedirect(reverse('mech_task_attention_check'))
 
         submitted_form = request.POST
 
@@ -719,6 +746,9 @@ class ChooseBonusView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
+
+        if survey_response.chose_bonus_baseline:
+            return HttpResponseRedirect(reverse('mech_task_survey_question'))
 
         if survey_response.user_group.use_freely:
             survey_response.use_model_estimates_for_bonus_calc = True
@@ -1288,7 +1318,9 @@ class ExitSurveyView(View):
         survey_response = request.user.mech_task_survey_response
 
         if survey_response.completed:
-            return HttpResponseRedirect(reverse('mech_task_thanks'))
+            if survey_response.mturk_id_attempt_1.strip() == survey_response.mturk_id_attempt_2.strip():
+                return HttpResponseRedirect(reverse('mech_task_thanks'))
+            return HttpResponseRedirect(reverse('mech_task_choose_mturk_id'))
 
         exit_survey_questions = {
             'pronoun': {
@@ -1339,6 +1371,11 @@ class ExitSurveyView(View):
 
         survey_response = request.user.mech_task_survey_response
 
+        if survey_response.completed:
+            if survey_response.mturk_id_attempt_1.strip() == survey_response.mturk_id_attempt_2.strip():
+                return HttpResponseRedirect(reverse('mech_task_thanks'))
+            return HttpResponseRedirect(reverse('mech_task_choose_mturk_id'))
+
         survey_response.age = request.POST.get('age')
         survey_response.pronoun = request.POST.get('pronoun')
         survey_response.race = request.POST.get('race')
@@ -1374,6 +1411,7 @@ class ExitSurveyView(View):
             survey_response.final_mturk_id = survey_response.mturk_id_attempt_1.strip()
         else:
             # Save the responses first
+            survey_response.completed = True
             survey_response.save()
 
             return HttpResponseRedirect(reverse('mech_task_choose_mturk_id'))
