@@ -12,11 +12,11 @@ from django.shortcuts import (HttpResponse, HttpResponseRedirect, render,
                               reverse)
 from django.views import View
 
+from .previous_survey_takers import PREVIOUSLY_COMPLETED_THE_SURVEY
+
 from .models import (MechTaskAlgorithm, MechTaskStudentSample,
                      MechTaskSurveyEstimate, MechTaskSurveyResponse,
                      MechTaskUserGroup)
-
-PREVIOUSLY_TAKEN_THE_SURVEY = []
 
 STUDENT_ATTRIBUTES = OrderedDict()
 STUDENT_ATTRIBUTES['Student Characteristics'] = [
@@ -275,7 +275,7 @@ class ConsentView(View):
             error_message = 'You need to reconfirm your MTurk ID to proceed'
         elif mturk_id_1 != mturk_id_2:
             error_message = "The MTurk IDs you provided don't match. Try again"
-        elif mturk_id_1 in PREVIOUSLY_TAKEN_THE_SURVEY:
+        elif mturk_id_1 in PREVIOUSLY_COMPLETED_THE_SURVEY:
             error_message = "You've previously taken this survey. Thanks for your interest, but you can't participate in this survey again."
         elif mturk_id_1 in MechTaskSurveyResponse.objects.values_list('final_mturk_id', flat=True):
             error_message = "You've already taken this survey. Thanks for your interest, but you can't participate in this survey again."
