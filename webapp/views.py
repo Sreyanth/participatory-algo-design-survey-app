@@ -2,6 +2,7 @@ import random
 import re
 import uuid
 from collections import OrderedDict
+import Levenshtein
 
 import numpy as np
 from django.contrib.auth import login
@@ -367,13 +368,16 @@ class PreAlgoAttrsCheckView(View):
         if survey_response.passed_algo_attr_attention_check:
             return HttpResponseRedirect(reverse('mech_task_understand_datapoints'))
 
-        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
+        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip().replace('\n', '').replace('\t', '')
 
         submitted_form = request.POST
         submitted_attention_statement = submitted_form.get(
-            'important-check').strip()
+            'important-check').strip().replace('\n', '').replace('\t', '')
 
-        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
+        # considered passed attention check if typed 70% of the letters correct
+        pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
+
+        if pass_attention:
             # Attention check passed
             survey_response.passed_algo_attr_attention_check = True
             survey_response.save()
@@ -442,13 +446,15 @@ class PreAlgoCheckView(View):
         if survey_response.passed_algo_attr_attention_check:
             return HttpResponseRedirect(reverse('mech_task_understand_algorithms'))
 
-        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip()
+        attention_statement = survey_response.user_group.algo_attr_attention_check_statement.strip().replace('\n', '').replace('\t', '')
 
         submitted_form = request.POST
         submitted_attention_statement = submitted_form.get(
-            'important-check').strip()
+            'important-check').strip().replace('\n', '').replace('\t', '')
 
-        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
+        pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
+
+        if pass_attention:
             # Attention check passed
             survey_response.passed_algo_attr_attention_check = True
             survey_response.save()
@@ -652,15 +658,17 @@ class UnderstandPaymentStructureView(View):
         submitted_form = request.POST
 
         attention_statement = '''
-         Additionally, you will receive bonus money based on the accuracy of the final predictions. You can earn $1 to $5 depending on how close the final predictions are to students' actual performances.
+         You will receive additional bonus based on the accuracy of your predictions. 
         '''.strip().replace('\n', '').replace('\t', '')
 
         submitted_attention_statement = submitted_form.get(
-            'important-check').strip().replace('\n', '')
+            'important-check').strip().replace('\n', '').replace('\t', '')
 
         error_message = None
 
-        if sanitize(attention_statement) != sanitize(submitted_attention_statement):
+        pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
+
+        if pass_attention == False:
             error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
         if error_message:
@@ -700,13 +708,15 @@ class AttentionCheckView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
-        attention_statement = survey_response.user_group.attention_check_statement.strip()
+        attention_statement = survey_response.user_group.attention_check_statement.strip().replace('\n', '').replace('\t', '')
 
         submitted_form = request.POST
         submitted_attention_statement = submitted_form.get(
-            'important-check').strip()
+            'important-check').strip().replace('\n', '').replace('\t', '')
 
-        if sanitize(attention_statement) == sanitize(submitted_attention_statement):
+        pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
+
+        if pass_attention:
             # Attention check passed
             survey_response.passed_first_attention_check = True
             survey_response.save()
