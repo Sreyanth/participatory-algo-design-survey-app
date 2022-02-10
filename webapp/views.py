@@ -708,31 +708,31 @@ class AttentionCheckView(View):
             return HttpResponseRedirect(reverse('home_page'))
 
         survey_response = request.user.mech_task_survey_response
-        attention_statement = survey_response.user_group.attention_check_statement.strip().replace('\n', '').replace('\t', '')
+        # attention_statement = survey_response.user_group.attention_check_statement.strip().replace('\n', '').replace('\t', '')
 
-        submitted_form = request.POST
-        submitted_attention_statement = submitted_form.get(
-            'important-check').strip().replace('\n', '').replace('\t', '')
+        # submitted_form = request.POST
+        # submitted_attention_statement = submitted_form.get(
+        #     'important-check').strip().replace('\n', '').replace('\t', '')
 
-        pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
+        # pass_attention = Levenshtein.distance(sanitize(attention_statement), sanitize(submitted_attention_statement))/len(sanitize(attention_statement)) < .3
 
-        if pass_attention:
+        # if pass_attention:
             # Attention check passed
-            survey_response.passed_first_attention_check = True
-            survey_response.save()
+        survey_response.passed_first_attention_check = True
+        survey_response.save()
 
-            return HttpResponseRedirect(reverse('mech_task_choose_bonus'))
+        return HttpResponseRedirect(reverse('mech_task_choose_bonus'))
 
-        error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
+        # error_message = 'Please enter the underlined text as is. You might be missing a word or making a typo!'
 
-        page_params = {
-            'attention_text': survey_response.user_group.attention_check_statement,
-            'error_message': error_message,
-            'submitted_attention_statement': submitted_attention_statement,
-            'user_group': survey_response.user_group,
-        }
+        # page_params = {
+        #     'attention_text': survey_response.user_group.attention_check_statement,
+        #     'error_message': error_message,
+        #     'submitted_attention_statement': submitted_attention_statement,
+        #     'user_group': survey_response.user_group,
+        # }
 
-        return render(request, 'attention-check.html', page_params)
+        # return render(request, 'attention-check.html', page_params)
 
 
 class ChooseBonusView(View):
