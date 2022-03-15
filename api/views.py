@@ -138,7 +138,8 @@ class CreateLinearRegressionView(View):
 class GetTestUserView(View):
     def get(self, request, slug):
         all_allowed_slugs = ['cant-change-outcome', 'use-freely', 'adjust-by-10-original', 'adjust-by-10-proposed',
-                             'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo']
+                             'cant-change-design', 'change-input', 'change-algorithm', 'change-input-placebo', 'change-algorithm-placebo',\
+                             'change-input-cant-change-outcome', 'change-algorithm-cant-change-outcome']
 
         phase1_allowed_slugs = ['cant-change-outcome', 'use-freely',
                                 'adjust-by-10-original', 'adjust-by-10-proposed']

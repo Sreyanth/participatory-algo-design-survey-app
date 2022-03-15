@@ -22,12 +22,23 @@
       If you choose to use the statistical model, 
       <span class="important-check">{{ attention_text }}</span>. You will then
       review the performance of the statistical model and decide if you want to
-      use the model or not. You can use and modify the predictions however you
-      like to form your final predictions. If you choose to use your own
-      estimation, you will receive the same information you pick and form your
+      use the model or not. 
+
+      <p>
+      {% if user_group.use_model_estimates_only %}
+      If you choose to use the model, you cannot adjust the model's predictions. Model's predictions will count as your final predictions, though you can still enter your predictions. 
+      </p>
+
+      {% else %}
+
+      <p>
+      If you choose to use the model, you can use and modify the predictions however you like to form your final predictions. 
+      {% endif %}
+      </p>
+
+      If you choose to use your own predictions, you will receive the same information you pick and form your
       own final predictions. You will pick the information to use for the prediction task
-      regardless you would like to use the statistical model or use
-      your own estimation.
+      regardless you would like to use the model or not.
     </p>
 
     <p>

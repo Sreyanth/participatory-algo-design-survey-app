@@ -215,24 +215,34 @@ class SetupMechTaskView(View):
             },
             'change-input': {
                 'name': 'Change input',
-                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will receive the same information you picked and form your own official predictions.',
-                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model.'
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your predictions. If you choose to use your own estimation, you will receive the same information you picked and form your own predictions.',
+                'extra_attention_check': 'you have a say in specifying the input into the model'
             },
             'change-algorithm': {
                 'name': 'Change algorithm',
-                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
-                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses.'
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your own predictions. If you choose to use your own estimation, you will form your own predictions based on the data.',
+                'extra_attention_check': 'you have a say in specifying the algorithm the model uses'
             },
             'change-input-placebo': {
                 'name': 'Change input - placebo',
                 'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will receive the same information you picked and form your own official predictions.',
-                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the input into the model.'
+                'extra_attention_check': 'you have a say in specifying the input into the model'
             },
             'change-algorithm-placebo': {
                 'name': 'Change algorithm - placebo',
-                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your official predictions. If you choose to use your own estimation, you will form your own official predictions based on the data.',
-                'extra_attention_check': 'If you choose to use the statistical model, you have a say in specifying the algorithm the model uses.'
+                'attention_check': 'If you choose to use the statistical model, you can adjust the predictions freely to form your own predictions. If you choose to use your own estimation, you will form your own predictions based on the data.',
+                'extra_attention_check': 'you have a say in specifying the algorithm the model uses'
             },
+            'change-input-cant-change-outcome': {
+                'name': 'Change input - cannot change outcome',
+                'attention_check': "If you choose to use the model, you will not be able to change the model's predictions.  You will make predictions no matter which option you choose.",
+                'extra_attention_check': 'you have a say in specifying the input into the model'
+            },
+            'change-algorithm-cant-change-outcome': {
+                'name': 'Change algorithm - cannot change outcome',
+                'attention_check': "If you choose to use the model, you will not be able to change the model's predictions.  You will make predictions no matter which option you choose.",
+                'extra_attention_check': 'you have a say in specifying the algorithm the model uses.'
+            }
         })
 
         deception_groups = ['change-input-placebo', 'change-algorithm-placebo']
@@ -240,14 +250,14 @@ class SetupMechTaskView(View):
         allow_only_10_percentile_change = ['adjust-by-10-original',
                                            'adjust-by-10-proposed']
 
-        change_algo_groups = ['change-algorithm', 'change-algorithm-placebo']
+        change_algo_groups = ['change-algorithm', 'change-algorithm-placebo', 'change-algorithm-cant-change-outcome']
 
-        change_attributes_groups = [
-            'change-input', 'change-input-placebo']
+        change_attributes_groups = ['change-input', 'change-input-placebo', 'change-input-cant-change-outcome']
 
         new_bonus_scheme_groups = ['adjust-by-10-proposed']
 
-        should_use_model_estimates_only_for_bonus = ['cant-change-outcome']
+        should_use_model_estimates_only_for_bonus = ['cant-change-outcome', \
+        'change-input-cant-change-outcome', 'change-algorithm-cant-change-outcome']
 
         use_freely = ['use-freely']
 
