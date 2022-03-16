@@ -14,9 +14,20 @@
       If you choose to use the statistical model, <span class="important-check">{{ attention_text }}</span>. This allows you
       to determine the "inner working" of processing the information. You will
       then review the performance of the statistical model and decide if you
-      want to use the model or not. If you use the model, you can use the
-      model's predictions and modify the predictions as much as you would
-      like to form your final predictions.
+      want to use the model or not. 
+
+      <p>
+      {% if user_group.use_model_estimates_only %}
+      If you choose to use the model, you cannot adjust the model's predictions. Model's predictions will count as your final predictions, though you can enter your predictions. 
+      </p>
+
+      {% else %}
+
+      <p>
+      If you choose to use the model, you can use and modify the predictions however you like to form your final predictions. 
+      {% endif %}
+      </p>
+
     </p>
 
     <p>
@@ -24,7 +35,7 @@
       percentile) using the same information that you will receive. The model is
       based on data from thousands of high school sophomores. This will be a
       sophisticated model, put together and optimized through a program written
-      by the research team
+      by the research team.
     </p>
 
     <p>

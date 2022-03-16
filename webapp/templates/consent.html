@@ -56,13 +56,40 @@
         For the predictions, you can choose to have either your predictions or
         the statistical model's predictions as your final predictions.
 
+          {% if user_group.can_change_attributes %}
+            <p>
+            You will build the model that will give you predictions based on other students' performance.
+            <span class="text-decoration-underline">
+              When you build the model, you have a say in specifying the input into the model. 
+              This allows you to determine the "inner working" of the model. 
+              You will then review the performance of the model before decide if you want to use it or not.
+            </span>
+            </p>
+
+          {% elif user_group.can_change_algorithm %}
+          <p>
+            You will build the model that will give you predictions based on other students' performance.
+           <span class="text-decoration-underline">
+              When you build the model, you have a say in specifying the algorithm the model uses. 
+              This allows you to determine the "inner working" of the model. 
+              You will then review the performance of the model before decide if you want to use it or not.
+            </span>
+          </p>
+
+          {% else %}
+            <p></p>
+          {% endif %}
+
+        <p>
         <span class="text-decoration-underline">
           If you choose to use the model's predictions, you will not be able to
           change the model's predictions.
         </span>
 
         You will make predictions no matter which option you choose.
+        </p>
       </p>
+   
 
       {% elif user_group.only_10_percentile_change %}
 
@@ -126,6 +153,16 @@
       {% else %}
 
       <!-- Ideally, this should be cant change design group -->
+      <p>For the predictions, you can choose to build a statistical model that
+        will give you predictions based on other students' performance
+        <strong>or</strong> use your own predictions.
+
+        <span class="text-decoration-underline">
+          You will review the performance of the model and decide if you want to use the model or not. 
+        If you use the model, you can use the model's predictions and modify the predictions as 
+      much as you would like to form your final predictions.
+        </span>
+    </p>
 
       {% endif %}
 

@@ -233,21 +233,34 @@
 
         {% elif user_group.can_change_attributes %}
         <label class="form-check-label" for="model">
+          {% if user_group.use_model_estimates_only %}
+          Use the statistical model’s predictions to determine my
+          bonus, knowing I cannot adjust them
+
+          {% else %}
           Use the statistical model’s predictions to determine my
           bonus, adjusting them if need be
+          {% endif %}
+        
         </label>
 
         {% elif user_group.can_change_algorithm %}
         <label class="form-check-label" for="model">
+          {% if user_group.use_model_estimates_only %}
+          Use the statistical model’s predictions to determine my
+          bonus, knowing I cannot adjust them
+
+          {% else %}
           Use the statistical model’s predictions to determine my
           bonus, adjusting them if need be
+          {% endif %}
         </label>
 
         {% else %}
 
         <label class="form-check-label" for="model">
           Use the statistical model’s predictions to determine my
-          bonus
+          bonus, knowing I cannot adjust them
         </label>
         {% endif %}
       </div>
@@ -262,7 +275,7 @@
           required
         />
         <label class="form-check-label" for="self">
-          Use my own predictions to determine my bonus</label
+          Use my own predictions to determine my bonus without seeing model's predictions</label
         >
       </div>
 

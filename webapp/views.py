@@ -1403,6 +1403,7 @@ class ExitSurveyView(View):
         survey_response.user_last_instruction_ans = user_ans
 
         # Checking the model performance answer - att check 2
+        # what the user thought the model performance was in the last attention check
         model_performance_as_per_user = request.POST.get('att_check_2')
 
         if survey_response.model:
