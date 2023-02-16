@@ -64,55 +64,15 @@ We use SQLite as the database in the dev environment. The file `db.sqlite3` is w
 
 ### In production
 
-We use PostgreSQL as the database in production. You can use the `psql` tool to access the tables and exporting the data into CSV. Right now, there is no backup script for this.
+Set the database you want to use in `survey/settings.py` file, and run migrations to set the schema. Access the DB like you normally would.
 
-You can't access the data directly with any PGAdmin tool as the port 5432 is not publicly accessible.
+## App deployment
 
-Instead, we can do an SSH tunnel (the idea is to create a dummy local server, that will relay all requests to the Heinz server via SSH).
-
-```bash
-ssh -L 5432:localhost:5432 -l your_username study.heinz.cmu.edu
-```
-
-Then, open some pgadmin tool (like https://www.pgadmin.org/), and connect to localhost:5432. Our database name is `survey`. For the login details, check the `survey/settings.py` file.
-
-> **NOTE**: Remember to connect to Campus VPN to be able to SSH to the Heinz server.
-
-## App refresh / deployment
-
-### SSH to the Heinz server
-
-> **NOTE**: Remember to connect to Campus VPN to be able to SSH to the Heinz server.
-
-```bash
-ssh -l your_username study.heinz.cmu.edu
-```
-
-### Go to the code directory
-
-```bash
-cd /home/smora/participatory_algo_design_survey
-```
-
-You will be inside the repo. You can double check this by using the `ls` command.
-
-### Get the new codebase
-
-> **NOTE:** Always deploy the `main` branch. If there is a different branch, that branch MUST be pulled into the `main` branch after appropriate testing.
-
-Use `git` to get the new codebase in the `main` branch.
-
-```bash
-# Stash the current changes - if any
-sudo git stash
-
-# Get the new code
-sudo git pull
-```
+Follow the usual Django deployment methods.
 
 ### Set DEBUG = False
 
-Open `survey/settings.py` file, change `DEBUG = True` to `DEBUG = False` (line 17). The file should look like follows:
+Open `survey/settings.py` file, change `DEBUG = True` to `DEBUG = False`. The file should look like follows:
 
 ```python
 # ...
@@ -129,13 +89,10 @@ Whenever the site is updated (backend or frontend), we will have to deploy the w
 
 1. If there is a DB change, make migrations, and apply them
 2. If there are any static file changes, collect the static files to put in the `static` folder automatically
-3. Need to restart the gunicorn process
+3. Restart the gunicorn process (or a similar process)
 
-Just run the following command that takes care of all of the above steps:
+Refer to the `./restart_server.sh` for an example script that you can use.
 
-```bash
-./restart_server.sh
-```
 
 ## Complex deployments - nginx changes
 
