@@ -88,11 +88,14 @@ if DEBUG:
         }
     }
 else:
+    # This will be used only when DEBUG == False (i.e., in production)
+    # Replace the following with real DB credentials in prod
+    # Or, even better, read these via environment variable like we did in prod
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Edit this as per your DB engine
             'NAME': 'survey_prod_v3_study_2',
-            'USER': 'survey_user',
+            'USER': 'survey_user', 
             'PASSWORD': 'Survey@123',
             'HOST': 'localhost',
             'PORT': '',
